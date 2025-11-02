@@ -3,10 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Reserva — [Tu Marca]</title>
+  <title>Reserva — Lecturas de Tarot</title>
+  <meta name="description" content="Reserva tu lectura de tarot: 60/30/20 minutos o 1 pregunta.">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-white text-gray-900">
+  <!-- Header simple -->
   <header class="max-w-5xl mx-auto px-4 py-6 flex items-center justify-between">
     <a href="./" class="font-semibold text-lg">[Tu Marca]</a>
     <nav class="space-x-4 text-sm">
@@ -20,21 +22,81 @@
 
   <main class="max-w-5xl mx-auto px-4 py-10">
     <h1 class="text-3xl font-bold">Reserva tu lectura</h1>
-    <p class="mt-3 text-gray-700">Selecciona fecha y hora. El pago se completa en el mismo flujo.</p>
+    <p class="mt-3 text-gray-700">Elige duración o “1 pregunta”, selecciona fecha y hora, y completa el pago.</p>
 
-    <!-- Puedes crear varias secciones por duración/formato -->
-    <div class="mt-8 border rounded-2xl overflow-hidden">
-      <iframe
-        src="https://cal.com/TU_USUARIO_CAL/TU_EVENTO?embed=true"
-        width="100%" height="900" frameborder="0" scrolling="auto">
-      </iframe>
+    <!-- Pestañas -->
+    <div class="mt-6">
+      <div class="flex flex-wrap gap-2" id="tabs">
+        <button data-tab="t60" class="px-4 py-2 border rounded-lg font-semibold">60 min</button>
+        <button data-tab="t30" class="px-4 py-2 border rounded-lg">30 min</button>
+        <button data-tab="t20" class="px-4 py-2 border rounded-lg">20 min</button>
+        <button data-tab="t1q" class="px-4 py-2 border rounded-lg">1 pregunta</button>
+      </div>
+
+      <div class="mt-4">
+        <!-- 60 min -->
+        <div id="t60" class="tab">
+          <div class="border rounded-2xl overflow-hidden">
+            <iframe
+              src="https://cal.com/jose-luis-infantes-molina-uyb26l/lectura-tarot-1-hora?embed=true"
+              width="100%" height="1000" frameborder="0" scrolling="auto">
+            </iframe>
+          </div>
+        </div>
+
+        <!-- 30 min -->
+        <div id="t30" class="tab hidden">
+          <div class="border rounded-2xl overflow-hidden">
+            <iframe
+              src="https://cal.com/jose-luis-infantes-molina-uyb26l/lectura-tarot-30-minutos?embed=true"
+              width="100%" height="1000" frameborder="0" scrolling="auto">
+            </iframe>
+          </div>
+        </div>
+
+        <!-- 20 min -->
+        <div id="t20" class="tab hidden">
+          <div class="border rounded-2xl overflow-hidden">
+            <iframe
+              src="https://cal.com/jose-luis-infantes-molina-uyb26l/lectura-tarot-20-minutos?embed=true"
+              width="100%" height="1000" frameborder="0" scrolling="auto">
+            </iframe>
+          </div>
+        </div>
+
+        <!-- 1 pregunta -->
+        <div id="t1q" class="tab hidden">
+          <div class="border rounded-2xl overflow-hidden">
+            <iframe
+              src="https://cal.com/jose-luis-infantes-molina-uyb26l/1-pregunta?embed=true"
+              width="100%" height="1000" frameborder="0" scrolling="auto">
+            </iframe>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
 
   <footer class="max-w-5xl mx-auto px-4 py-10 text-sm text-gray-600">
     © <span id="y"></span> [Tu Marca]
   </footer>
-  <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
+
+  <script>
+    // Tabs simples en vanilla JS
+    const tabs = document.querySelectorAll('#tabs [data-tab]');
+    const panes = document.querySelectorAll('.tab');
+    function setActive(id) {
+      panes.forEach(p => p.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+      tabs.forEach(b => b.classList.remove('font-semibold'));
+      document.querySelector(`#tabs [data-tab="${id}"]`).classList.add('font-semibold');
+    }
+    tabs.forEach(btn => btn.addEventListener('click', () => setActive(btn.dataset.tab)));
+    // Pestaña por defecto:
+    setActive('t60');
+    // Año footer
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
 

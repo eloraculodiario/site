@@ -3,50 +3,96 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Servicios — [Tu Marca]</title>
+  <title>Servicios — El oráculo diario</title>
+  <meta name="description" content="Servicios de lectura de tarot: sesiones de 20, 30 o 60 minutos, o lecturas por preguntas. Videollamada, voz o chat.">
+  <meta name="theme-color" content="#7c3aed">
+
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Estilos globales -->
+  <link rel="stylesheet" href="assets/style.css">
+
+  <!-- Favicon -->
+  <link rel="icon" href="assets/favicon.png">
 </head>
-<body class="bg-white text-gray-900">
-  <header class="max-w-5xl mx-auto px-4 py-6 flex items-center justify-between">
-    <a href="./" class="font-semibold text-lg">[Tu Marca]</a>
-    <nav class="space-x-4 text-sm">
-      <a href="servicios.html" class="hover:underline font-semibold">Servicios</a>
-      <a href="reserva.html" class="hover:underline">Reserva</a>
-      <a href="testimonios.html" class="hover:underline">Testimonios</a>
-      <a href="sobre-mi.html" class="hover:underline">Sobre mí</a>
-      <a href="contacto.html" class="hover:underline">Contacto</a>
-    </nav>
-  </header>
+<body>
+  <!-- Header insertado automáticamente -->
+  <div data-include="partials/header.html"></div>
 
-  <main class="max-w-5xl mx-auto px-4 py-10">
-    <h1 class="text-3xl font-bold">Servicios</h1>
-    <p class="mt-3 text-gray-700">Elige duración y formato. Todas las lecturas incluyen enfoque ético y confidencialidad.</p>
+  <main class="container" style="padding:2rem 0;">
+    <h1 class="text-3xl md:text-4xl font-bold leading-tight mb-4">Servicios</h1>
+    <p class="muted mb-8">
+      Cada lectura es un espacio de claridad y conexión contigo mism@.  
+      Puedes elegir la duración o el número de preguntas que mejor se adapte a tu momento.  
+      Todas las sesiones se realizan con <strong>respeto, ética y confidencialidad</strong>.
+    </p>
 
-    <div class="grid md:grid-cols-3 gap-6 mt-8">
-      <div class="p-6 border rounded-2xl">
-        <h3 class="font-semibold text-lg">15 min</h3>
-        <p class="mt-2 text-sm text-gray-600">Una pregunta concreta.</p>
-        <a href="reserva.html" class="mt-4 inline-block px-4 py-2 border rounded-lg">Reservar</a>
+    <!-- Sesiones por tiempo -->
+    <section>
+      <h2 class="text-2xl font-semibold mb-4">Sesiones por tiempo</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="card">
+          <h3 class="font-semibold text-lg">20 minutos</h3>
+          <p class="mt-2 text-sm muted">Una cuestión puntual o un tema específico. Orientación directa.</p>
+          <a href="reserva.html#t20" class="btn btn-ghost mt-4 inline-block">Reservar</a>
+        </div>
+        <div class="card">
+          <h3 class="font-semibold text-lg">30 minutos</h3>
+          <p class="mt-2 text-sm muted">Dos áreas o una situación con contexto. Mirada clara y práctica.</p>
+          <a href="reserva.html#t30" class="btn btn-ghost mt-4 inline-block">Reservar</a>
+        </div>
+        <div class="card">
+          <h3 class="font-semibold text-lg">60 minutos</h3>
+          <p class="mt-2 text-sm muted">Lectura completa, con resumen y pasos recomendados.</p>
+          <a href="reserva.html#t60" class="btn btn-ghost mt-4 inline-block">Reservar</a>
+        </div>
       </div>
-      <div class="p-6 border rounded-2xl">
-        <h3 class="font-semibold text-lg">30 min</h3>
-        <p class="mt-2 text-sm text-gray-600">Dos áreas o una con contexto.</p>
-        <a href="reserva.html" class="mt-4 inline-block px-4 py-2 border rounded-lg">Reservar</a>
-      </div>
-      <div class="p-6 border rounded-2xl">
-        <h3 class="font-semibold text-lg">60 min</h3>
-        <p class="mt-2 text-sm text-gray-600">Lectura completa + resumen.</p>
-        <a href="reserva.html" class="mt-4 inline-block px-4 py-2 border rounded-lg">Reservar</a>
-      </div>
-    </div>
+    </section>
 
-    <h2 class="text-2xl font-semibold mt-12">Formato</h2>
-    <ul class="mt-3 list-disc pl-6 text-gray-700">
-      <li>Videollamada</li>
-      <li>Voz</li>
-      <li>Chat (texto)</li>
-    </ul>
+    <!-- Lecturas por preguntas -->
+    <section class="mt-12">
+      <h2 class="text-2xl font-semibold mb-4">Lecturas por preguntas</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="card">
+          <h3 class="font-semibold text-lg">1 pregunta</h3>
+          <p class="mt-2 text-sm muted">Una respuesta clara a una cuestión importante.</p>
+          <a href="reserva.html#t1q" class="btn btn-ghost mt-4 inline-block">Reservar</a>
+        </div>
+        <div class="card">
+          <h3 class="font-semibold text-lg">2 preguntas</h3>
+          <p class="mt-2 text-sm muted">Dos temas o perspectivas complementarias.</p>
+          <a href="reserva.html#t1q" class="btn btn-ghost mt-4 inline-block">Reservar</a>
+        </div>
+        <div class="card">
+          <h3 class="font-semibold text-lg">3 preguntas</h3>
+          <p class="mt-2 text-sm muted">Una visión general de tu situación y próximos pasos.</p>
+          <a href="reserva.html#t1q" class="btn btn-ghost mt-4 inline-block">Reservar</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Formatos -->
+    <section class="mt-12">
+      <h2 class="text-2xl font-semibold mb-4">Formatos disponibles</h2>
+      <ul class="list-disc pl-6 muted">
+        <li><strong>Videollamada</strong>: conexión personal y lectura guiada con baraja física.</li>
+        <li><strong>Voz</strong>: ideal si prefieres solo escuchar, sin cámara.</li>
+        <li><strong>Chat</strong>: texto escrito, práctico y cómodo si no puedes hablar.</li>
+      </ul>
+    </section>
   </main>
+
+  <!-- Footer insertado automáticamente -->
+  <div data-include="partials/footer.html"></div>
+
+  <!-- Script para insertar header/footer -->
+  <script src="assets/site.js"></script>
 </body>
 </html>
 

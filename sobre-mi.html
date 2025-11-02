@@ -4,13 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Sobre mí — El oráculo diario</title>
-  <meta name="description" content="Conoce a la persona detrás de El oráculo diario: explorador del tarot, la astronomía y los antiguos hechizos.">
+  <meta name="description" content="Somos El oráculo diario: tarot, guía y claridad para tu proceso personal.">
   <meta name="theme-color" content="#7c3aed">
 
-  <!-- Tailwind -->
+  <!-- Utilidades Tailwind (opcional) -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Fuentes -->
+  <!-- Fuentes del sitio -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
@@ -20,54 +20,81 @@
 
   <!-- Favicon -->
   <link rel="icon" href="assets/favicon.png">
+
+  <!-- Estilos específicos de esta página (para clavar el diseño del ejemplo) -->
+  <style>
+    .about-wrap{max-width: 40rem; margin: 0 auto; padding: 2rem 1rem;}
+    .about-title{
+      font-family: "Cinzel", ui-serif, serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 6vw, 2.6rem);
+      line-height: 1.12;
+      letter-spacing:.2px;
+      margin: 0 0 1rem;
+    }
+    .about-lead{color: var(--muted); font-size: 1.05rem}
+    blockquote.q{
+      font-style: italic; font-size: 1.15rem; margin: 1.5rem 0; color: var(--ink);
+      border-left: 3px solid color-mix(in srgb, var(--ink) 25%, transparent);
+      padding-left: .9rem;
+    }
+    .portrait{
+      position: relative; width: 260px; height: 260px; margin: 1.25rem auto 0;
+      border-radius: 999px; overflow: hidden; box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+    .portrait img{width: 100%; height: 100%; object-fit: cover}
+    .badge{
+      position: absolute; right: 12px; bottom: 12px;
+      background: var(--surface); color: var(--ink);
+      border: 1px solid var(--border);
+      padding:.55rem .7rem; border-radius: 999px; font-weight: 700;
+      box-shadow: 0 10px 22px rgba(0,0,0,.25);
+      text-decoration: none;
+    }
+    .cta-row{display:flex; gap:.75rem; justify-content:center; margin-top:1.25rem}
+    @media (max-width: 480px){ .about-wrap{padding: 1.5rem .75rem} }
+  </style>
 </head>
 <body>
   <!-- Header insertado automáticamente -->
   <div data-include="partials/header.html"></div>
 
   <main class="container" style="padding:2rem 0;">
-    <section class="max-w-3xl mx-auto text-center">
-      <img src="assets/logo.jpg" alt="El oráculo diario" class="mx-auto h-24 w-24 rounded-full shadow mb-6">
-      <h1 class="text-3xl md:text-4xl font-bold leading-tight mb-4">Sobre mí</h1>
-      <p class="muted text-lg mb-10">
-        Soy una persona profundamente interesada en el <strong>tarot</strong>, la <strong>astronomía</strong> y los <strong>hechizos antiguos</strong>.
-        Mi camino combina la observación del cielo con el simbolismo de la tierra, buscando un equilibrio entre lo visible y lo invisible.
+    <section class="about-wrap">
+      <h1 class="about-title">
+        Bienvenido al espacio donde tu alma se encuentra con su verdad
+      </h1>
+
+      <p class="about-lead">
+        Somos <strong>El oráculo diario</strong>: tarotistas y guías de conciencia práctica.
+        Nuestro propósito es acompañarte a reconectar con tu luz interior, tu propósito
+        y la claridad que ya habita en ti.
       </p>
-    </section>
 
-    <section class="max-w-3xl mx-auto space-y-10">
-      <div class="card">
-        <h2 class="text-2xl font-semibold mb-3">🌙 El tarot como espejo</h2>
-        <p class="muted">
-          Considero el tarot una herramienta de autoconocimiento. Más allá de la predicción,
-          es un lenguaje simbólico que refleja los procesos internos y las energías en movimiento.
-          Cada carta ofrece una conversación entre la intuición y la razón.
-        </p>
+      <p class="about-lead" style="margin-top:1rem">
+        No ofrecemos promesas vacías: ofrecemos <strong>presencia y conexión real</strong>.
+        Cada lectura es un espacio seguro y cuidado, donde tu voz puede expresarse y
+        encontrar dirección. Respetamos tu proceso personal y trabajamos con ética,
+        confidencialidad y calidez humana.
+      </p>
+
+      <blockquote class="q">
+        “El alma siempre sabe el camino. A veces solo necesita una guía.”
+      </blockquote>
+
+      <!-- Foto circular + botón flotante a tu Telegram -->
+      <div class="portrait">
+        <img src="assets/portrait.jpg" alt="Equipo de El oráculo diario"
+             onerror="this.src='assets/logo.jpg'">
+        <a class="badge" href="https://t.me/ElOraculoDiario" target="_blank" rel="noopener">
+          ✉️ Habla con nosotros
+        </a>
       </div>
 
-      <div class="card">
-        <h2 class="text-2xl font-semibold mb-3">🌌 Astronomía y contemplación</h2>
-        <p class="muted">
-          Desde pequeño he sentido fascinación por las estrellas y los ciclos del universo.
-          Observar los cielos me ayuda a recordar que todo forma parte de un mismo tejido cósmico:
-          los planetas, las cartas y nuestras propias decisiones.
-        </p>
-      </div>
-
-      <div class="card">
-        <h2 class="text-2xl font-semibold mb-3">🕯️ Hechizos y energía</h2>
-        <p class="muted">
-          Me atrae el estudio de los antiguos rituales y la simbología de los elementos.
-          Los hechizos, para mí, no son fórmulas mágicas, sino actos de intención:
-          maneras conscientes de enfocar nuestra energía hacia la transformación.
-        </p>
-      </div>
-
-      <div class="text-center mt-12">
-        <p class="muted">
-          Si quieres conocer más o reservar una sesión personalizada,
-          puedes hacerlo desde la página de <a href="reserva.html" class="underline">reserva</a>.
-        </p>
+      <div class="cta-row">
+        <a href="reserva.html" class="btn btn-primary">🔮 Reserva tu lectura</a>
+        <a href="link-in-bio.html" class="btn">Todos los enlaces</a>
       </div>
     </section>
   </main>

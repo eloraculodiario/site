@@ -1,29 +1,27 @@
 // assets/site.js
 document.addEventListener('DOMContentLoaded', async () => {
-  // insertar header
-  const headerHost = document.querySelector('[data-include="partials/header.html"]');
-  if (headerHost){
-    const r = await fetch('partials/header.html');
-    headerHost.outerHTML = await r.text();
+  // cambia este valor cuando subas cambios para bustear la caché
+  const v = '2025-11-02-02';
+
+  async function inject(selector, url){
+    const host = document.querySelector(selector);
+    if (!host) return;
+    const r = await fetch(`${url}?v=${v}`, { cache: 'no-store' });
+    if (r.ok) host.outerHTML = await r.text();
   }
 
-  // insertar footer
-  const footerHost = document.querySelector('[data-include="partials/footer.html"]');
-  if (footerHost){
-    const r = await fetch('partials/footer.html');
-    footerHost.outerHTML = await r.text();
-  }
+  await inject('[data-include="partials/header.html"]', 'partials/header.html');
+  await inject('[data-include="partials/footer.html"]', 'partials/footer.html');
 
-  // después de insertar, resalta el enlace activo (pequeño delay por si el fetch tarda)
-  setTimeout(() => {
-    const nav = document.getElementById('site-nav');
-    if (!nav) return;
+  // resalta enlace activo
+  const nav = document.getElementById('site-nav');
+  if (nav){
     const here = location.pathname.split('/').pop() || 'index.html';
     [...nav.querySelectorAll('a')].forEach(a => {
       const target = a.getAttribute('href');
       if ((here === '' && target === './') || here === target) a.classList.add('active');
       if (here === 'index.html' && target === './') a.classList.add('active');
     });
-  }, 50);
+  }
 });
 

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Reserva — El oráculo diario</title>
-  <meta name="description" content="Reserva tu lectura de tarot: sesiones de 60/30/20 minutos o lectura de 1 pregunta. Elige fecha, hora y formato.">
+  <meta name="description" content="Reserva tu lectura de tarot: sesiones por tiempo o por preguntas. Elige fecha, hora y formato.">
   <meta name="theme-color" content="#7c3aed">
 
   <!-- Tailwind opcional (utilidades) -->
@@ -28,46 +28,48 @@
   <main class="container" style="padding:2rem 0;">
     <h1 class="text-3xl md:text-4xl font-bold leading-tight mb-4">Reserva tu lectura</h1>
     <p class="muted mb-6">
-      Selecciona la duración o tipo de lectura, elige fecha y hora, y completa tu reserva de forma segura.
+      Selecciona la duración o el tipo de lectura, elige fecha y hora, y completa tu reserva con tranquilidad.
       Puedes compartir un enlace directo a una pestaña, por ejemplo
-      <code class="muted">/reserva.html#t30</code>.
+      <code class="muted">/reserva.html#t3q</code>.
     </p>
 
     <!-- Pestañas -->
     <div class="mt-6">
       <div id="tabs" class="flex flex-wrap gap-2" role="tablist" aria-label="Tipos de reserva">
-        <button data-tab="t60" class="btn btn-ghost" role="tab" aria-controls="t60" aria-selected="true">60 min</button>
-        <button data-tab="t30" class="btn btn-ghost" role="tab" aria-controls="t30" aria-selected="false">30 min</button>
-        <button data-tab="t20" class="btn btn-ghost" role="tab" aria-controls="t20" aria-selected="false">20 min</button>
-        <button data-tab="t1q" class="btn btn-ghost" role="tab" aria-controls="t1q" aria-selected="false">1 pregunta</button>
+        <button data-tab="t60" class="btn btn-ghost" role="tab" aria-controls="t60" aria-selected="true">Lectura 60 min</button>
+        <button data-tab="t30" class="btn btn-ghost" role="tab" aria-controls="t30" aria-selected="false">Lectura 30 min</button>
+        <button data-tab="t20" class="btn btn-ghost" role="tab" aria-controls="t20" aria-selected="false">Lectura 20 min</button>
+        <button data-tab="t1q" class="btn btn-ghost" role="tab" aria-controls="t1q" aria-selected="false">1 Pregunta</button>
+        <button data-tab="t2q" class="btn btn-ghost" role="tab" aria-controls="t2q" aria-selected="false">2 Preguntas</button>
+        <button data-tab="t3q" class="btn btn-ghost" role="tab" aria-controls="t3q" aria-selected="false">3 Preguntas</button>
       </div>
 
       <div class="mt-6">
-        <!-- 60 min -->
+        <!-- Lectura 60 minutos -->
         <section id="t60" class="tab" role="tabpanel" tabindex="0" aria-labelledby="tab-t60">
           <div class="embed">
             <iframe
-              src="https://cal.com/jose-luis-infantes-molina-uyb26l/lectura-tarot-1-hora?embed=true"
+              src="https://cal.com/el-oraculo-diaro/lectura-tarot-1-hora?embed=true"
               width="100%" height="1000" frameborder="0" scrolling="auto">
             </iframe>
           </div>
         </section>
 
-        <!-- 30 min -->
+        <!-- Lectura 30 minutos -->
         <section id="t30" class="tab hidden" role="tabpanel" tabindex="0" aria-labelledby="tab-t30">
           <div class="embed">
             <iframe
-              src="https://cal.com/jose-luis-infantes-molina-uyb26l/lectura-tarot-30-minutos?embed=true"
+              src="https://cal.com/el-oraculo-diaro/lectura-tarot-30-minutos?embed=true"
               width="100%" height="1000" frameborder="0" scrolling="auto">
             </iframe>
           </div>
         </section>
 
-        <!-- 20 min -->
+        <!-- Lectura 20 minutos -->
         <section id="t20" class="tab hidden" role="tabpanel" tabindex="0" aria-labelledby="tab-t20">
           <div class="embed">
             <iframe
-              src="https://cal.com/jose-luis-infantes-molina-uyb26l/lectura-tarot-20-minutos?embed=true"
+              src="https://cal.com/el-oraculo-diaro/lectura-tarot-20-minutos?embed=true"
               width="100%" height="1000" frameborder="0" scrolling="auto">
             </iframe>
           </div>
@@ -77,7 +79,27 @@
         <section id="t1q" class="tab hidden" role="tabpanel" tabindex="0" aria-labelledby="tab-t1q">
           <div class="embed">
             <iframe
-              src="https://cal.com/jose-luis-infantes-molina-uyb26l/1-pregunta?embed=true"
+              src="https://cal.com/el-oraculo-diaro/1-pregunta?embed=true"
+              width="100%" height="1000" frameborder="0" scrolling="auto">
+            </iframe>
+          </div>
+        </section>
+
+        <!-- 2 preguntas -->
+        <section id="t2q" class="tab hidden" role="tabpanel" tabindex="0" aria-labelledby="tab-t2q">
+          <div class="embed">
+            <iframe
+              src="https://cal.com/el-oraculo-diaro/2-pregunta?embed=true"
+              width="100%" height="1000" frameborder="0" scrolling="auto">
+            </iframe>
+          </div>
+        </section>
+
+        <!-- 3 preguntas -->
+        <section id="t3q" class="tab hidden" role="tabpanel" tabindex="0" aria-labelledby="tab-t3q">
+          <div class="embed">
+            <iframe
+              src="https://cal.com/el-oraculo-diaro/3-preguntas?embed=true"
               width="100%" height="1000" frameborder="0" scrolling="auto">
             </iframe>
           </div>
@@ -96,12 +118,10 @@
       const panes = document.querySelectorAll('.tab');
 
       function setActive(id) {
-        // Mostrar/ocultar paneles
         panes.forEach(p => p.classList.add('hidden'));
         const activePane = document.getElementById(id);
         if (activePane) activePane.classList.remove('hidden');
 
-        // Estilos de botones y aria
         tabs.forEach(b => {
           b.classList.remove('btn-primary');
           b.setAttribute('aria-selected', 'false');
@@ -113,10 +133,8 @@
         }
       }
 
-      // Click en pestañas
       tabs.forEach(btn => btn.addEventListener('click', () => {
         const id = btn.dataset.tab;
-        // Actualiza hash para enlaces compartibles
         if (history.pushState) {
           history.pushState(null, '', '#' + id);
         } else {
@@ -125,15 +143,13 @@
         setActive(id);
       }));
 
-      // Activación por hash (enlace directo) y cambios de hash
       function activateFromHash() {
         const hash = (location.hash || '').replace('#', '');
-        const valid = ['t60','t30','t20','t1q'];
+        const valid = ['t60','t30','t20','t1q','t2q','t3q'];
         setActive(valid.includes(hash) ? hash : 't60');
       }
-      window.addEventListener('hashchange', activateFromHash);
 
-      // Inicial
+      window.addEventListener('hashchange', activateFromHash);
       activateFromHash();
     });
   </script>

@@ -85,27 +85,27 @@
     <section class="mb-12">
       <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">SESIONES POR TIEMPO</h2>
       <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-        <div class="card text-center">
+        <div class="card text-center servicio-card" data-servicio="60min" data-precio="45" data-duracion="60" data-franja="60">
           <h3 class="text-xl font-bold mb-2">60 MINUTOS</h3>
           <div class="text-2xl font-bold text-purple-300 mb-4">45€</div>
           <p class="text-sm muted mb-4">Lectura completa y profunda con análisis detallado</p>
-          <button onclick="seleccionarServicio('60min', 45, 60)" class="btn btn-primary w-full">
+          <button onclick="seleccionarServicio('60min', 45, 60, 60)" class="btn btn-primary w-full">
             Reservar
           </button>
         </div>
-        <div class="card text-center">
+        <div class="card text-center servicio-card" data-servicio="30min" data-precio="25" data-duracion="30" data-franja="30">
           <h3 class="text-xl font-bold mb-2">30 MINUTOS</h3>
           <div class="text-2xl font-bold text-purple-300 mb-4">25€</div>
           <p class="text-sm muted mb-4">Dos áreas específicas con orientación práctica</p>
-          <button onclick="seleccionarServicio('30min', 25, 30)" class="btn btn-primary w-full">
+          <button onclick="seleccionarServicio('30min', 25, 30, 30)" class="btn btn-primary w-full">
             Reservar
           </button>
         </div>
-        <div class="card text-center">
+        <div class="card text-center servicio-card" data-servicio="20min" data-precio="15" data-duracion="20" data-franja="15">
           <h3 class="text-xl font-bold mb-2">20 MINUTOS</h3>
           <div class="text-2xl font-bold text-purple-300 mb-4">15€</div>
           <p class="text-sm muted mb-4">Una cuestión puntual con respuesta directa</p>
-          <button onclick="seleccionarServicio('20min', 15, 20)" class="btn btn-primary w-full">
+          <button onclick="seleccionarServicio('20min', 15, 20, 15)" class="btn btn-primary w-full">
             Reservar
           </button>
         </div>
@@ -116,27 +116,27 @@
     <section class="mb-12">
       <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">LECTURAS POR PREGUNTAS</h2>
       <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-        <div class="card text-center">
+        <div class="card text-center servicio-card" data-servicio="1pregunta" data-precio="10" data-duracion="15" data-franja="15">
           <h3 class="text-xl font-bold mb-2">1 PREGUNTA</h3>
           <div class="text-2xl font-bold text-purple-300 mb-4">10€</div>
           <p class="text-sm muted mb-4">Respuesta clara a una pregunta específica</p>
-          <button onclick="seleccionarServicio('1pregunta', 10, 15)" class="btn btn-primary w-full">
+          <button onclick="seleccionarServicio('1pregunta', 10, 15, 15)" class="btn btn-primary w-full">
             Reservar
           </button>
         </div>
-        <div class="card text-center">
+        <div class="card text-center servicio-card" data-servicio="2preguntas" data-precio="18" data-duracion="25" data-franja="30">
           <h3 class="text-xl font-bold mb-2">2 PREGUNTAS</h3>
           <div class="text-2xl font-bold text-purple-300 mb-4">18€</div>
           <p class="text-sm muted mb-4">Dos temas o perspectivas complementarias</p>
-          <button onclick="seleccionarServicio('2preguntas', 18, 25)" class="btn btn-primary w-full">
+          <button onclick="seleccionarServicio('2preguntas', 18, 25, 30)" class="btn btn-primary w-full">
             Reservar
           </button>
         </div>
-        <div class="card text-center">
+        <div class="card text-center servicio-card" data-servicio="3preguntas" data-precio="25" data-duracion="35" data-franja="30">
           <h3 class="text-xl font-bold mb-2">3 PREGUNTAS</h3>
           <div class="text-2xl font-bold text-purple-300 mb-4">25€</div>
           <p class="text-sm muted mb-4">Visión general de tu situación y próximos pasos</p>
-          <button onclick="seleccionarServicio('3preguntas', 25, 35)" class="btn btn-primary w-full">
+          <button onclick="seleccionarServicio('3preguntas', 25, 35, 30)" class="btn btn-primary w-full">
             Reservar
           </button>
         </div>
@@ -156,6 +156,7 @@
               <strong id="nombre-servicio"></strong>
               <div id="precio-servicio" class="text-lg font-bold"></div>
               <div id="duracion-servicio" class="text-sm muted"></div>
+              <div id="franja-servicio" class="text-sm text-blue-400"></div>
             </div>
             <button type="button" onclick="deseleccionarServicio()" class="text-sm btn btn-ghost">
               Cambiar servicio
@@ -169,9 +170,9 @@
             <h3 class="font-bold text-lg mb-4">📅 Selecciona una fecha</h3>
             <div class="calendario-container">
               <div class="calendario-navegacion">
-                <button id="btn-mes-anterior" class="btn btn-ghost btn-sm">←</button>
-                <span id="mes-actual" class="font-bold mx-4"></span>
-                <button id="btn-mes-siguiente" class="btn btn-ghost btn-sm">→</button>
+                <button id="btn-mes-anterior" class="btn btn-ghost btn-sm">← Mes anterior</button>
+                <span id="mes-actual" class="font-bold mx-4 text-lg"></span>
+                <button id="btn-mes-siguiente" class="btn btn-ghost btn-sm">Mes siguiente →</button>
               </div>
               <div id="calendario" class="calendario-grid"></div>
             </div>
@@ -184,7 +185,7 @@
               <strong id="fecha-seleccionada-texto"></strong>
             </div>
             <div id="horarios-container" class="horarios-grid">
-              <p class="text-center muted py-8">Selecciona una fecha para ver horarios disponibles</p>
+              <p class="text-center muted py-8">Selecciona un servicio y una fecha para ver horarios disponibles</p>
             </div>
           </div>
         </div>
@@ -192,6 +193,12 @@
         <!-- Formulario de contacto -->
         <div id="formulario-contacto" class="hidden mt-8 pt-6 border-t">
           <h3 class="font-bold text-lg mb-4">📝 Tus datos de contacto</h3>
+          <div class="bg-blue-50 p-4 rounded-lg mb-4">
+            <div class="flex items-center gap-2 text-blue-700">
+              <span>📋</span>
+              <span class="text-sm"><strong>Resumen de tu reserva:</strong> <span id="resumen-reserva"></span></span>
+            </div>
+          </div>
           <form id="formulario-reserva" class="space-y-4">
             <div class="grid md:grid-cols-2 gap-4">
               <div>

@@ -14,6 +14,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/calendario.css">
 
   <!-- Favicon -->
   <link rel="icon" href="assets/favicon.png">
@@ -88,7 +89,7 @@
           <h3 class="text-xl font-bold mb-2">60 MINUTOS</h3>
           <div class="text-2xl font-bold text-purple-300 mb-4">45€</div>
           <p class="text-sm muted mb-4">Lectura completa y profunda con análisis detallado</p>
-          <button onclick="seleccionarServicio('60min', 45)" class="btn btn-primary w-full">
+          <button onclick="seleccionarServicio('60min', 45, 60)" class="btn btn-primary w-full">
             Reservar
           </button>
         </div>
@@ -96,7 +97,7 @@
           <h3 class="text-xl font-bold mb-2">30 MINUTOS</h3>
           <div class="text-2xl font-bold text-purple-300 mb-4">25€</div>
           <p class="text-sm muted mb-4">Dos áreas específicas con orientación práctica</p>
-          <button onclick="seleccionarServicio('30min', 25)" class="btn btn-primary w-full">
+          <button onclick="seleccionarServicio('30min', 25, 30)" class="btn btn-primary w-full">
             Reservar
           </button>
         </div>
@@ -104,7 +105,7 @@
           <h3 class="text-xl font-bold mb-2">20 MINUTOS</h3>
           <div class="text-2xl font-bold text-purple-300 mb-4">15€</div>
           <p class="text-sm muted mb-4">Una cuestión puntual con respuesta directa</p>
-          <button onclick="seleccionarServicio('20min', 15)" class="btn btn-primary w-full">
+          <button onclick="seleccionarServicio('20min', 15, 20)" class="btn btn-primary w-full">
             Reservar
           </button>
         </div>
@@ -119,7 +120,7 @@
           <h3 class="text-xl font-bold mb-2">1 PREGUNTA</h3>
           <div class="text-2xl font-bold text-purple-300 mb-4">10€</div>
           <p class="text-sm muted mb-4">Respuesta clara a una pregunta específica</p>
-          <button onclick="seleccionarServicio('1pregunta', 10)" class="btn btn-primary w-full">
+          <button onclick="seleccionarServicio('1pregunta', 10, 15)" class="btn btn-primary w-full">
             Reservar
           </button>
         </div>
@@ -127,7 +128,7 @@
           <h3 class="text-xl font-bold mb-2">2 PREGUNTAS</h3>
           <div class="text-2xl font-bold text-purple-300 mb-4">18€</div>
           <p class="text-sm muted mb-4">Dos temas o perspectivas complementarias</p>
-          <button onclick="seleccionarServicio('2preguntas', 18)" class="btn btn-primary w-full">
+          <button onclick="seleccionarServicio('2preguntas', 18, 25)" class="btn btn-primary w-full">
             Reservar
           </button>
         </div>
@@ -135,88 +136,108 @@
           <h3 class="text-xl font-bold mb-2">3 PREGUNTAS</h3>
           <div class="text-2xl font-bold text-purple-300 mb-4">25€</div>
           <p class="text-sm muted mb-4">Visión general de tu situación y próximos pasos</p>
-          <button onclick="seleccionarServicio('3preguntas', 25)" class="btn btn-primary w-full">
+          <button onclick="seleccionarServicio('3preguntas', 25, 35)" class="btn btn-primary w-full">
             Reservar
           </button>
         </div>
       </div>
     </section>
 
-    <!-- Formulario de Reserva -->
-    <section id="reserva" class="max-w-2xl mx-auto">
+    <!-- Calendario de Reservas -->
+    <section id="reserva" class="max-w-6xl mx-auto">
       <div class="card">
         <h2 class="text-2xl md:text-3xl font-bold text-center mb-2">Reserva tu lectura</h2>
-        <p class="text-center muted mb-6">Completa el formulario y te contactaré para coordinar</p>
+        <p class="text-center muted mb-6">Selecciona el servicio, fecha y hora exacta para tu sesión</p>
         
-        <form id="formulario-reserva" class="space-y-4">
-          <!-- Servicio seleccionado -->
-          <div id="servicio-seleccionado" class="hidden p-4 bg-purple-900/20 rounded-lg mb-4">
-            <div class="flex justify-between items-center">
-              <div>
-                <strong id="nombre-servicio"></strong>
-                <div id="precio-servicio" class="text-lg font-bold"></div>
+        <!-- Servicio seleccionado -->
+        <div id="servicio-seleccionado" class="hidden p-4 bg-purple-900/20 rounded-lg mb-6">
+          <div class="flex justify-between items-center">
+            <div>
+              <strong id="nombre-servicio"></strong>
+              <div id="precio-servicio" class="text-lg font-bold"></div>
+              <div id="duracion-servicio" class="text-sm muted"></div>
+            </div>
+            <button type="button" onclick="deseleccionarServicio()" class="text-sm btn btn-ghost">
+              Cambiar servicio
+            </button>
+          </div>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-8">
+          <!-- Calendario -->
+          <div>
+            <h3 class="font-bold text-lg mb-4">📅 Selecciona una fecha</h3>
+            <div class="calendario-container">
+              <div class="calendario-navegacion">
+                <button id="btn-mes-anterior" class="btn btn-ghost btn-sm">←</button>
+                <span id="mes-actual" class="font-bold mx-4"></span>
+                <button id="btn-mes-siguiente" class="btn btn-ghost btn-sm">→</button>
               </div>
-              <button type="button" onclick="deseleccionarServicio()" class="text-sm btn btn-ghost">
-                Cambiar
-              </button>
+              <div id="calendario" class="calendario-grid"></div>
             </div>
           </div>
 
-          <div class="grid md:grid-cols-2 gap-4">
+          <!-- Horarios -->
+          <div>
+            <h3 class="font-bold text-lg mb-4">🕒 Horarios disponibles</h3>
+            <div id="info-fecha" class="mb-4 p-3 bg-purple-50 rounded-lg hidden">
+              <strong id="fecha-seleccionada-texto"></strong>
+            </div>
+            <div id="horarios-container" class="horarios-grid">
+              <p class="text-center muted py-8">Selecciona una fecha para ver horarios disponibles</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formulario de contacto -->
+        <div id="formulario-contacto" class="hidden mt-8 pt-6 border-t">
+          <h3 class="font-bold text-lg mb-4">📝 Tus datos de contacto</h3>
+          <form id="formulario-reserva" class="space-y-4">
+            <div class="grid md:grid-cols-2 gap-4">
+              <div>
+                <label class="block mb-2 font-semibold">Nombre completo *</label>
+                <input type="text" name="nombre" required 
+                       class="input-field" placeholder="Tu nombre">
+              </div>
+              <div>
+                <label class="block mb-2 font-semibold">Teléfono *</label>
+                <input type="tel" name="telefono" required 
+                       class="input-field" placeholder="+34 XXX XXX XXX">
+              </div>
+            </div>
+
             <div>
-              <label class="block mb-2 font-semibold">Nombre completo *</label>
-              <input type="text" name="nombre" required 
-                     class="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:ring-2 focus:ring-purple-400 focus:outline-none"
-                     placeholder="Tu nombre">
+              <label class="block mb-2 font-semibold">Método de comunicación *</label>
+              <div class="grid grid-cols-2 gap-3">
+                <label class="comunication-option">
+                  <input type="radio" name="metodo" value="whatsapp" required>
+                  <div class="comunication-content">
+                    <span class="comunication-icon">💚</span>
+                    <span class="comunication-label">WhatsApp</span>
+                  </div>
+                </label>
+                <label class="comunication-option">
+                  <input type="radio" name="metodo" value="telegram" required>
+                  <div class="comunication-content">
+                    <span class="comunication-icon">💙</span>
+                    <span class="comunication-label">Telegram</span>
+                  </div>
+                </label>
+              </div>
             </div>
+
             <div>
-              <label class="block mb-2 font-semibold">Teléfono *</label>
-              <input type="tel" name="telefono" required 
-                     class="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:ring-2 focus:ring-purple-400 focus:outline-none"
-                     placeholder="+34 XXX XXX XXX">
+              <label class="block mb-2 font-semibold">¿Sobre qué te gustaría consultar? (opcional)</label>
+              <textarea name="consulta" rows="3" 
+                        placeholder="Puedes contarme brevemente sobre lo que quieres consultar..."
+                        class="input-field"></textarea>
             </div>
-          </div>
 
-          <div>
-            <label class="block mb-2 font-semibold">Horario preferido *</label>
-            <select name="horario" required class="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:ring-2 focus:ring-purple-400 focus:outline-none">
-              <option value="">Selecciona tu horario preferido</option>
-              <option value="mañana">Mañana (9:00 - 14:00)</option>
-              <option value="tarde">Tarde (16:00 - 20:00)</option>
-              <option value="finesemana">Fines de semana</option>
-              <option value="flexible">Horario flexible</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="block mb-2 font-semibold">Método de comunicación *</label>
-            <div class="grid grid-cols-2 gap-3">
-              <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
-                <input type="radio" name="metodo" value="whatsapp" required class="mr-3">
-                <span>💚 WhatsApp</span>
-              </label>
-              <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
-                <input type="radio" name="metodo" value="telegram" required class="mr-3">
-                <span>💙 Telegram</span>
-              </label>
-            </div>
-          </div>
-
-          <div>
-            <label class="block mb-2 font-semibold">¿Sobre qué te gustaría consultar? (opcional)</label>
-            <textarea name="consulta" rows="3" 
-                      placeholder="Puedes contarme brevemente sobre lo que quieres consultar..."
-                      class="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:ring-2 focus:ring-purple-400 focus:outline-none"></textarea>
-          </div>
-
-          <button type="submit" class="btn btn-primary w-full" id="btn-enviar">
-            Enviar solicitud de reserva
-          </button>
-
-          <p class="text-center text-sm muted mt-4">
-            Te contactaré por el método elegido en menos de 24 horas para coordinar fecha y hora exacta.
-          </p>
-        </form>
+            <button type="submit" class="btn btn-primary w-full" id="btn-enviar">
+              Confirmar reserva
+            </button>
+          </form>
+        </div>
       </div>
     </section>
   </main>
@@ -224,78 +245,7 @@
   <!-- Footer insertado automáticamente -->
   <div data-include="partials/footer.html"></div>
 
-  <!-- Script para insertar header/footer -->
+  <script src="assets/calendario.js"></script>
   <script src="assets/site.js"></script>
-
-  <script>
-    let servicioSeleccionado = null;
-
-    function seleccionarServicio(servicio, precio) {
-      servicioSeleccionado = { servicio, precio };
-      
-      const servicios = {
-        '60min': 'Lectura de 60 minutos',
-        '30min': 'Lectura de 30 minutos', 
-        '20min': 'Lectura de 20 minutos',
-        '1pregunta': '1 Pregunta específica',
-        '2preguntas': '2 Preguntas',
-        '3preguntas': '3 Preguntas'
-      };
-
-      document.getElementById('nombre-servicio').textContent = servicios[servicio];
-      document.getElementById('precio-servicio').textContent = precio + '€';
-      document.getElementById('servicio-seleccionado').classList.remove('hidden');
-      
-      // Scroll suave al formulario
-      document.getElementById('reserva').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function deseleccionarServicio() {
-      servicioSeleccionado = null;
-      document.getElementById('servicio-seleccionado').classList.add('hidden');
-    }
-
-    document.getElementById('formulario-reserva').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      if (!servicioSeleccionado) {
-        alert('Por favor, selecciona un servicio primero.');
-        return;
-      }
-
-      const formData = new FormData(this);
-      const datos = {
-        servicio: servicioSeleccionado.servicio,
-        precio: servicioSeleccionado.precio,
-        nombre: formData.get('nombre'),
-        telefono: formData.get('telefono'),
-        horario: formData.get('horario'),
-        metodo: formData.get('metodo'),
-        consulta: formData.get('consulta')
-      };
-
-      // Aquí puedes enviar los datos a tu backend o servicio de forms
-      console.log('Datos de reserva:', datos);
-      
-      // Mostrar confirmación
-      const btn = document.getElementById('btn-enviar');
-      btn.textContent = '✓ Solicitud enviada';
-      btn.classList.add('bg-green-600');
-      btn.disabled = true;
-
-      alert('¡Gracias! Tu solicitud ha sido enviada. Te contactaré pronto por ' + 
-            (datos.metodo === 'whatsapp' ? 'WhatsApp' : 'Telegram') + 
-            ' para coordinar la sesión.');
-
-      // Resetear formulario después de 3 segundos
-      setTimeout(() => {
-        this.reset();
-        deseleccionarServicio();
-        btn.textContent = 'Enviar solicitud de reserva';
-        btn.classList.remove('bg-green-600');
-        btn.disabled = false;
-      }, 3000);
-    });
-  </script>
 </body>
 </html>

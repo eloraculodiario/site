@@ -24,37 +24,54 @@
 
   <main class="container" style="padding:2rem 0;">
     <!-- Hero -->
-    <section class="grid md:grid-cols-2 gap-8 items-center">
-      <div>
-        <h1 class="text-3xl md:text-4xl font-bold leading-tight">
-          Lecturas de tarot
-        </h1>
-        <p class="mt-4 text-lg muted">
-          Sesiones de <strong>60 / 30 / 20 minutos</strong> o lecturas por <strong>1 / 2 / 3 preguntas</strong>.<br>
-          Elige <em>videollamada</em>, <em>voz</em> o <em>chat</em>. Enfoque ético, confidencial y directo.
-        </p>
-        <div class="mt-6 flex gap-3">
-          <a href="reserva.html" class="btn btn-primary">Reserva tu lectura</a>
-          <a href="servicios.html" class="btn btn-ghost">Ver servicios</a>
-        </div>
-      </div>
-
-      <div class="w-full">
-        <!-- TikTok embed -->
-        <blockquote class="tiktok-embed"
-          cite="https://www.tiktok.com/@TU_USUARIO_TT/video/VIDEO_ID"
-          data-video-id="VIDEO_ID"
-          style="max-width: 605px; min-width: 325px;">
-        </blockquote>
-        <script async src="https://www.tiktok.com/embed.js"></script>
+    <section class="text-center max-w-3xl mx-auto mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4">
+        LECTURAS DE TAROT
+      </h1>
+      <p class="text-xl muted mb-8">
+        Sesiones de <strong>60 / 30 / 20 minutos</strong> o lecturas por <strong>1 / 2 / 3 preguntas</strong>.<br>
+        Elige <em>videollamada</em>, <em>voz</em> o <em>chat</em>. Enfoque ético, confidencial y directo.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="#reserva" class="btn btn-primary">Reserva tu lectura</a>
+        <a href="servicios.html" class="btn btn-ghost">Ver servicios</a>
       </div>
     </section>
 
-    <!-- Bloque informativo sobre el tarot -->
-    <section class="mt-10">
-      <div class="card">
-        <h2 class="text-2xl font-semibold">Sobre el tarot</h2>
-        <p class="mt-3 muted">
+    <!-- Banner WhatsApp/Telegram -->
+    <section class="max-w-4xl mx-auto mb-12">
+      <div class="card bg-gradient-to-r from-purple-900/20 to-green-900/20 border-l-4 border-green-400">
+        <div class="flex flex-col md:flex-row items-center gap-6">
+          <div class="text-4xl">💬</div>
+          <div class="flex-1">
+            <h3 class="font-bold text-lg mb-3">Comunicación por WhatsApp o Telegram</h3>
+            <p class="muted mb-4">
+              Todas las sesiones se realizan por chat. Elige tu servicio y coordina directamente por mensaje.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div class="flex items-center gap-2">
+                <span class="text-green-400 text-xl">✓</span>
+                <span class="text-sm">Chat por WhatsApp</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-green-400 text-xl">✓</span>
+                <span class="text-sm">Chat por Telegram</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-green-400 text-xl">✓</span>
+                <span class="text-sm">Respuesta en 24h</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sobre el tarot -->
+    <section class="max-w-3xl mx-auto mb-12">
+      <div class="card text-center">
+        <h2 class="text-2xl md:text-3xl font-bold mb-6">SOBRE EL TAROT</h2>
+        <p class="text-lg muted leading-relaxed">
           El tarot es una herramienta de reflexión y orientación. No dicta destinos, sino que
           ilumina contextos, patrones y posibilidades para ayudarte a tomar mejores decisiones.
           En cada sesión trabajamos con preguntas claras, respeto por tu proceso y privacidad.
@@ -64,40 +81,142 @@
     </section>
 
     <!-- Sesiones por tiempo -->
-    <section class="mt-12">
-      <h2 class="text-2xl font-semibold mb-4">Sesiones por tiempo</h2>
-      <div class="grid grid-3">
-        <div class="card">
-          <h3 class="font-semibold text-lg">60 minutos</h3>
-          <a href="reserva.html" class="btn btn-ghost mt-3">Reservar</a>
+    <section class="mb-12">
+      <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">SESIONES POR TIEMPO</h2>
+      <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <div class="card text-center">
+          <h3 class="text-xl font-bold mb-2">60 MINUTOS</h3>
+          <div class="text-2xl font-bold text-purple-300 mb-4">45€</div>
+          <p class="text-sm muted mb-4">Lectura completa y profunda con análisis detallado</p>
+          <button onclick="seleccionarServicio('60min', 45)" class="btn btn-primary w-full">
+            Reservar
+          </button>
         </div>
-        <div class="card">
-          <h3 class="font-semibold text-lg">30 minutos</h3>
-          <a href="reserva.html" class="btn btn-ghost mt-3">Reservar</a>
+        <div class="card text-center">
+          <h3 class="text-xl font-bold mb-2">30 MINUTOS</h3>
+          <div class="text-2xl font-bold text-purple-300 mb-4">25€</div>
+          <p class="text-sm muted mb-4">Dos áreas específicas con orientación práctica</p>
+          <button onclick="seleccionarServicio('30min', 25)" class="btn btn-primary w-full">
+            Reservar
+          </button>
         </div>
-        <div class="card">
-          <h3 class="font-semibold text-lg">20 minutos</h3>
-          <a href="reserva.html" class="btn btn-ghost mt-3">Reservar</a>
+        <div class="card text-center">
+          <h3 class="text-xl font-bold mb-2">20 MINUTOS</h3>
+          <div class="text-2xl font-bold text-purple-300 mb-4">15€</div>
+          <p class="text-sm muted mb-4">Una cuestión puntual con respuesta directa</p>
+          <button onclick="seleccionarServicio('20min', 15)" class="btn btn-primary w-full">
+            Reservar
+          </button>
         </div>
       </div>
     </section>
 
     <!-- Lecturas por preguntas -->
-    <section class="mt-12">
-      <h2 class="text-2xl font-semibold mb-4">Lecturas por preguntas</h2>
-      <div class="grid grid-3">
-        <div class="card">
-          <h3 class="font-semibold text-lg">1 pregunta</h3>
-          <a href="reserva.html" class="btn btn-ghost mt-3">Reservar</a>
+    <section class="mb-12">
+      <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">LECTURAS POR PREGUNTAS</h2>
+      <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <div class="card text-center">
+          <h3 class="text-xl font-bold mb-2">1 PREGUNTA</h3>
+          <div class="text-2xl font-bold text-purple-300 mb-4">10€</div>
+          <p class="text-sm muted mb-4">Respuesta clara a una pregunta específica</p>
+          <button onclick="seleccionarServicio('1pregunta', 10)" class="btn btn-primary w-full">
+            Reservar
+          </button>
         </div>
-        <div class="card">
-          <h3 class="font-semibold text-lg">2 preguntas</h3>
-          <a href="reserva.html" class="btn btn-ghost mt-3">Reservar</a>
+        <div class="card text-center">
+          <h3 class="text-xl font-bold mb-2">2 PREGUNTAS</h3>
+          <div class="text-2xl font-bold text-purple-300 mb-4">18€</div>
+          <p class="text-sm muted mb-4">Dos temas o perspectivas complementarias</p>
+          <button onclick="seleccionarServicio('2preguntas', 18)" class="btn btn-primary w-full">
+            Reservar
+          </button>
         </div>
-        <div class="card">
-          <h3 class="font-semibold text-lg">3 preguntas</h3>
-          <a href="reserva.html" class="btn btn-ghost mt-3">Reservar</a>
+        <div class="card text-center">
+          <h3 class="text-xl font-bold mb-2">3 PREGUNTAS</h3>
+          <div class="text-2xl font-bold text-purple-300 mb-4">25€</div>
+          <p class="text-sm muted mb-4">Visión general de tu situación y próximos pasos</p>
+          <button onclick="seleccionarServicio('3preguntas', 25)" class="btn btn-primary w-full">
+            Reservar
+          </button>
         </div>
+      </div>
+    </section>
+
+    <!-- Formulario de Reserva -->
+    <section id="reserva" class="max-w-2xl mx-auto">
+      <div class="card">
+        <h2 class="text-2xl md:text-3xl font-bold text-center mb-2">Reserva tu lectura</h2>
+        <p class="text-center muted mb-6">Completa el formulario y te contactaré para coordinar</p>
+        
+        <form id="formulario-reserva" class="space-y-4">
+          <!-- Servicio seleccionado -->
+          <div id="servicio-seleccionado" class="hidden p-4 bg-purple-900/20 rounded-lg mb-4">
+            <div class="flex justify-between items-center">
+              <div>
+                <strong id="nombre-servicio"></strong>
+                <div id="precio-servicio" class="text-lg font-bold"></div>
+              </div>
+              <button type="button" onclick="deseleccionarServicio()" class="text-sm btn btn-ghost">
+                Cambiar
+              </button>
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="block mb-2 font-semibold">Nombre completo *</label>
+              <input type="text" name="nombre" required 
+                     class="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:ring-2 focus:ring-purple-400 focus:outline-none"
+                     placeholder="Tu nombre">
+            </div>
+            <div>
+              <label class="block mb-2 font-semibold">Teléfono *</label>
+              <input type="tel" name="telefono" required 
+                     class="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:ring-2 focus:ring-purple-400 focus:outline-none"
+                     placeholder="+34 XXX XXX XXX">
+            </div>
+          </div>
+
+          <div>
+            <label class="block mb-2 font-semibold">Horario preferido *</label>
+            <select name="horario" required class="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:ring-2 focus:ring-purple-400 focus:outline-none">
+              <option value="">Selecciona tu horario preferido</option>
+              <option value="mañana">Mañana (9:00 - 14:00)</option>
+              <option value="tarde">Tarde (16:00 - 20:00)</option>
+              <option value="finesemana">Fines de semana</option>
+              <option value="flexible">Horario flexible</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block mb-2 font-semibold">Método de comunicación *</label>
+            <div class="grid grid-cols-2 gap-3">
+              <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                <input type="radio" name="metodo" value="whatsapp" required class="mr-3">
+                <span>💚 WhatsApp</span>
+              </label>
+              <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                <input type="radio" name="metodo" value="telegram" required class="mr-3">
+                <span>💙 Telegram</span>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <label class="block mb-2 font-semibold">¿Sobre qué te gustaría consultar? (opcional)</label>
+            <textarea name="consulta" rows="3" 
+                      placeholder="Puedes contarme brevemente sobre lo que quieres consultar..."
+                      class="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:ring-2 focus:ring-purple-400 focus:outline-none"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-full" id="btn-enviar">
+            Enviar solicitud de reserva
+          </button>
+
+          <p class="text-center text-sm muted mt-4">
+            Te contactaré por el método elegido en menos de 24 horas para coordinar fecha y hora exacta.
+          </p>
+        </form>
       </div>
     </section>
   </main>
@@ -105,8 +224,78 @@
   <!-- Footer insertado automáticamente -->
   <div data-include="partials/footer.html"></div>
 
-  <!-- Script que inserta header/footer -->
+  <!-- Script para insertar header/footer -->
   <script src="assets/site.js"></script>
+
+  <script>
+    let servicioSeleccionado = null;
+
+    function seleccionarServicio(servicio, precio) {
+      servicioSeleccionado = { servicio, precio };
+      
+      const servicios = {
+        '60min': 'Lectura de 60 minutos',
+        '30min': 'Lectura de 30 minutos', 
+        '20min': 'Lectura de 20 minutos',
+        '1pregunta': '1 Pregunta específica',
+        '2preguntas': '2 Preguntas',
+        '3preguntas': '3 Preguntas'
+      };
+
+      document.getElementById('nombre-servicio').textContent = servicios[servicio];
+      document.getElementById('precio-servicio').textContent = precio + '€';
+      document.getElementById('servicio-seleccionado').classList.remove('hidden');
+      
+      // Scroll suave al formulario
+      document.getElementById('reserva').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function deseleccionarServicio() {
+      servicioSeleccionado = null;
+      document.getElementById('servicio-seleccionado').classList.add('hidden');
+    }
+
+    document.getElementById('formulario-reserva').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      if (!servicioSeleccionado) {
+        alert('Por favor, selecciona un servicio primero.');
+        return;
+      }
+
+      const formData = new FormData(this);
+      const datos = {
+        servicio: servicioSeleccionado.servicio,
+        precio: servicioSeleccionado.precio,
+        nombre: formData.get('nombre'),
+        telefono: formData.get('telefono'),
+        horario: formData.get('horario'),
+        metodo: formData.get('metodo'),
+        consulta: formData.get('consulta')
+      };
+
+      // Aquí puedes enviar los datos a tu backend o servicio de forms
+      console.log('Datos de reserva:', datos);
+      
+      // Mostrar confirmación
+      const btn = document.getElementById('btn-enviar');
+      btn.textContent = '✓ Solicitud enviada';
+      btn.classList.add('bg-green-600');
+      btn.disabled = true;
+
+      alert('¡Gracias! Tu solicitud ha sido enviada. Te contactaré pronto por ' + 
+            (datos.metodo === 'whatsapp' ? 'WhatsApp' : 'Telegram') + 
+            ' para coordinar la sesión.');
+
+      // Resetear formulario después de 3 segundos
+      setTimeout(() => {
+        this.reset();
+        deseleccionarServicio();
+        btn.textContent = 'Enviar solicitud de reserva';
+        btn.classList.remove('bg-green-600');
+        btn.disabled = false;
+      }, 3000);
+    });
+  </script>
 </body>
 </html>
-

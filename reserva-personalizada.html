@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Reservar Lectura - El oráculo diario</title>
+  <meta name="description" content="Reserva tu lectura de tarot por WhatsApp o Telegram. Elige servicio y coordina fecha directamente.">
+  
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- Estilos -->
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/calendario.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="assets/favicon.png">
+</head>
+<body>
+  <!-- Header -->
+  <div data-include="partials/header.html"></div>
+
+  <main class="container" style="padding:2rem 0;">
+    
+    <!-- Banner informativo sobre WhatsApp/Telegram -->
+    <div class="max-w-4xl mx-auto mb-8">
+      <div class="card bg-gradient-to-r from-purple-900/30 to-green-900/30 border-l-4 border-green-400">
+        <div class="flex items-start gap-4">
+          <div class="text-2xl">💬</div>
+          <div>
+            <h3 class="font-bold text-lg mb-2">Reservas por WhatsApp o Telegram</h3>
+            <p class="muted mb-2">
+              Todas las reservas se coordinan directamente por mensaje para ofrecerte un servicio más personalizado. 
+              Elige tu servicio y te redirigiremos a la app que prefieras para coordinar fecha y hora.
+            </p>
+            <div class="flex gap-4 mt-3">
+              <div class="flex items-center gap-2">
+                <span class="text-green-400">✓</span>
+                <span>Respuesta en menos de 24h</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-green-400">✓</span>
+                <span>Atención personalizada</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-green-400">✓</span>
+                <span>Flexibilidad horaria</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Indicador de progreso SIMPLIFICADO -->
+    <div class="max-w-4xl mx-auto mb-8">
+      <div class="flex items-center justify-center space-x-4">
+        <div class="step active" data-step="1">
+          <div class="step-circle">1</div>
+          <span class="step-label">Elige Servicio</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step" data-step="2">
+          <div class="step-circle">2</div>
+          <span class="step-label">Contacta por App</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paso 1: Selección de servicio -->
+    <section id="paso-1" class="paso activo">
+      <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl md:text-4xl font-bold mb-2">Elige tu lectura</h1>
+        <p class="muted mb-8">Selecciona el servicio y contacta por WhatsApp o Telegram para coordinar fecha y hora</p>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Servicio 1 -->
+          <div class="servicio-card" data-servicio="60min" data-precio="45" data-duracion="60">
+            <div class="servicio-header">
+              <h3>60 minutos</h3>
+              <div class="precio">45€</div>
+            </div>
+            <p class="servicio-desc">Lectura completa y profunda con análisis detallado</p>
+            <ul class="servicio-features">
+              <li>✓ Análisis integral</li>
+              <li>✓ Múltiples áreas</li>
+              <li>✓ Resumen escrito</li>
+              <li>✓ Sesión grabada</li>
+            </ul>
+            <div class="servicio-duracion">⏱ 60 min</div>
+          </div>
+
+          <!-- Servicio 2 -->
+          <div class="servicio-card" data-servicio="30min" data-precio="25" data-duracion="30">
+            <div class="servicio-header">
+              <h3>30 minutos</h3>
+              <div class="precio">25€</div>
+            </div>
+            <p class="servicio-desc">Perfecto para 1-2 áreas específicas que necesiten claridad</p>
+            <ul class="servicio-features">
+              <li>✓ 1-2 áreas focales</li>
+              <li>✓ Orientación práctica</li>
+              <li>✓ Respuestas claras</li>
+            </ul>
+            <div class="servicio-duracion">⏱ 30 min</div>
+          </div>
+
+          <!-- Servicio 3 -->
+          <div class="servicio-card" data-servicio="20min" data-precio="15" data-duracion="20">
+            <div class="servicio-header">
+              <h3>20 minutos</h3>
+              <div class="precio">15€</div>
+            </div>
+            <p class="servicio-desc">Ideal para una pregunta específica o orientación rápida</p>
+            <ul class="servicio-features">
+              <li>✓ 1 pregunta focal</li>
+              <li>✓ Respuesta directa</li>
+              <li>✓ Guía práctica</li>
+            </ul>
+            <div class="servicio-duracion">⏱ 20 min</div>
+          </div>
+
+          <!-- Servicio 4 -->
+          <div class="servicio-card" data-servicio="1pregunta" data-precio="10" data-duracion="15">
+            <div class="servicio-header">
+              <h3>1 Pregunta</h3>
+              <div class="precio">10€</div>
+            </div>
+            <p class="servicio-desc">Respuesta clara y concisa a una pregunta específica</p>
+            <ul class="servicio-features">
+              <li>✓ 1 pregunta</li>
+              <li>✓ Respuesta por audio</li>
+              <li>✓ 24h respuesta</li>
+            </ul>
+            <div class="servicio-duracion">⏱ 15 min</div>
+          </div>
+
+          <!-- Servicio 5 -->
+          <div class="servicio-card" data-servicio="2preguntas" data-precio="18" data-duracion="25">
+            <div class="servicio-header">
+              <h3>2 Preguntas</h3>
+              <div class="precio">18€</div>
+            </div>
+            <p class="servicio-desc">Dos preguntas relacionadas para visión más completa</p>
+            <ul class="servicio-features">
+              <li>✓ 2 preguntas</li>
+              <li>✓ Análisis conectado</li>
+              <li>✓ Audio detallado</li>
+            </ul>
+            <div class="servicio-duracion">⏱ 25 min</div>
+          </div>
+
+          <!-- Servicio 6 -->
+          <div class="servicio-card" data-servicio="3preguntas" data-precio="25" data-duracion="35">
+            <div class="servicio-header">
+              <h3>3 Preguntas</h3>
+              <div class="precio">25€</div>
+            </div>
+            <p class="servicio-desc">Visión general con tres preguntas para contexto completo</p>
+            <ul class="servicio-features">
+              <li>✓ 3 preguntas</li>
+              <li>✓ Visión global</li>
+              <li>✓ Audio extenso</li>
+            </ul>
+            <div class="servicio-duracion">⏱ 35 min</div>
+          </div>
+        </div>
+
+        <div class="text-center mt-8">
+          <button id="btn-continuar-1" class="btn btn-primary hidden" onclick="siguientePaso(1)">
+            Continuar → Elegir App
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Paso 2: Selección de App de Contacto -->
+    <section id="paso-2" class="paso">
+      <div class="max-w-2xl mx-auto">
+        <h2 class="text-2xl md:text-3xl font-bold mb-2">Contacta para coordinar</h2>
+        <p class="muted mb-6" id="resumen-servicio"></p>
+        
+        <div class="card text-center mb-6">
+          <h3 class="text-xl font-bold mb-4">📋 Resumen de tu selección</h3>
+          <div id="detalles-reserva" class="space-y-2 mb-4"></div>
+          <p class="text-sm muted">Te responderé en menos de 24 horas para coordinar fecha y hora</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6 mb-8">
+          <!-- WhatsApp -->
+          <div class="app-card whatsapp-card">
+            <div class="app-icon">💚</div>
+            <h3 class="app-title">WhatsApp</h3>
+            <p class="app-desc">Ideal para comunicación rápida y coordinación inmediata</p>
+            <ul class="app-features">
+              <li>✓ Respuesta rápida</li>
+              <li>✓ Envío de audios</li>
+              <li>✓ Fotos y documentos</li>
+            </ul>
+            <button class="app-btn whatsapp-btn" onclick="contactarPorWhatsApp()">
+              Abrir WhatsApp
+            </button>
+          </div>
+
+          <!-- Telegram -->
+          <div class="app-card telegram-card">
+            <div class="app-icon">💙</div>
+            <h3 class="app-title">Telegram</h3>
+            <p class="app-desc">Perfecto para mensajes largos y archivos de cualquier tamaño</p>
+            <ul class="app-features">
+              <li>✓ Mensajes extensos</li>
+              <li>✓ Archivos grandes</li>
+              <li>✓ Organización clara</li>
+            </ul>
+            <button class="app-btn telegram-btn" onclick="contactarPorTelegram()">
+              Abrir Telegram
+            </button>
+          </div>
+        </div>
+
+        <div class="text-center muted text-sm">
+          <p>¿Prefieres otro método? <a href="contacto.html" class="underline">Escríbeme por email</a></p>
+        </div>
+
+        <div class="text-center mt-8">
+          <button class="btn btn-ghost" onclick="anteriorPaso(2)">
+            ← Volver a servicios
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <div data-include="partials/footer.html"></div>
+
+  <script src="assets/reservas-simple.js"></script>
+  <script src="assets/site.js"></script>
+</body>
+</html>

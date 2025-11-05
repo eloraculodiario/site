@@ -1,4 +1,4 @@
-// assets/calendario.js - VERSIÓN COMPLETA Y CORREGIDA
+// assets/calendario.js - VERSIÓN COMPLETAMENTE CORREGIDA
 
 // Estado de la reserva
 let reservaEstado = {
@@ -49,10 +49,52 @@ const horariosOcupados = {
     '2024-12-22': ['10:30', '18:00']
 };
 
-// Inicialización
+// Mapeo de servicios CORREGIDO - USAR ESTE
+const serviciosInfo = {
+    '60min': { 
+        nombre: 'Lectura de 60 minutos', 
+        precio: 45, 
+        duracion: 60, 
+        franja: 60 
+    },
+    '30min': { 
+        nombre: 'Lectura de 30 minutos', 
+        precio: 25, 
+        duracion: 30, 
+        franja: 30 
+    },
+    '20min': { 
+        nombre: 'Lectura de 20 minutos', 
+        precio: 15, 
+        duracion: 20, 
+        franja: 15 
+    },
+    '1pregunta': { 
+        nombre: '1 Pregunta específica', 
+        precio: 10, 
+        duracion: 15, 
+        franja: 15 
+    },
+    '2preguntas': { 
+        nombre: '2 Preguntas', 
+        precio: 18, 
+        duracion: 25, 
+        franja: 30 
+    },
+    '3preguntas': { 
+        nombre: '3 Preguntas', 
+        precio: 25, 
+        duracion: 35, 
+        franja: 30 
+    }
+};
+
+// Inicialización CORREGIDA
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('🔮 Calendario inicializando...');
     inicializarCalendario();
     inicializarFormulario();
+    cargarReservaTemporal();
 });
 
 // Calendario
@@ -286,27 +328,30 @@ function actualizarResumenReserva() {
     document.getElementById('resumen-reserva').textContent = resumen;
 }
 
-// Servicios
+// Servicios - FUNCIÓN COMPLETAMENTE CORREGIDA
 function seleccionarServicio(servicio, precio, duracion, franja) {
-    const servicios = {
-        '60min': 'Lectura de 60 minutos',
-        '30min': 'Lectura de 30 minutos', 
-        '20min': 'Lectura de 20 minutos',
-        '1pregunta': '1 Pregunta específica',
-        '2preguntas': '2 Preguntas',
-        '3preguntas': '3 Preguntas'
-    };
+    console.log('🎯 Seleccionando servicio:', servicio);
+    
+    // USAR EL MAPEO CORREGIDO
+    const servicioInfo = serviciosInfo[servicio];
+    if (!servicioInfo) {
+        console.error('❌ Servicio no encontrado:', servicio);
+        return;
+    }
 
     reservaEstado.servicio = servicio;
-    reservaEstado.precio = precio;
-    reservaEstado.duracion = duracion;
-    reservaEstado.franja = franja;
-    reservaEstado.nombreServicio = servicios[servicio];
+    reservaEstado.precio = servicioInfo.precio;
+    reservaEstado.duracion = servicioInfo.duracion;
+    reservaEstado.franja = servicioInfo.franja;
+    reservaEstado.nombreServicio = servicioInfo.nombre;
 
-    document.getElementById('nombre-servicio').textContent = servicios[servicio];
-    document.getElementById('precio-servicio').textContent = precio + '€';
-    document.getElementById('duracion-servicio').textContent = duracion + ' minutos de duración';
-    document.getElementById('franja-servicio').textContent = 'Franjas de ' + franja + ' minutos';
+    console.log('📊 Estado actualizado:', reservaEstado);
+
+    // Actualizar UI
+    document.getElementById('nombre-servicio').textContent = servicioInfo.nombre;
+    document.getElementById('precio-servicio').textContent = servicioInfo.precio + '€';
+    document.getElementById('duracion-servicio').textContent = servicioInfo.duracion + ' minutos de duración';
+    document.getElementById('franja-servicio').textContent = 'Franjas de ' + servicioInfo.franja + ' minutos';
     document.getElementById('servicio-seleccionado').classList.remove('hidden');
     
     // Resetear selecciones anteriores
@@ -319,13 +364,16 @@ function seleccionarServicio(servicio, precio, duracion, franja) {
     
     // Actualizar mensaje de horarios
     document.getElementById('horarios-container').innerHTML = 
-        '<p class="text-center muted py-8">Ahora selecciona una fecha para ver horarios disponibles en franjas de ' + franja + ' minutos</p>';
+        '<p class="text-center muted py-8">Ahora selecciona una fecha para ver horarios disponibles en franjas de ' + servicioInfo.franja + ' minutos</p>';
     
     // Scroll suave al calendario
     document.getElementById('reserva').scrollIntoView({ 
         behavior: 'smooth', 
         block: 'start' 
     });
+    
+    // Guardar en localStorage
+    guardarReservaTemporal();
 }
 
 function deseleccionarServicio() {
@@ -335,6 +383,7 @@ function deseleccionarServicio() {
     reservaEstado.franja = null;
     reservaEstado.fecha = null;
     reservaEstado.hora = null;
+    reservaEstado.nombreServicio = null;
     
     document.getElementById('servicio-seleccionado').classList.add('hidden');
     document.getElementById('info-fecha').classList.add('hidden');
@@ -345,15 +394,28 @@ function deseleccionarServicio() {
     // Limpiar selecciones
     document.querySelectorAll('.dia.seleccionado').forEach(dia => dia.classList.remove('seleccionado'));
     document.querySelectorAll('.hora-btn.seleccionado').forEach(btn => btn.classList.remove('seleccionado'));
+    
+    // Limpiar localStorage
+    limpiarReservaTemporal();
 }
 
-// Formulario - VERSIÓN CORREGIDA CON NOTIFICACIONES
+// Formulario - VERSIÓN COMPLETAMENTE CORREGIDA
 function inicializarFormulario() {
-    document.getElementById('formulario-reserva').addEventListener('submit', async function(e) {
+    const formulario = document.getElementById('formulario-reserva');
+    if (!formulario) {
+        console.error('❌ Formulario no encontrado');
+        return;
+    }
+
+    formulario.addEventListener('submit', async function(e) {
         e.preventDefault();
+        console.log('📝 Formulario enviado');
         
+        // Validar que todos los datos estén completos
         if (!reservaEstado.servicio || !reservaEstado.fecha || !reservaEstado.hora) {
-            alert('Por favor, completa toda la información de la reserva.');
+            const errorMsg = 'Por favor, completa toda la información de la reserva.';
+            alert(errorMsg);
+            console.error('❌ Datos incompletos:', reservaEstado);
             return;
         }
 
@@ -365,17 +427,23 @@ function inicializarFormulario() {
         }
 
         const formData = new FormData(this);
+        
+        // PREPARAR DATOS CORRECTAMENTE para el App Script
         const datosReserva = {
             servicio: reservaEstado.nombreServicio,
-            precio: reservaEstado.precio,
-            duracion: reservaEstado.duracion,
+            precio: reservaEstado.precio.toString(), // Asegurar que sea string
+            duracion: reservaEstado.duracion.toString(), // Asegurar que sea string
             fecha: reservaEstado.fecha,
             hora: reservaEstado.hora,
             nombre: formData.get('nombre').trim(),
             telefono: formData.get('telefono').trim(),
             metodo: formData.get('metodo'),
-            consulta: formData.get('consulta')?.trim() || ''
+            consulta: formData.get('consulta')?.trim() || '',
+            timestamp: new Date().toISOString(),
+            origen: 'formulario_web'
         };
+
+        console.log('📤 Datos a enviar al App Script:', datosReserva);
 
         // Mostrar loading
         const btn = document.getElementById('btn-enviar');
@@ -383,12 +451,14 @@ function inicializarFormulario() {
         btn.innerHTML = '📤 Enviando reserva...';
         btn.disabled = true;
         
-        // Mostrar estado de carga global
         mostrarLoading();
 
         try {
-            // Enviar notificación a Telegram
+            console.log('🚀 Iniciando envío a notificador...');
+            
+            // Enviar notificación - ESTA ES LA LÍNEA CRÍTICA
             const resultado = await notificador.enviarReserva(datosReserva);
+            console.log('📨 Resultado del notificador:', resultado);
             
             if (resultado.status === 'success') {
                 mostrarConfirmacionExito(datosReserva);
@@ -397,7 +467,7 @@ function inicializarFormulario() {
             }
             
         } catch (error) {
-            console.error('Error en reserva:', error);
+            console.error('💥 Error en reserva:', error);
             mostrarErrorReserva(datosReserva, error.message);
         } finally {
             // Restaurar botón
@@ -509,12 +579,14 @@ function mostrarConfirmacionExito(datos) {
     // Scroll to top del formulario
     formularioContainer.scrollIntoView({ behavior: 'smooth' });
     
-    // Limpiar localStorage si existía reserva temporal
+    // Limpiar localStorage
     limpiarReservaTemporal();
 }
 
 // Función para mostrar error en reserva
 function mostrarErrorReserva(datos, errorMsg) {
+    console.error('❌ Error en reserva:', errorMsg);
+    
     const intentarFallback = confirm(
         `❌ Error al enviar la reserva automáticamente:\n\n"${errorMsg}"\n\n¿Quieres enviar la reserva por email como respaldo?`
     );
@@ -526,7 +598,7 @@ function mostrarErrorReserva(datos, errorMsg) {
         // Mostrar información de contacto directo
         const metodoContacto = datos.metodo === 'whatsapp' ? 
             'WhatsApp: +34TU_NUMERO' : 
-            'Telegram: @TU_USUARIO';
+            'Telegram: @ElOraculoDiario';
             
         alert(`📞 Puedes contactarnos directamente para completar tu reserva:\n\n${metodoContacto}\n\nMenciona que tienes una reserva pendiente para: ${datos.servicio} el ${datos.fecha} a las ${datos.hora}`);
     }
@@ -549,49 +621,52 @@ function ocultarLoading() {
     });
 }
 
-// Funciones de persistencia (opcional)
+// Funciones de persistencia MEJORADAS
 function guardarReservaTemporal() {
     if (reservaEstado.servicio) {
         localStorage.setItem('reservaTemporal', JSON.stringify(reservaEstado));
+        console.log('💾 Reserva guardada en localStorage');
     }
 }
 
 function cargarReservaTemporal() {
-    const temporal = localStorage.getItem('reservaTemporal');
-    if (temporal) {
-        const datos = JSON.parse(temporal);
-        // Restaurar servicio si existe
-        if (datos.servicio && serviciosInfo[datos.servicio]) {
-            const servicio = serviciosInfo[datos.servicio];
-            seleccionarServicio(
-                datos.servicio, 
-                datos.precio, 
-                datos.duracion, 
-                datos.franja
-            );
+    try {
+        const temporal = localStorage.getItem('reservaTemporal');
+        if (temporal) {
+            const datos = JSON.parse(temporal);
+            console.log('📂 Cargando reserva temporal:', datos);
+            
+            // Restaurar servicio si existe
+            if (datos.servicio && serviciosInfo[datos.servicio]) {
+                const servicioInfo = serviciosInfo[datos.servicio];
+                seleccionarServicio(
+                    datos.servicio, 
+                    servicioInfo.precio, 
+                    servicioInfo.duracion, 
+                    servicioInfo.franja
+                );
+                
+                // Restaurar fecha si existe
+                if (datos.fecha) {
+                    setTimeout(() => {
+                        seleccionarFecha(datos.fecha);
+                    }, 500);
+                }
+            }
         }
+    } catch (error) {
+        console.error('❌ Error cargando reserva temporal:', error);
+        localStorage.removeItem('reservaTemporal');
     }
 }
 
 function limpiarReservaTemporal() {
     localStorage.removeItem('reservaTemporal');
+    console.log('🗑️ Reserva temporal limpiada');
 }
 
-// Mapeo de servicios para persistencia
-const serviciosInfo = {
-    '60min': { precio: 45, duracion: 60, franja: 60 },
-    '30min': { precio: 25, duracion: 30, franja: 30 },
-    '20min': { precio: 15, duracion: 20, franja: 15 },
-    '1pregunta': { precio: 10, duracion: 15, franja: 15 },
-    '2preguntas': { precio: 18, duracion: 25, franja: 30 },
-    '3preguntas': { precio: 25, duracion: 35, franja: 30 }
+// Debug helper
+window.mostrarEstado = function() {
+    console.log('🔍 Estado actual:', reservaEstado);
+    return reservaEstado;
 };
-
-// Cargar reserva temporal al iniciar (opcional)
-document.addEventListener('DOMContentLoaded', function() {
-    // Cargar reserva temporal después de un breve delay
-    setTimeout(cargarReservaTemporal, 100);
-    
-    // Guardar reserva temporal cuando cambien los datos
-    setInterval(guardarReservaTemporal, 5000);
-});

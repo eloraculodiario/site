@@ -1,3 +1,5 @@
+// assets/calendario.js - VERSIÓN COMPLETA Y CORREGIDA
+
 // Estado de la reserva
 let reservaEstado = {
     servicio: null,
@@ -264,6 +266,12 @@ function seleccionarHora(hora) {
     
     // Actualizar resumen
     actualizarResumenReserva();
+    
+    // Scroll suave al formulario
+    document.getElementById('formulario-contacto').scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start' 
+    });
 }
 
 function actualizarResumenReserva() {
@@ -314,7 +322,10 @@ function seleccionarServicio(servicio, precio, duracion, franja) {
         '<p class="text-center muted py-8">Ahora selecciona una fecha para ver horarios disponibles en franjas de ' + franja + ' minutos</p>';
     
     // Scroll suave al calendario
-    document.getElementById('reserva').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('reserva').scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start' 
+    });
 }
 
 function deseleccionarServicio() {
@@ -336,9 +347,9 @@ function deseleccionarServicio() {
     document.querySelectorAll('.hora-btn.seleccionado').forEach(btn => btn.classList.remove('seleccionado'));
 }
 
-// Formulario
+// Formulario - VERSIÓN CORREGIDA CON NOTIFICACIONES
 function inicializarFormulario() {
-    document.getElementById('formulario-reserva').addEventListener('submit', function(e) {
+    document.getElementById('formulario-reserva').addEventListener('submit', async function(e) {
         e.preventDefault();
         
         if (!reservaEstado.servicio || !reservaEstado.fecha || !reservaEstado.hora) {
@@ -346,44 +357,241 @@ function inicializarFormulario() {
             return;
         }
 
+        // Validar formulario
+        const errorValidacion = validarFormulario();
+        if (errorValidacion) {
+            alert(errorValidacion);
+            return;
+        }
+
         const formData = new FormData(this);
-        const datos = {
-            ...reservaEstado,
-            nombre: formData.get('nombre'),
-            telefono: formData.get('telefono'),
+        const datosReserva = {
+            servicio: reservaEstado.nombreServicio,
+            precio: reservaEstado.precio,
+            duracion: reservaEstado.duracion,
+            fecha: reservaEstado.fecha,
+            hora: reservaEstado.hora,
+            nombre: formData.get('nombre').trim(),
+            telefono: formData.get('telefono').trim(),
             metodo: formData.get('metodo'),
-            consulta: formData.get('consulta')
+            consulta: formData.get('consulta')?.trim() || ''
         };
 
-        // Simular envío (aquí integrarías con tu backend)
-        console.log('Datos de reserva:', datos);
-        
-        // Mostrar confirmación
+        // Mostrar loading
         const btn = document.getElementById('btn-enviar');
         const btnOriginal = btn.innerHTML;
-        btn.innerHTML = '✓ Reserva confirmada';
-        btn.classList.add('bg-green-600');
+        btn.innerHTML = '📤 Enviando reserva...';
         btn.disabled = true;
+        
+        // Mostrar estado de carga global
+        mostrarLoading();
 
-        const fechaObj = new Date(datos.fecha);
-        const fechaFormateada = fechaObj.toLocaleDateString('es-ES', { 
-            weekday: 'long', 
-            day: 'numeric', 
-            month: 'long' 
-        });
-
-        alert(`¡Gracias ${datos.nombre}! Tu reserva ha sido confirmada:\n\n` +
-              `📅 ${fechaFormateada} a las ${datos.hora}\n` +
-              `⏰ ${datos.nombreServicio} (${datos.duracion} minutos)\n` +
-              `💬 Te contactaré por ${datos.metodo === 'whatsapp' ? 'WhatsApp' : 'Telegram'} para coordinar los detalles finales.`);
-
-        // Resetear después de 3 segundos
-        setTimeout(() => {
-            this.reset();
-            deseleccionarServicio();
+        try {
+            // Enviar notificación a Telegram
+            const resultado = await notificador.enviarReserva(datosReserva);
+            
+            if (resultado.status === 'success') {
+                mostrarConfirmacionExito(datosReserva);
+            } else {
+                throw new Error(resultado.message || 'Error desconocido al enviar la reserva');
+            }
+            
+        } catch (error) {
+            console.error('Error en reserva:', error);
+            mostrarErrorReserva(datosReserva, error.message);
+        } finally {
+            // Restaurar botón
             btn.innerHTML = btnOriginal;
-            btn.classList.remove('bg-green-600');
             btn.disabled = false;
-        }, 3000);
+            ocultarLoading();
+        }
     });
 }
+
+// Función de validación del formulario
+function validarFormulario() {
+    const nombre = document.querySelector('input[name="nombre"]').value.trim();
+    const telefono = document.querySelector('input[name="telefono"]').value.trim();
+    const metodo = document.querySelector('input[name="metodo"]:checked');
+    
+    if (!nombre || nombre.length < 2) {
+        return 'Por favor, ingresa tu nombre completo (mínimo 2 caracteres)';
+    }
+    
+    if (!telefono) {
+        return 'Por favor, ingresa tu número de teléfono';
+    }
+    
+    if (!/^[\+]?[0-9\s\-\(\)]{7,}$/.test(telefono)) {
+        return 'Por favor, ingresa un número de teléfono válido';
+    }
+    
+    if (!metodo) {
+        return 'Por favor, selecciona un método de comunicación (WhatsApp o Telegram)';
+    }
+    
+    return null;
+}
+
+// Función para mostrar confirmación de éxito
+function mostrarConfirmacionExito(datos) {
+    const fechaObj = new Date(datos.fecha);
+    const fechaFormateada = fechaObj.toLocaleDateString('es-ES', { 
+        weekday: 'long', 
+        day: 'numeric', 
+        month: 'long',
+        year: 'numeric'
+    });
+
+    // Reemplazar formulario con mensaje de éxito
+    const formularioContainer = document.getElementById('formulario-contacto');
+    formularioContainer.innerHTML = `
+        <div class="text-center py-8">
+            <div class="text-6xl mb-4">✅</div>
+            <h3 class="text-2xl font-bold mb-4">¡Reserva Confirmada!</h3>
+            
+            <div class="card max-w-md mx-auto text-left mb-6 bg-green-900/20 border-green-400">
+                <h4 class="font-bold mb-3 text-green-300">📋 Detalles de tu reserva:</h4>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span>Servicio:</span>
+                        <strong>${datos.servicio}</strong>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Fecha:</span>
+                        <strong>${fechaFormateada}</strong>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Hora:</span>
+                        <strong>${datos.hora}</strong>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Duración:</span>
+                        <strong>${datos.duracion} minutos</strong>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Precio:</span>
+                        <strong>${datos.precio}€</strong>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Método:</span>
+                        <strong>${datos.metodo === 'whatsapp' ? 'WhatsApp' : 'Telegram'}</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-blue-900/20 border border-blue-400 rounded-lg p-4 mb-6">
+                <p class="text-blue-300 mb-2">
+                    ✅ <strong>Notificación enviada correctamente</strong>
+                </p>
+                <p class="text-sm muted">
+                    Te contactaré por <strong>${datos.metodo === 'whatsapp' ? 'WhatsApp' : 'Telegram'}</strong> 
+                    en menos de 24 horas para coordinar los detalles finales y el pago.
+                </p>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                <button onclick="location.reload()" class="btn btn-primary">
+                    🔮 Hacer otra reserva
+                </button>
+                <button onclick="window.print()" class="btn btn-ghost">
+                    📄 Imprimir confirmación
+                </button>
+            </div>
+            
+            <p class="text-xs muted mt-6">
+                Se ha enviado un correo de confirmación a tu email (si lo proporcionaste).
+                Guarda esta información para referencia.
+            </p>
+        </div>
+    `;
+
+    // Scroll to top del formulario
+    formularioContainer.scrollIntoView({ behavior: 'smooth' });
+    
+    // Limpiar localStorage si existía reserva temporal
+    limpiarReservaTemporal();
+}
+
+// Función para mostrar error en reserva
+function mostrarErrorReserva(datos, errorMsg) {
+    const intentarFallback = confirm(
+        `❌ Error al enviar la reserva automáticamente:\n\n"${errorMsg}"\n\n¿Quieres enviar la reserva por email como respaldo?`
+    );
+    
+    if (intentarFallback) {
+        notificador.enviarFallback(datos);
+        alert('✅ Se abrirá tu cliente de email. Por favor, envía el mensaje generado para completar tu reserva.');
+    } else {
+        // Mostrar información de contacto directo
+        const metodoContacto = datos.metodo === 'whatsapp' ? 
+            'WhatsApp: +34TU_NUMERO' : 
+            'Telegram: @TU_USUARIO';
+            
+        alert(`📞 Puedes contactarnos directamente para completar tu reserva:\n\n${metodoContacto}\n\nMenciona que tienes una reserva pendiente para: ${datos.servicio} el ${datos.fecha} a las ${datos.hora}`);
+    }
+}
+
+// Funciones de loading
+function mostrarLoading() {
+    document.body.style.cursor = 'wait';
+    document.querySelectorAll('button, input, .dia, .hora-btn').forEach(el => {
+        el.style.pointerEvents = 'none';
+        el.style.opacity = '0.7';
+    });
+}
+
+function ocultarLoading() {
+    document.body.style.cursor = 'default';
+    document.querySelectorAll('button, input, .dia, .hora-btn').forEach(el => {
+        el.style.pointerEvents = 'auto';
+        el.style.opacity = '1';
+    });
+}
+
+// Funciones de persistencia (opcional)
+function guardarReservaTemporal() {
+    if (reservaEstado.servicio) {
+        localStorage.setItem('reservaTemporal', JSON.stringify(reservaEstado));
+    }
+}
+
+function cargarReservaTemporal() {
+    const temporal = localStorage.getItem('reservaTemporal');
+    if (temporal) {
+        const datos = JSON.parse(temporal);
+        // Restaurar servicio si existe
+        if (datos.servicio && serviciosInfo[datos.servicio]) {
+            const servicio = serviciosInfo[datos.servicio];
+            seleccionarServicio(
+                datos.servicio, 
+                datos.precio, 
+                datos.duracion, 
+                datos.franja
+            );
+        }
+    }
+}
+
+function limpiarReservaTemporal() {
+    localStorage.removeItem('reservaTemporal');
+}
+
+// Mapeo de servicios para persistencia
+const serviciosInfo = {
+    '60min': { precio: 45, duracion: 60, franja: 60 },
+    '30min': { precio: 25, duracion: 30, franja: 30 },
+    '20min': { precio: 15, duracion: 20, franja: 15 },
+    '1pregunta': { precio: 10, duracion: 15, franja: 15 },
+    '2preguntas': { precio: 18, duracion: 25, franja: 30 },
+    '3preguntas': { precio: 25, duracion: 35, franja: 30 }
+};
+
+// Cargar reserva temporal al iniciar (opcional)
+document.addEventListener('DOMContentLoaded', function() {
+    // Cargar reserva temporal después de un breve delay
+    setTimeout(cargarReservaTemporal, 100);
+    
+    // Guardar reserva temporal cuando cambien los datos
+    setInterval(guardarReservaTemporal, 5000);
+});

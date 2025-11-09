@@ -6,23 +6,14 @@
   <title>Servicios — El oráculo diario</title>
   <meta name="description" content="Servicios de lectura de tarot: sesiones de 20, 30 o 60 minutos, o lecturas por preguntas. Videollamada, voz o chat.">
   <meta name="theme-color" content="#7c3aed">
-
-  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Fuentes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
-
-  <!-- Estilos globales -->
   <link rel="stylesheet" href="assets/style.css">
-
-  <!-- Favicon -->
   <link rel="icon" href="assets/favicon.png">
 </head>
 <body>
-  <!-- Header insertado automáticamente -->
   <div data-include="partials/header.html"></div>
 
   <main class="container" style="padding:2rem 0;">
@@ -33,7 +24,6 @@
       Todas las sesiones se realizan con <strong>respeto, ética y confidencialidad</strong>.
     </p>
 
-    <!-- Banner informativo sobre reservas -->
     <div class="card bg-gradient-to-r from-purple-900/20 to-green-900/20 border-l-4 border-green-400 mb-8">
       <div class="flex items-start gap-4">
         <div class="text-2xl">💬</div>
@@ -61,7 +51,6 @@
       </div>
     </div>
 
-    <!-- Sesiones por tiempo -->
     <section>
       <h2 class="text-2xl font-semibold mb-6">Sesiones por tiempo</h2>
       <div class="grid md:grid-cols-3 gap-6">
@@ -122,7 +111,6 @@
       </div>
     </section>
 
-    <!-- Lecturas por preguntas -->
     <section class="mt-12">
       <h2 class="text-2xl font-semibold mb-6">Lecturas por preguntas</h2>
       <div class="grid md:grid-cols-3 gap-6">
@@ -182,7 +170,6 @@
       </div>
     </section>
 
-    <!-- Formatos -->
     <section class="mt-12">
       <h2 class="text-2xl font-semibold mb-4">Formatos disponibles</h2>
       <div class="grid md:grid-cols-3 gap-6">
@@ -204,7 +191,6 @@
       </div>
     </section>
 
-    <!-- Proceso de reserva -->
     <section class="mt-12">
       <div class="card bg-gradient-to-br from-purple-900/10 to-indigo-900/10">
         <h2 class="text-2xl font-semibold mb-6 text-center">¿Cómo reservar tu lectura?</h2>
@@ -234,55 +220,47 @@
     </section>
   </main>
 
-  <!-- Footer insertado automáticamente -->
   <div data-include="partials/footer.html"></div>
 
-  <!-- Script para insertar header/footer -->
   <script src="assets/site.js"></script>
 
   <style>
-    /* Estilos específicos para la página de servicios */
     .servicio-card {
       transition: all 0.3s ease;
       height: 100%;
       display: flex;
       flex-direction: column;
     }
-
     .servicio-card:hover {
       transform: translateY(-4px);
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     }
-
     .servicio-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
       margin-bottom: 0.75rem;
     }
-
     .precio-servicio {
       font-size: 1.5rem;
       font-weight: bold;
       color: var(--primary);
     }
-
     .servicio-features-list {
       list-style: none;
       padding: 0;
       margin: 1rem 0;
       flex-grow: 1;
     }
-
     .servicio-features-list li {
       padding: 0.25rem 0;
       color: var(--ink);
       font-size: 0.9rem;
     }
-
     .servicio-card .btn {
       margin-top: auto;
     }
   </style>
 </body>
 </html>
+

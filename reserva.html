@@ -6,23 +6,14 @@
   <title>Reserva — El oráculo diario</title>
   <meta name="description" content="Reserva tu lectura de tarot: sesiones por tiempo o por preguntas. Elige fecha, hora y formato.">
   <meta name="theme-color" content="#7c3aed">
-
-  <!-- Tailwind opcional (utilidades) -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Fuentes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
-
-  <!-- Estilos globales -->
   <link rel="stylesheet" href="assets/style.css">
-
-  <!-- Favicon -->
   <link rel="icon" href="assets/favicon.png">
 </head>
 <body>
-  <!-- Header insertado automáticamente -->
   <div data-include="partials/header.html"></div>
 
   <main class="container" style="padding:2rem 0;">
@@ -33,7 +24,6 @@
       <code class="muted">/reserva.html#t3q</code>.
     </p>
 
-    <!-- Pestañas -->
     <div class="mt-6">
       <div id="tabs" class="flex flex-wrap gap-2" role="tablist" aria-label="Tipos de reserva">
         <button data-tab="t60" class="btn btn-ghost" role="tab" aria-controls="t60" aria-selected="true">Lectura 60 min</button>
@@ -45,7 +35,6 @@
       </div>
 
       <div class="mt-6">
-        <!-- Lectura 60 minutos -->
         <section id="t60" class="tab" role="tabpanel" tabindex="0" aria-labelledby="tab-t60">
           <div class="embed">
             <iframe
@@ -55,7 +44,6 @@
           </div>
         </section>
 
-        <!-- Lectura 30 minutos -->
         <section id="t30" class="tab hidden" role="tabpanel" tabindex="0" aria-labelledby="tab-t30">
           <div class="embed">
             <iframe
@@ -65,7 +53,6 @@
           </div>
         </section>
 
-        <!-- Lectura 20 minutos -->
         <section id="t20" class="tab hidden" role="tabpanel" tabindex="0" aria-labelledby="tab-t20">
           <div class="embed">
             <iframe
@@ -75,7 +62,6 @@
           </div>
         </section>
 
-        <!-- 1 pregunta -->
         <section id="t1q" class="tab hidden" role="tabpanel" tabindex="0" aria-labelledby="tab-t1q">
           <div class="embed">
             <iframe
@@ -85,7 +71,6 @@
           </div>
         </section>
 
-        <!-- 2 preguntas -->
         <section id="t2q" class="tab hidden" role="tabpanel" tabindex="0" aria-labelledby="tab-t2q">
           <div class="embed">
             <iframe
@@ -95,7 +80,6 @@
           </div>
         </section>
 
-        <!-- 3 preguntas -->
         <section id="t3q" class="tab hidden" role="tabpanel" tabindex="0" aria-labelledby="tab-t3q">
           <div class="embed">
             <iframe
@@ -108,10 +92,8 @@
     </div>
   </main>
 
-  <!-- Footer insertado automáticamente -->
   <div data-include="partials/footer.html"></div>
 
-  <!-- Script de pestañas con soporte de hash -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const tabs = document.querySelectorAll('#tabs [data-tab]');
@@ -154,7 +136,6 @@
     });
   </script>
 
-  <!-- Script para insertar header/footer -->
   <script src="assets/site.js"></script>
 </body>
 </html>

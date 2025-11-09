@@ -4,42 +4,32 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Lecturas de Tarot — El oráculo diario</title>
-  <meta name="description" content="Sesiones de tarot: 60/30/20 minutos o lecturas por 1, 2 o 3 preguntas. Videollamada, voz o chat. Reserva tu lectura.">
-
-  <!-- Tailwind (utilidades rápidas) -->
+  <meta name="description" content="Sesiones de tarot: 60/40/20 minutos o lecturas por 1, 2 o 3 preguntas. Videollamada, voz o chat. Reserva tu lectura.">
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Fuentes y estilos globales -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/calendario.css">
-
-  <!-- Favicon -->
   <link rel="icon" href="assets/favicon.png">
 </head>
 <body>
-  <!-- Header insertado automáticamente -->
   <div data-include="partials/header.html"></div>
 
   <main class="container" style="padding:2rem 0;">
-    <!-- Hero -->
     <section class="text-center max-w-3xl mx-auto mb-12">
       <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4">
         LECTURAS DE TAROT
       </h1>
       <p class="text-xl muted mb-8">
-        Sesiones de <strong>60 / 30 / 20 minutos</strong> o lecturas por <strong>1 / 2 / 3 preguntas</strong>.<br>
+        Sesiones de <strong>60 / 40 / 20 minutos</strong> o lecturas por <strong>1 / 2 / 3 preguntas</strong>.<br>
         Elige <em>videollamada</em>, <em>voz</em> o <em>chat</em>. Enfoque ético, confidencial y directo.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <a href="#reserva" class="btn btn-primary">Reserva tu lectura</a>
-        <!-- Botón "Ver servicios" eliminado a petición -->
       </div>
     </section>
 
-    <!-- Banner WhatsApp/Telegram -->
     <section class="max-w-4xl mx-auto mb-12">
       <div class="card bg-gradient-to-r from-purple-900/20 to-green-900/20 border-l-4 border-green-400">
         <div class="flex flex-col md:flex-row items-center gap-6">
@@ -68,7 +58,6 @@
       </div>
     </section>
 
-    <!-- Sobre el tarot -->
     <section class="max-w-3xl mx-auto mb-12">
       <div class="card text-center">
         <h2 class="text-2xl md:text-3xl font-bold mb-6">SOBRE EL TAROT</h2>
@@ -81,75 +70,71 @@
       </div>
     </section>
 
-    <!-- Sesiones por tiempo -->
     <section class="mb-12">
       <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">SESIONES POR TIEMPO</h2>
       <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-        <div class="card text-center servicio-card" data-servicio="60min" data-precio="45" data-duracion="60" data-franja="60">
+        <div class="card text-center servicio-card" data-servicio="60min" data-precio="55" data-duracion="60" data-franja="60">
           <h3 class="text-xl font-bold mb-2">60 MINUTOS</h3>
-          <div class="text-2xl font-bold text-purple-300 mb-4">45€</div>
+          <div class="text-2xl font-bold text-purple-300 mb-4">55€</div>
           <p class="text-sm muted mb-4">Lectura completa y profunda con análisis detallado</p>
-          <button onclick="seleccionarServicio('60min', 45, 60, 60)" class="btn btn-primary w-full">
+          <button onclick="seleccionarServicio('60min', 55, 60, 60)" class="btn btn-primary w-full">
             Reservar
           </button>
         </div>
-        <div class="card text-center servicio-card" data-servicio="30min" data-precio="25" data-duracion="30" data-franja="30">
-          <h3 class="text-xl font-bold mb-2">30 MINUTOS</h3>
-          <div class="text-2xl font-bold text-purple-300 mb-4">25€</div>
+        <div class="card text-center servicio-card" data-servicio="40min" data-precio="39" data-duracion="40" data-franja="40">
+          <h3 class="text-xl font-bold mb-2">40 MINUTOS</h3>
+          <div class="text-2xl font-bold text-purple-300 mb-4">39€</div>
           <p class="text-sm muted mb-4">Dos áreas específicas con orientación práctica</p>
-          <button onclick="seleccionarServicio('30min', 25, 30, 30)" class="btn btn-primary w-full">
+          <button onclick="seleccionarServicio('40min', 39, 40, 40)" class="btn btn-primary w-full">
             Reservar
           </button>
         </div>
-        <div class="card text-center servicio-card" data-servicio="20min" data-precio="15" data-duracion="20" data-franja="15">
+        <div class="card text-center servicio-card" data-servicio="20min" data-precio="20" data-duracion="20" data-franja="20">
           <h3 class="text-xl font-bold mb-2">20 MINUTOS</h3>
-          <div class="text-2xl font-bold text-purple-300 mb-4">15€</div>
+          <div class="text-2xl font-bold text-purple-300 mb-4">20€</div>
           <p class="text-sm muted mb-4">Una cuestión puntual con respuesta directa</p>
-          <button onclick="seleccionarServicio('20min', 15, 20, 15)" class="btn btn-primary w-full">
+          <button onclick="seleccionarServicio('20min', 20, 20, 20)" class="btn btn-primary w-full">
             Reservar
           </button>
         </div>
       </div>
     </section>
 
-    <!-- Lecturas por preguntas -->
     <section class="mb-12">
       <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">LECTURAS POR PREGUNTAS</h2>
       <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-        <div class="card text-center servicio-card" data-servicio="1pregunta" data-precio="10" data-duracion="15" data-franja="15">
+        <div class="card text-center servicio-card" data-servicio="1pregunta" data-precio="6" data-duracion="15" data-franja="15">
           <h3 class="text-xl font-bold mb-2">1 PREGUNTA</h3>
-          <div class="text-2xl font-bold text-purple-300 mb-4">10€</div>
+          <div class="text-2xl font-bold text-purple-300 mb-4">6€</div>
           <p class="text-sm muted mb-4">Respuesta clara a una pregunta específica</p>
-          <button onclick="seleccionarServicio('1pregunta', 10, 15, 15)" class="btn btn-primary w-full">
+          <button onclick="seleccionarServicio('1pregunta', 6, 15, 15)" class="btn btn-primary w-full">
             Reservar
           </button>
         </div>
-        <div class="card text-center servicio-card" data-servicio="2preguntas" data-precio="18" data-duracion="25" data-franja="30">
+        <div class="card text-center servicio-card" data-servicio="2preguntas" data-precio="12" data-duracion="25" data-franja="30">
           <h3 class="text-xl font-bold mb-2">2 PREGUNTAS</h3>
-          <div class="text-2xl font-bold text-purple-300 mb-4">18€</div>
+          <div class="text-2xl font-bold text-purple-300 mb-4">12€</div>
           <p class="text-sm muted mb-4">Dos temas o perspectivas complementarias</p>
-          <button onclick="seleccionarServicio('2preguntas', 18, 25, 30)" class="btn btn-primary w-full">
+          <button onclick="seleccionarServicio('2preguntas', 12, 25, 30)" class="btn btn-primary w-full">
             Reservar
           </button>
         </div>
-        <div class="card text-center servicio-card" data-servicio="3preguntas" data-precio="25" data-duracion="35" data-franja="30">
+        <div class="card text-center servicio-card" data-servicio="3preguntas" data-precio="15" data-duracion="35" data-franja="30">
           <h3 class="text-xl font-bold mb-2">3 PREGUNTAS</h3>
-          <div class="text-2xl font-bold text-purple-300 mb-4">25€</div>
+          <div class="text-2xl font-bold text-purple-300 mb-4">15€</div>
           <p class="text-sm muted mb-4">Visión general de tu situación y próximos pasos</p>
-          <button onclick="seleccionarServicio('3preguntas', 25, 35, 30)" class="btn btn-primary w-full">
+          <button onclick="seleccionarServicio('3preguntas', 15, 35, 30)" class="btn btn-primary w-full">
             Reservar
           </button>
         </div>
       </div>
     </section>
 
-    <!-- Calendario de Reservas -->
     <section id="reserva" class="max-w-6xl mx-auto">
       <div class="card">
         <h2 class="text-2xl md:text-3xl font-bold text-center mb-2">Reserva tu lectura</h2>
         <p class="text-center muted mb-6">Selecciona el servicio, fecha y hora exacta para tu sesión</p>
         
-        <!-- Servicio seleccionado -->
         <div id="servicio-seleccionado" class="hidden p-4 bg-purple-900/20 rounded-lg mb-6">
           <div class="flex justify-between items-center">
             <div>
@@ -165,7 +150,6 @@
         </div>
 
         <div class="grid lg:grid-cols-2 gap-8">
-          <!-- Calendario -->
           <div>
             <h3 class="font-bold text-lg mb-4">📅 Selecciona una fecha</h3>
             <div class="calendario-container">
@@ -178,7 +162,6 @@
             </div>
           </div>
 
-          <!-- Horarios -->
           <div>
             <h3 class="font-bold text-lg mb-4">🕒 Horarios disponibles</h3>
             <div id="info-fecha" class="mb-4 p-3 bg-purple-50 rounded-lg hidden">
@@ -190,7 +173,6 @@
           </div>
         </div>
 
-        <!-- Formulario de contacto -->
         <div id="formulario-contacto" class="hidden mt-8 pt-6 border-t">
           <h3 class="font-bold text-lg mb-4">📝 Tus datos de contacto</h3>
           <div class="bg-blue-50 p-4 rounded-lg mb-4">
@@ -248,7 +230,6 @@
       </div>
     </section>
 
-    <!-- Banner de confirmación (oculto inicialmente) -->
     <div id="banner-confirmacion" class="fixed top-4 right-4 max-w-sm bg-green-600 text-white p-4 rounded-lg shadow-lg hidden z-50">
       <div class="flex items-center gap-3">
         <div class="text-2xl">✅</div>
@@ -261,17 +242,13 @@
     </div>
   </main>
 
-  <!-- Footer insertado automáticamente -->
   <div data-include="partials/footer.html"></div>
 
-  <!-- Scripts en el ORDEN CORRECTO -->
   <script src="assets/calendario.js"></script>
   <script src="assets/notificaciones-seguras.js"></script>
   <script src="assets/site.js"></script>
 
-  <!-- Script para smooth scroll -->
   <script>
-    // Smooth scroll para enlaces internos
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -285,7 +262,6 @@
       });
     });
 
-    // Mostrar banner de confirmación
     function mostrarBannerConfirmacion() {
       const banner = document.getElementById('banner-confirmacion');
       banner.classList.remove('hidden');
@@ -294,13 +270,10 @@
       }, 5000);
     }
 
-    // Prevenir envío de formulario por defecto (ya manejado por calendario.js)
     document.addEventListener('DOMContentLoaded', function() {
       const form = document.getElementById('formulario-reserva');
       if (form) {
         form.addEventListener('submit', function(e) {
-          // La lógica de envío está manejada por calendario.js
-          // Este listener solo previene el envío por defecto
           if (!e.defaultPrevented) {
             e.preventDefault();
           }

@@ -7,13 +7,20 @@
   padding: 1rem;
 }
 
+/* Navegación del calendario */
 .calendario-navegacion {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: .75rem;
   margin-bottom: 1rem;
 }
 
+.calendario-navegacion button {
+  inline-size: max-content;
+}
+
+/* Rejilla contenedora */
 .calendario-grid {
   display: grid;
   gap: 2px;
@@ -23,6 +30,7 @@
   border: 1px solid var(--border);
 }
 
+/* Cabecera de días de la semana */
 .dias-semana {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -37,14 +45,17 @@
   color: var(--muted);
   background: color-mix(in srgb, var(--surface) 80%, transparent);
   padding: 0.5rem;
+  user-select: none;
 }
 
+/* Rejilla de días del mes */
 .dias-mes {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 2px;
 }
 
+/* Celda de día */
 .dia {
   aspect-ratio: 1;
   display: flex;
@@ -52,14 +63,21 @@
   justify-content: center;
   background: var(--surface);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
   border: 2px solid transparent;
   font-size: 0.9rem;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .dia:hover:not(.pasado):not(.bloqueado):not(.vacio) {
   background: color-mix(in srgb, var(--primary) 10%, transparent);
   border-color: var(--primary);
+}
+
+.dia:focus-visible {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 25%, transparent);
 }
 
 .dia.seleccionado {
@@ -71,7 +89,7 @@
 .dia.pasado {
   color: var(--muted);
   cursor: not-allowed;
-  opacity: 0.5;
+  opacity: 0.55;
   background: color-mix(in srgb, var(--bg) 60%, transparent);
 }
 
@@ -94,6 +112,19 @@
   gap: 0.5rem;
   max-height: 400px;
   overflow-y: auto;
+  padding-right: 2px; /* que no tape el borde el scrollbar */
+}
+
+/* Scrollbar sutil (solo navegadores con soporte) */
+.horarios-grid::-webkit-scrollbar {
+  width: 8px;
+}
+.horarios-grid::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--ink) 15%, transparent);
+  border-radius: 6px;
+}
+.horarios-grid::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .hora-btn {
@@ -102,14 +133,21 @@
   border-radius: 0.5rem;
   background: var(--surface);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
   font-size: 0.875rem;
   text-align: center;
+  line-height: 1.2;
 }
 
 .hora-btn.disponible:hover {
   border-color: var(--primary);
   background: color-mix(in srgb, var(--primary) 10%, transparent);
+}
+
+.hora-btn:focus-visible {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 20%, transparent);
 }
 
 .hora-btn.seleccionado {
@@ -118,14 +156,15 @@
   border-color: var(--primary);
 }
 
-.hora-btn.ocupado {
+.hora-btn.ocupado,
+.hora-btn[disabled] {
   opacity: 0.5;
   cursor: not-allowed;
   text-decoration: line-through;
   background: color-mix(in srgb, var(--bg) 60%, transparent);
 }
 
-/* Input fields */
+/* Inputs del formulario */
 .input-field {
   width: 100%;
   padding: 0.75rem 1rem;
@@ -134,18 +173,23 @@
   background: var(--surface);
   color: var(--ink);
   font-size: 1rem;
-  transition: all 0.3s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.input-field::placeholder {
+  color: color-mix(in srgb, var(--muted) 85%, transparent);
 }
 
 .input-field:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(155, 92, 246, 0.1);
+  box-shadow: 0 0 0 3px rgba(155, 92, 246, 0.12);
 }
 
-/* Communication options */
+/* Opciones de comunicación */
 .comunication-option {
   cursor: pointer;
+  display: block;
 }
 
 .comunication-option input {
@@ -157,12 +201,17 @@
   border-radius: 0.75rem;
   padding: 1rem;
   text-align: center;
-  transition: all 0.3s ease;
+  transition: border-color 0.25s ease, background-color 0.25s ease, transform 0.1s ease;
+  user-select: none;
 }
 
 .comunication-option input:checked + .comunication-content {
   border-color: var(--primary);
   background: color-mix(in srgb, var(--primary) 8%, transparent);
+}
+
+.comunication-content:active {
+  transform: scale(0.98);
 }
 
 .comunication-icon {
@@ -174,3 +223,26 @@
 .comunication-label {
   font-weight: 600;
 }
+
+/* ===== Responsivo ===== */
+@media (max-width: 640px) {
+  .horarios-grid {
+    grid-template-columns: 1fr; /* una columna en móvil para mayor legibilidad */
+  }
+  .dia-header {
+    font-size: 0.8rem;
+  }
+  .dia {
+    font-size: 0.85rem;
+  }
+}
+
+/* Reduce motion: desactiva animaciones */
+@media (prefers-reduced-motion: reduce) {
+  .dia,
+  .hora-btn,
+  .comunication-content {
+    transition: none !important;
+  }
+}
+

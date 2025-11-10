@@ -4,9 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Contacto — El oráculo diario</title>
-  <meta name="description" content="Contacto y políticas de privacidad de El oráculo diario. Respondo tus mensajes en 24–48h.">
+  <meta name="description" content="Para reservar, usa el formulario de cita en la página principal. Sin WhatsApp ni mensajería externa.">
+  <meta name="theme-color" content="#7c3aed">
 
-  <!-- (Opcional) Tailwind por utilidades -->
+  <!-- Tailwind (utilidades) -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Fuentes -->
@@ -21,49 +22,38 @@
   <link rel="icon" href="assets/favicon.png">
 </head>
 <body>
-  <!-- Header insertado automáticamente -->
+  <!-- Header (inyectado) -->
   <div data-include="partials/header.html"></div>
 
-  <main class="container" style="padding:2rem 0;">
-    <section class="max-w-2xl mx-auto">
+  <main class="container py-8">
+    <section class="max-w-2xl mx-auto text-center">
       <h1 class="text-3xl md:text-4xl font-bold leading-tight mb-4">Contacto</h1>
+
       <p class="muted mb-6">
-        ¿Tienes una duda o quieres más información sobre las lecturas?
-        Escríbeme y te responderé en un plazo de <strong>24–48 horas</strong>.
-        Puedes consultar la <a href="contacto.html" class="underline">Política de privacidad</a>.
+        Para reservar una lectura, utiliza exclusivamente el <strong>formulario de cita</strong> en la página principal.
+        No gestionamos reservas por WhatsApp, Telegram ni otros mensajeros.
       </p>
 
-      <!-- Formulario de contacto -->
-      <form action="https://formspree.io/f/TU_ID" method="POST" class="space-y-4">
-        <div>
-          <label class="block mb-1 font-semibold" for="nombre">Nombre</label>
-          <input id="nombre" name="nombre" required placeholder="Tu nombre"
-                 class="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:ring-2 focus:ring-purple-400 focus:outline-none" />
-        </div>
+      <a href="index.html#reserva" class="btn btn-primary">Reservar ahora</a>
 
-        <div>
-          <label class="block mb-1 font-semibold" for="_replyto">Email</label>
-          <input id="_replyto" name="_replyto" type="email" required placeholder="Tu correo electrónico"
-                 class="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:ring-2 focus:ring-purple-400 focus:outline-none" />
-        </div>
+      <hr class="hr" />
 
-        <div>
-          <label class="block mb-1 font-semibold" for="mensaje">Mensaje</label>
-          <textarea id="mensaje" name="mensaje" required placeholder="¿En qué puedo ayudarte?"
-                    class="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-900 h-40 focus:ring-2 focus:ring-purple-400 focus:outline-none"></textarea>
-        </div>
+      <div class="card text-left">
+        <h2 class="text-xl font-semibold mb-2">Política de comunicación</h2>
+        <ul class="list-disc pl-5 space-y-1 muted">
+          <li>Las reservas se realizan solo mediante el formulario web (fecha, hora y datos básicos).</li>
+          <li>La confirmación se gestiona de forma interna y recibirás el aviso correspondiente.</li>
+          <li>No usamos mensajería instantánea para coordinar ni confirmar.</li>
+        </ul>
+      </div>
 
-        <button type="submit" class="btn btn-primary">Enviar mensaje</button>
-      </form>
-
-      <p class="mt-8 text-sm muted text-center">
-        Este sitio no utiliza cookies con fines publicitarios.  
-        Todos los datos se tratan con respeto y confidencialidad.
+      <p class="mt-8 text-sm muted">
+        Si necesitas conocer cómo tratamos tus datos, revisa la <a class="underline" href="privacidad.html">Política de privacidad</a>.
       </p>
     </section>
   </main>
 
-  <!-- Footer insertado automáticamente -->
+  <!-- Footer (inyectado) -->
   <div data-include="partials/footer.html"></div>
 
   <!-- Script de carga de header/footer -->

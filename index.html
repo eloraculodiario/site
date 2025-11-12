@@ -18,9 +18,7 @@
 
   <main class="container" style="padding:2rem 0;">
     <section class="text-center max-w-3xl mx-auto mb-12">
-      <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4">
-        LECTURAS DE TAROT
-      </h1>
+      <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4">LECTURAS DE TAROT</h1>
       <p class="text-xl muted mb-8">
         Sesiones de <strong>60 / 40 / 20 minutos</strong> o lecturas por <strong>1 / 2 / 3 preguntas</strong>.<br>
         Atención por <em>chat</em> vía <strong>WhatsApp</strong> o <strong>Telegram</strong>. Enfoque ético, confidencial y directo.
@@ -227,9 +225,10 @@
 
   <div data-include="partials/footer.html"></div>
 
-  <script src="assets/notificaciones-seguras.js"></script>
-  <script src="assets/calendario.js"></script>
-  <script src="assets/site.js"></script>
+  <!-- Añadimos cache-busting para obligar a GitHub Pages a servir la versión nueva -->
+  <script src="assets/notificaciones-seguras.js?v=5"></script>
+  <script src="assets/calendario.js?v=5"></script>
+  <script src="assets/site.js?v=5"></script>
 
   <script>
     document.querySelectorAll('a[href^="#"]').forEach(a=>{

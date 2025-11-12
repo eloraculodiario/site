@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Lecturas de Tarot — El oráculo diario</title>
-  <meta name="description" content="Sesiones de tarot: 60/40/20 minutos o lecturas por 1, 2 o 3 preguntas. Videollamada, voz o chat. Reserva tu lectura.">
+  <meta name="description" content="Sesiones de tarot: 60/40/20 minutos o lecturas por 1, 2 o 3 preguntas. Chat por WhatsApp o Telegram. Reserva tu lectura.">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
@@ -23,7 +23,7 @@
       </h1>
       <p class="text-xl muted mb-8">
         Sesiones de <strong>60 / 40 / 20 minutos</strong> o lecturas por <strong>1 / 2 / 3 preguntas</strong>.<br>
-        Elige <em>videollamada</em>, <em>voz</em> o <em>chat</em>. Enfoque ético, confidencial y directo.
+        Atención por <em>chat</em> vía <strong>WhatsApp</strong> o <strong>Telegram</strong>. Enfoque ético, confidencial y directo.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <a href="#reserva" class="btn btn-primary">Reserva tu lectura</a>
@@ -40,7 +40,6 @@
               Todas las sesiones se realizan por chat. Elige tu servicio y coordina directamente por mensaje.
             </p>
 
-            <!-- CONDICIONES AÑADIDAS -->
             <div class="rounded-lg border border-purple-300/30 bg-purple-900/10 p-4 mb-4">
               <h4 class="font-semibold mb-2">Condiciones</h4>
               <ul class="list-disc pl-5 space-y-1 text-sm muted">
@@ -49,7 +48,6 @@
                 <li>Los cambios y cancelaciones se deben avisar con <strong>más de 2 horas de antelación</strong>.</li>
               </ul>
             </div>
-            <!-- /CONDICIONES AÑADIDAS -->
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
               <div class="flex items-center gap-2">
@@ -69,8 +67,6 @@
         </div>
       </div>
     </section>
-
-    <!-- Sección "SOBRE EL TAROT" eliminada -->
 
     <section class="mb-12">
       <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">SESIONES POR TIEMPO</h2>
@@ -159,7 +155,23 @@
           </div>
 
           <div>
-            <h3 class="font-bold text-lg mb-4">🕒 Horarios disponibles</h3>
+            <h3 class="font-bold text-lg mb-2">🕒 Horarios disponibles</h3>
+
+            <div class="flex items-center gap-3 text-sm muted mb-3" aria-live="polite">
+              <span class="inline-flex items-center gap-1">
+                <span style="display:inline-block;width:12px;height:12px;border:1px solid var(--border);background:var(--surface);border-radius:4px;"></span>
+                Disponible
+              </span>
+              <span class="inline-flex items-center gap-1">
+                <span style="display:inline-block;width:12px;height:12px;border:1px solid var(--border);background:color-mix(in srgb, var(--bg) 60%, transparent);border-radius:4px;opacity:.6;text-decoration:line-through;"></span>
+                Ocupado
+              </span>
+              <span class="inline-flex items-center gap-1">
+                <span style="display:inline-block;width:12px;height:12px;border:2px solid var(--primary);border-radius:4px;"></span>
+                Seleccionado
+              </span>
+            </div>
+
             <div id="info-fecha" class="mb-4 p-3 bg-purple-50 rounded-lg hidden">
               <strong id="fecha-seleccionada-texto"></strong>
             </div>

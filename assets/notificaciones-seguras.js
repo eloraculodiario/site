@@ -1,7 +1,7 @@
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbzaWPQ1Sy6VNN2FEe2Wq8kNFlTpKZltmWAiAJZFN4Lzqe7GTcfaba5i77jfr-tharFNcw/exec';
 const FALLBACK_EMAIL = 'el.oraculo.guardian@gmail.com';
 
-const notificador = {
+window.notificador = {
   async enviarReserva(datos) {
     const payload = {
       tipo: 'reserva',
@@ -16,18 +16,14 @@ const notificador = {
       consulta: datos.consulta || '',
       timestamp: new Date().toISOString()
     };
-
     try {
-      const r = await fetch(GAS_URL, {
+      await fetch(GAS_URL, {
         method: 'POST',
+        mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
-      const j = await r.json().catch(() => null);
-      if (!r.ok || !j) {
-        return { status: 'error', message: 'No se pudo confirmar el envío' };
-      }
-      return j;
+      return { status: 'success', message: 'Reserva enviada' };
     } catch (e) {
       return { status: 'error', message: String(e) };
     }

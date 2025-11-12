@@ -27,7 +27,6 @@ const serviciosInfo = {
 };
 
 const diasBloqueados = [];
-
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbzaWPQ1Sy6VNN2FEe2Wq8kNFlTpKZltmWAiAJZFN4Lzqe7GTcfaba5i77jfr-tharFNcw/exec';
 
 async function fetchOcupados(fecha, franja, duracion) {
@@ -53,30 +52,30 @@ function inicializarCalendario() {
   generarCalendario(fecha.getMonth(), fecha.getFullYear());
   document.getElementById('btn-mes-anterior').addEventListener('click', function () {
     const mesActual = parseInt(document.getElementById('mes-actual').dataset.mes, 10);
-    const anioActual = parseInt(document.getElementById('mes-actual').dataset.año, 10);
+    const anioActual = parseInt(document.getElementById('mes-actual').dataset.anio, 10);
     const f = new Date(anioActual, mesActual - 1, 1);
     f.setMonth(f.getMonth() - 1);
     generarCalendario(f.getMonth(), f.getFullYear());
   });
   document.getElementById('btn-mes-siguiente').addEventListener('click', function () {
     const mesActual = parseInt(document.getElementById('mes-actual').dataset.mes, 10);
-    const anioActual = parseInt(document.getElementById('mes-actual').dataset.año, 10);
+    const anioActual = parseInt(document.getElementById('mes-actual').dataset.anio, 10);
     const f = new Date(anioActual, mesActual - 1, 1);
     f.setMonth(f.getMonth() + 1);
     generarCalendario(f.getMonth(), f.getFullYear());
   });
 }
 
-function generarCalendario(mes, año) {
+function generarCalendario(mes, anio) {
   const calendario = document.getElementById('calendario');
-  const primerDia = new Date(año, mes, 1);
-  const ultimoDia = new Date(año, mes + 1, 0);
+  const primerDia = new Date(anio, mes, 1);
+  const ultimoDia = new Date(anio, mes + 1, 0);
   const diasEnMes = ultimoDia.getDate();
   const nombresMeses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   const header = document.getElementById('mes-actual');
-  header.textContent = `${nombresMeses[mes]} ${año}`;
+  header.textContent = `${nombresMeses[mes]} ${anio}`;
   header.dataset.mes = (mes + 1).toString();
-  header.dataset.año = año.toString();
+  header.dataset.anio = anio.toString();
   let html = '';
   html += '<div class="dias-semana">';
   ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'].forEach(dia => { html += `<div class="dia-header">${dia}</div>`; });
@@ -86,7 +85,7 @@ function generarCalendario(mes, año) {
   for (let i = 0; i < primerDiaSemana; i++) html += '<div class="dia vacio"></div>';
   const hoyMs = new Date().setHours(0, 0, 0, 0);
   for (let d = 1; d <= diasEnMes; d++) {
-    const fechaStr = `${año}-${String(mes + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    const fechaStr = `${anio}-${String(mes + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
     const fechaObj = new Date(fechaStr);
     const esPasado = fechaObj < hoyMs;
     const estaBloqueado = diasBloqueados.includes(fechaStr);

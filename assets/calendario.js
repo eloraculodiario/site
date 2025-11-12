@@ -27,17 +27,20 @@ const serviciosInfo = {
 };
 
 const diasBloqueados = [];
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbzaWPQ1Sy6VNN2FEe2Wq8kNFlTpKZltmWAiAJZFN4Lzqe7GTcfaba5i77jfr-tharFNcw/exec';
+
+const AVAIL_URL = (typeof window !== 'undefined' && window.GAS_URL)
+  ? window.GAS_URL
+  : 'https://script.google.com/macros/s/AKfycbzaWPQ1Sy6VNN2FEe2Wq8kNFlTpKZltmWAiAJZFN4Lzqe7GTcfaba5i77jfr-tharFNcw/exec';
 
 async function fetchOcupados(fecha, franja, duracion) {
-  const u = new URL(GAS_URL);
+  const u = new URL(AVAIL_URL);
   u.searchParams.set('action', 'availability');
   u.searchParams.set('date', fecha);
   u.searchParams.set('franja', String(franja));
   u.searchParams.set('duracion', String(duracion));
   const r = await fetch(u.toString(), { mode: 'cors' });
   if (!r.ok) return [];
-  const j = await r.json();
+  const j = await r.json().catch(() => ({}));
   return Array.isArray(j.ocupados) ? j.ocupados : [];
 }
 
@@ -52,16 +55,18 @@ function inicializarCalendario() {
   generarCalendario(fecha.getMonth(), fecha.getFullYear());
 
   document.getElementById('btn-mes-anterior').addEventListener('click', function () {
-    const mesActual = parseInt(document.getElementById('mes-actual').dataset.mes, 10);
-    const anioActual = parseInt(document.getElementById('mes-actual').dataset.anio, 10);
+    const header = document.getElementById('mes-actual');
+    const mesActual = parseInt(header.dataset.mes, 10);
+    const anioActual = parseInt(header.dataset.anio, 10);
     const f = new Date(anioActual, mesActual - 1, 1);
     f.setMonth(f.getMonth() - 1);
     generarCalendario(f.getMonth(), f.getFullYear());
   });
 
   document.getElementById('btn-mes-siguiente').addEventListener('click', function () {
-    const mesActual = parseInt(document.getElementById('mes-actual').dataset.mes, 10);
-    const anioActual = parseInt(document.getElementById('mes-actual').dataset.anio, 10);
+    const header = document.getElementById('mes-actual');
+    const mesActual = parseInt(header.dataset.mes, 10);
+    const anioActual = parseInt(header.dataset.anio, 10);
     const f = new Date(anioActual, mesActual - 1, 1);
     f.setMonth(f.getMonth() + 1);
     generarCalendario(f.getMonth(), f.getFullYear());
@@ -119,7 +124,6 @@ function seleccionarFecha(fecha) {
 
   const fechaObj = new Date(fecha);
   const hoyMs = new Date().setHours(0, 0, 0, 0);
-
   if (fechaObj < hoyMs || diasBloqueados.includes(fecha)) return;
 
   reservaEstado.fecha = fecha;

@@ -445,8 +445,7 @@ function limpiarReservaTemporal() {
   localStorage.removeItem('reservaTemporal');
 }
 
-window.mostrarEstado = function () {
-  console.log('🔍 Estado actual:', reservaEstado);
-  return reservaEstado;
-};
+window.seleccionarServicio = seleccionarServicio;
+window.seleccionarFecha = seleccionarFecha;
+window.seleccionarHora = seleccionarHora;
 

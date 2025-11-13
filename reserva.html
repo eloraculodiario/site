@@ -4,179 +4,49 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Reserva — El oráculo diario</title>
-  <meta name="description" content="Reserva tu lectura de tarot: sesiones por tiempo o por preguntas. Elige servicio, fecha y hora.">
-  <meta name="theme-color" content="#7c3aed">
-
-  <!-- utilidades -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- fuentes -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
-
-  <!-- estilos del sitio -->
-  <link rel="stylesheet" href="assets/style.css">
-  <link rel="stylesheet" href="assets/calendario.css">
-
+  <meta name="description" content="Redirección a la página de reservas actualizada." />
   <link rel="icon" href="assets/favicon.png">
+
+  <!-- Canonical a la página real de reservas -->
+  <link rel="canonical" href="reserva-personalizada.html" />
+
+  <!-- Redirección rápida por meta (fallback si JS está deshabilitado) -->
+  <meta http-equiv="refresh" content="0; url=reserva-personalizada.html" />
+
+  <!-- Estilos mínimos para el fallback -->
+  <link rel="stylesheet" href="assets/style.css">
+  <script>
+    // Redirección inmediata por JS (mejor para historial del navegador)
+    (function () {
+      var target = 'reserva-personalizada.html';
+      // Reemplaza para no dejar rastro en el historial
+      if (location.pathname.endsWith('/reserva.html') || location.pathname.endsWith('/reserva')) {
+        location.replace(target);
+      } else {
+        // fallback
+        window.location.href = target;
+      }
+    })();
+  </script>
+  <style>
+    .center {min-height: 100dvh; display: grid; place-items: center; text-align: center; padding: 2rem;}
+    .btn {display:inline-block;padding:.9rem 1.3rem;border-radius:999px;font-weight:700;border:1px solid var(--border);background:var(--surface);color:var(--ink);}
+    .btn-primary{background: linear-gradient(135deg, #7c3aed, #d946ef); color: #fff; border-color: transparent;}
+    .muted{color:var(--muted)}
+  </style>
 </head>
 <body>
-  <div data-include="partials/header.html"></div>
-
-  <main class="container" style="padding:2rem 0;">
-    <h1 class="text-3xl md:text-4xl font-bold leading-tight mb-4">Reserva tu lectura</h1>
-    <p class="muted mb-8">
-      Elige el servicio, selecciona fecha y hora, y confirma tu reserva.  
-      (El sistema aplica el mínimo de <strong>2 horas de antelación</strong> y crea el evento con la duración exacta).
-    </p>
-
-    <!-- SERVICIOS -->
-    <section class="mb-10">
-      <h2 class="text-2xl md:text-3xl font-bold text-center mb-6">Selecciona tu servicio</h2>
-
-      <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-        <div class="card text-center servicio-card" data-servicio="60min" data-precio="55" data-duracion="60" data-franja="60">
-          <h3 class="text-xl font-bold mb-2">60 MINUTOS</h3>
-          <div class="text-2xl font-bold text-purple-300 mb-4">55€</div>
-          <button onclick="seleccionarServicio('60min', 55, 60, 60)" class="btn btn-primary w-full">Reservar</button>
-        </div>
-
-        <div class="card text-center servicio-card" data-servicio="40min" data-precio="39" data-duracion="40" data-franja="40">
-          <h3 class="text-xl font-bold mb-2">40 MINUTOS</h3>
-          <div class="text-2xl font-bold text-purple-300 mb-4">39€</div>
-          <button onclick="seleccionarServicio('40min', 39, 40, 40)" class="btn btn-primary w-full">Reservar</button>
-        </div>
-
-        <div class="card text-center servicio-card" data-servicio="20min" data-precio="20" data-duracion="20" data-franja="15">
-          <h3 class="text-xl font-bold mb-2">20 MINUTOS</h3>
-          <div class="text-2xl font-bold text-purple-300 mb-4">20€</div>
-          <button onclick="seleccionarServicio('20min', 20, 20, 15)" class="btn btn-primary w-full">Reservar</button>
-        </div>
-      </div>
-
-      <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto mt-6">
-        <div class="card text-center servicio-card" data-servicio="1pregunta" data-precio="6" data-duracion="15" data-franja="15">
-          <h3 class="text-xl font-bold mb-2">1 PREGUNTA</h3>
-          <div class="text-2xl font-bold text-purple-300 mb-4">6€</div>
-          <button onclick="seleccionarServicio('1pregunta', 6, 15, 15)" class="btn btn-primary w-full">Reservar</button>
-        </div>
-
-        <div class="card text-center servicio-card" data-servicio="2preguntas" data-precio="12" data-duracion="25" data-franja="30">
-          <h3 class="text-xl font-bold mb-2">2 PREGUNTAS</h3>
-          <div class="text-2xl font-bold text-purple-300 mb-4">12€</div>
-          <button onclick="seleccionarServicio('2preguntas', 12, 25, 30)" class="btn btn-primary w-full">Reservar</button>
-        </div>
-
-        <div class="card text-center servicio-card" data-servicio="3preguntas" data-precio="15" data-duracion="35" data-franja="30">
-          <h3 class="text-xl font-bold mb-2">3 PREGUNTAS</h3>
-          <div class="text-2xl font-bold text-purple-300 mb-4">15€</div>
-          <button onclick="seleccionarServicio('3preguntas', 15, 35, 30)" class="btn btn-primary w-full">Reservar</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- RESUMEN DEL SERVICIO -->
-    <section class="max-w-5xl mx-auto mb-10">
-      <div id="servicio-seleccionado" class="hidden p-4 bg-purple-900/20 rounded-lg mb-6">
-        <div class="flex justify-between items-center">
-          <div>
-            <strong id="nombre-servicio"></strong>
-            <div id="precio-servicio" class="text-lg font-bold"></div>
-            <div id="duracion-servicio" class="text-sm muted"></div>
-            <div id="franja-servicio" class="text-sm text-blue-400"></div>
-          </div>
-          <button type="button" onclick="deseleccionarServicio()" class="text-sm btn btn-ghost">Cambiar servicio</button>
-        </div>
-      </div>
-
-      <div class="grid lg:grid-cols-2 gap-8">
-        <!-- CALENDARIO -->
-        <div>
-          <h3 class="font-bold text-lg mb-4">📅 Selecciona una fecha</h3>
-          <div class="calendario-container">
-            <div class="calendario-navegacion">
-              <button id="btn-mes-anterior" class="btn btn-ghost btn-sm">← Mes anterior</button>
-              <span id="mes-actual" class="font-bold mx-4 text-lg"></span>
-              <button id="btn-mes-siguiente" class="btn btn-ghost btn-sm">Mes siguiente →</button>
-            </div>
-            <div id="calendario" class="calendario-grid"></div>
-          </div>
-        </div>
-
-        <!-- HORAS -->
-        <div>
-          <h3 class="font-bold text-lg mb-4">🕒 Horarios disponibles</h3>
-          <div id="info-fecha" class="mb-4 p-3 bg-purple-50 rounded-lg hidden">
-            <strong id="fecha-seleccionada-texto"></strong>
-          </div>
-          <div id="horarios-container" class="horarios-grid">
-            <p class="text-center muted py-8">Selecciona un servicio y una fecha para ver horarios disponibles</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- FORMULARIO (sin WhatsApp/Telegram) -->
-      <div id="formulario-contacto" class="hidden mt-8 pt-6 border-t">
-        <h3 class="font-bold text-lg mb-4">📝 Tus datos</h3>
-        <div class="bg-blue-50 p-4 rounded-lg mb-4">
-          <div class="flex items-center gap-2 text-blue-700">
-            <span>📋</span>
-            <span class="text-sm"><strong>Resumen:</strong> <span id="resumen-reserva"></span></span>
-          </div>
-        </div>
-
-        <form id="formulario-reserva" class="space-y-4">
-          <div class="grid md:grid-cols-2 gap-4">
-            <div>
-              <label class="block mb-2 font-semibold">Nombre completo *</label>
-              <input type="text" name="nombre" required class="input-field" placeholder="Tu nombre">
-            </div>
-            <div>
-              <label class="block mb-2 font-semibold">Teléfono *</label>
-              <input type="tel" name="telefono" required class="input-field" placeholder="+34 XXX XXX XXX">
-            </div>
-          </div>
-
-          <div>
-            <label class="block mb-2 font-semibold">¿Algo que quieras comentar? (opcional)</label>
-            <textarea name="consulta" rows="3" class="input-field" placeholder="Mensaje opcional"></textarea>
-          </div>
-
-          <button type="submit" class="btn btn-primary w-full" id="btn-enviar">Confirmar reserva</button>
-        </form>
-      </div>
-    </section>
-
-    <!-- CONDICIONES -->
-    <section class="max-w-3xl mx-auto mt-2">
-      <div class="card bg-gradient-to-r from-purple-900/20 to-indigo-900/20 border-l-4 border-purple-400">
-        <h2 class="text-2xl font-bold mb-3">Condiciones</h2>
-        <ul class="list-disc pl-6 space-y-2">
-          <li>Todos los servicios son <strong>previo pago</strong>.</li>
-          <li>Las reservas se realizarán con un <strong>mínimo de 2 horas de antelación</strong>.</li>
-          <li>Los cambios y cancelaciones se deben avisar con <strong>más de 2 horas de antelación</strong>.</li>
-        </ul>
-      </div>
-    </section>
-  </main>
-
-  <div data-include="partials/footer.html"></div>
-
-  <!-- lógica del sitio -->
-  <script src="assets/calendario.js"></script>
-  <script src="assets/notificaciones-seguras.js"></script>
-  <script src="assets/site.js"></script>
-
-  <!-- suavizado de anclas (opcional) -->
-  <script>
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click',e=>{
-        e.preventDefault();
-        const t=document.querySelector(a.getAttribute('href'));
-        if(t){t.scrollIntoView({behavior:'smooth',block:'start'});}
-      });
-    });
-  </script>
+  <div class="center">
+    <div>
+      <h1 class="text-3xl" style="margin:0 0 .5rem">Redirigiendo a Reservas…</h1>
+      <p class="muted" style="margin:0 0 1rem">
+        Si no te redirige automáticamente, pulsa el botón:
+      </p>
+      <p>
+        <a class="btn btn-primary" href="reserva-personalizada.html">Ir a reservar</a>
+      </p>
+    </div>
+  </div>
 </body>
 </html>
+

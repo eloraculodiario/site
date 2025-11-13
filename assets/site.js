@@ -1,7 +1,7 @@
 // assets/site.js
 document.addEventListener('DOMContentLoaded', async () => {
   // Sube este valor cuando hagas cambios para bustear la caché de parciales
-  const VERSION = '2025-11-02-03';
+  const VERSION = '2025-11-13-01';
 
   /**
    * Inyecta el HTML de un parcial en el elemento host.
@@ -29,41 +29,47 @@ document.addEventListener('DOMContentLoaded', async () => {
   await inject('[data-include="partials/header.html"]', 'partials/header.html');
   await inject('[data-include="partials/footer.html"]', 'partials/footer.html');
 
+  // Señal para otros scripts de que los parciales ya están en el DOM
+  document.dispatchEvent(new CustomEvent('partials:loaded'));
+
   /** ---------------------------
    *  Resaltar enlace activo
    * --------------------------*/
-  const nav = document.getElementById('site-nav');
-
-  // Normaliza rutas para comparación más robusta
-  const normalizePath = (p) => {
+  function normalizePath(p) {
     try {
-      // Si es relativo, crear URL con base en la actual
       const u = new URL(p, window.location.href);
       let path = u.pathname;
-      // Quitar trailing slash excepto la raíz
       if (path.length > 1 && path.endsWith('/')) path = path.slice(0, -1);
-      // Si no hay archivo, asumir index.html (comportamiento típico en sitios estáticos)
-      if (!path.split('/').pop().includes('.')) path = `${path}/index.html`.replace('//', '/');
+      // Si no hay archivo, asumimos index.html
+      const last = path.split('/').pop();
+      if (!last || !last.includes('.')) path = `${path}/index.html`.replace('//', '/');
       return path.toLowerCase();
     } catch {
-      return p.toLowerCase();
+      return (p || '').toLowerCase();
     }
-  };
+  }
 
-  if (nav) {
+  function highlightActiveLink() {
+    const nav = document.getElementById('site-nav');
+    if (!nav) return;
+
     const current = normalizePath(window.location.pathname || '/');
-    const anchors = [...nav.querySelectorAll('a[href]')];
+    const anchors = Array.from(nav.querySelectorAll('a[href]'));
 
     anchors.forEach((a) => {
+      a.classList.remove('active');
+      a.removeAttribute('aria-current');
+
       const href = a.getAttribute('href') || '';
       // Ignorar enlaces externos y anclas puras
       if (/^https?:\/\//i.test(href) || href.startsWith('#')) return;
 
       const target = normalizePath(href || './');
       const isRootLink = href === './' || href === '/' || href === '';
+
       const match =
         target === current ||
-        (isRootLink && (current.endsWith('/index.html') || current === '/index.html'));
+        (isRootLink && current.endsWith('/index.html'));
 
       if (match) {
         a.classList.add('active');
@@ -71,6 +77,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     });
   }
+
+  highlightActiveLink();
+
+  // Reaplicar en navegaciones del historial (por si hay SPA-lite)
+  window.addEventListener('popstate', highlightActiveLink);
 
   /** ---------------------------
    *  Scroll suave en anclas internas
@@ -89,20 +100,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     // Actualiza el hash sin recargar
     history.pushState(null, '', id);
+    highlightActiveLink();
   });
 
   /** ---------------------------
    *  Mejoras menores de UX
    * --------------------------*/
-
-  // Añade clase a <html> cuando se usa teclado (para estilos :focus visibles si lo deseas)
   let usingKeyboard = false;
   window.addEventListener('keydown', (e) => {
-    if (e.key === 'Tab') {
-      if (!usingKeyboard) {
-        usingKeyboard = true;
-        document.documentElement.classList.add('using-keyboard');
-      }
+    if (e.key === 'Tab' && !usingKeyboard) {
+      usingKeyboard = true;
+      document.documentElement.classList.add('using-keyboard');
     }
   });
   window.addEventListener('mousedown', () => {

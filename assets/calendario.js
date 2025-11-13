@@ -1,4 +1,5 @@
-const MIN_ANTELACION_MIN = 120;
+/* assets/calendario.js */
+const MIN_ANTELACION_MIN = 120; // 2 horas
 
 let reservaEstado = {
   servicio: null,
@@ -18,30 +19,58 @@ const configFranjas = {
 };
 
 const serviciosInfo = {
-  '60min': { nombre: 'Lectura de 60 minutos', precio: 55, duracion: 60, franja: 60 },
-  '40min': { nombre: 'Lectura de 40 minutos', precio: 39, duracion: 40, franja: 40 },
-  '20min': { nombre: 'Lectura de 20 minutos', precio: 20, duracion: 20, franja: 15 },
-  '1pregunta': { nombre: '1 Pregunta específica', precio: 6, duracion: 15, franja: 15 },
-  '2preguntas': { nombre: '2 Preguntas', precio: 12, duracion: 25, franja: 30 },
-  '3preguntas': { nombre: '3 Preguntas', precio: 15, duracion: 35, franja: 30 }
+  '60min':     { nombre: 'Lectura de 60 minutos', precio: 55, duracion: 60, franja: 60 },
+  '40min':     { nombre: 'Lectura de 40 minutos', precio: 39, duracion: 40, franja: 40 },
+  '20min':     { nombre: 'Lectura de 20 minutos', precio: 20, duracion: 20, franja: 15 },
+  '1pregunta': { nombre: '1 Pregunta específica', precio: 6,  duracion: 15, franja: 15 },
+  '2preguntas':{ nombre: '2 Preguntas',           precio: 12, duracion: 25, franja: 30 },
+  '3preguntas':{ nombre: '3 Preguntas',           precio: 15, duracion: 35, franja: 30 }
 };
 
 const diasBloqueados = [];
 
+// Usa window.GAS_URL si está definida (la inyectamos en reserva-personalizada.html)
 const AVAIL_URL = (typeof window !== 'undefined' && window.GAS_URL)
   ? window.GAS_URL
   : 'https://script.google.com/macros/s/AKfycbzaWPQ1Sy6VNN2FEe2Wq8kNFlTpKZltmWAiAJZFN4Lzqe7GTcfaba5i77jfr-tharFNcw/exec';
 
+/* ---------- Utilidades de fecha seguras (sin TZ raras) ---------- */
+function parseISODate(yyyy_mm_dd) {
+  const [y, m, d] = yyyy_mm_dd.split('-').map(Number);
+  return new Date(y, (m - 1), d, 0, 0, 0, 0); // siempre local
+}
+function ymdFromDate(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
 async function fetchOcupados(fecha, franja, duracion) {
-  const u = new URL(AVAIL_URL);
-  u.searchParams.set('action', 'availability');
-  u.searchParams.set('date', fecha);
-  u.searchParams.set('franja', String(franja));
-  u.searchParams.set('duracion', String(duracion));
-  const r = await fetch(u.toString(), { mode: 'cors' });
-  if (!r.ok) return [];
-  const j = await r.json().catch(() => ({}));
-  return Array.isArray(j.ocupados) ? j.ocupados : [];
+  try {
+    const u = new URL(AVAIL_URL);
+    u.searchParams.set('action', 'availability');
+    u.searchParams.set('date', fecha);
+    u.searchParams.set('franja', String(franja));
+    u.searchParams.set('duracion', String(duracion));
+
+    const r = await fetch(u.toString(), {
+      mode: 'cors',
+      cache: 'no-store',
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (!r.ok) {
+      console.warn('[calendario] AVAIL no OK:', r.status, r.statusText);
+      return [];
+    }
+
+    const j = await r.json().catch(() => ({}));
+    return Array.isArray(j.ocupados) ? j.ocupados : [];
+  } catch (err) {
+    console.warn('[calendario] Error availability:', err);
+    return [];
+  }
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -54,23 +83,29 @@ function inicializarCalendario() {
   const fecha = new Date();
   generarCalendario(fecha.getMonth(), fecha.getFullYear());
 
-  document.getElementById('btn-mes-anterior').addEventListener('click', function () {
-    const header = document.getElementById('mes-actual');
-    const mesActual = parseInt(header.dataset.mes, 10);
-    const anioActual = parseInt(header.dataset.anio, 10);
-    const f = new Date(anioActual, mesActual - 1, 1);
-    f.setMonth(f.getMonth() - 1);
-    generarCalendario(f.getMonth(), f.getFullYear());
-  });
+  const prev = document.getElementById('btn-mes-anterior');
+  if (prev) {
+    prev.addEventListener('click', function () {
+      const header = document.getElementById('mes-actual');
+      const mesActual = parseInt(header.dataset.mes, 10);
+      const anioActual = parseInt(header.dataset.anio, 10);
+      const f = new Date(anioActual, mesActual - 1, 1);
+      f.setMonth(f.getMonth() - 1);
+      generarCalendario(f.getMonth(), f.getFullYear());
+    });
+  }
 
-  document.getElementById('btn-mes-siguiente').addEventListener('click', function () {
-    const header = document.getElementById('mes-actual');
-    const mesActual = parseInt(header.dataset.mes, 10);
-    const anioActual = parseInt(header.dataset.anio, 10);
-    const f = new Date(anioActual, mesActual - 1, 1);
-    f.setMonth(f.getMonth() + 1);
-    generarCalendario(f.getMonth(), f.getFullYear());
-  });
+  const next = document.getElementById('btn-mes-siguiente');
+  if (next) {
+    next.addEventListener('click', function () {
+      const header = document.getElementById('mes-actual');
+      const mesActual = parseInt(header.dataset.mes, 10);
+      const anioActual = parseInt(header.dataset.anio, 10);
+      const f = new Date(anioActual, mesActual - 1, 1);
+      f.setMonth(f.getMonth() + 1);
+      generarCalendario(f.getMonth(), f.getFullYear());
+    });
+  }
 }
 
 function generarCalendario(mes, anio) {
@@ -92,15 +127,18 @@ function generarCalendario(mes, anio) {
   html += '</div>';
 
   html += '<div class="dias-mes">';
+  // ISO lunes=0
   const primerDiaSemana = (primerDia.getDay() + 6) % 7;
   for (let i = 0; i < primerDiaSemana; i++) html += '<div class="dia vacio"></div>';
 
-  const hoyMs = new Date().setHours(0, 0, 0, 0);
+  const hoyLocal = new Date();
+  hoyLocal.setHours(0,0,0,0);
+  const hoyMs = hoyLocal.getTime();
 
   for (let d = 1; d <= diasEnMes; d++) {
     const fechaStr = `${anio}-${String(mes + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-    const fechaObj = new Date(fechaStr);
-    const esPasado = fechaObj < hoyMs;
+    const fechaObj = parseISODate(fechaStr);
+    const esPasado = fechaObj.getTime() < hoyMs;
     const estaBloqueado = diasBloqueados.includes(fechaStr);
     const esSeleccionado = reservaEstado.fecha === fechaStr;
 
@@ -122,9 +160,10 @@ function seleccionarFecha(fecha) {
     return;
   }
 
-  const fechaObj = new Date(fecha);
-  const hoyMs = new Date().setHours(0, 0, 0, 0);
-  if (fechaObj < hoyMs || diasBloqueados.includes(fecha)) return;
+  const f = parseISODate(fecha);
+  const hoy = new Date();
+  hoy.setHours(0,0,0,0);
+  if (f.getTime() < hoy.getTime() || diasBloqueados.includes(fecha)) return;
 
   reservaEstado.fecha = fecha;
 
@@ -133,7 +172,7 @@ function seleccionarFecha(fecha) {
   if (el) el.classList.add('seleccionado');
 
   const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  document.getElementById('fecha-seleccionada-texto').textContent = fechaObj.toLocaleDateString('es-ES', opciones);
+  document.getElementById('fecha-seleccionada-texto').textContent = f.toLocaleDateString('es-ES', opciones);
   document.getElementById('info-fecha').classList.remove('hidden');
 
   generarHorarios(fecha);
@@ -184,8 +223,10 @@ async function generarHorarios(fecha) {
 function calcularHorariosDisponibles(fecha, config) {
   const horarios = [];
   const ahora = new Date();
-  const fechaSeleccionada = new Date(fecha);
-  const esHoy = fechaSeleccionada.toDateString() === ahora.toDateString();
+
+  const fechaSeleccionada = parseISODate(fecha);
+  const esHoy = ymdFromDate(fechaSeleccionada) === ymdFromDate(ahora);
+
   const duracionMin = parseInt(reservaEstado.duracion || reservaEstado.franja || 30, 10);
 
   const slotValidoPorAntelacion = (hh, mm) => {
@@ -196,6 +237,7 @@ function calcularHorariosDisponibles(fecha, config) {
     return diffMin >= MIN_ANTELACION_MIN;
   };
 
+  // Mañana
   for (let hora = config.inicioManana; hora < config.finManana; hora++) {
     for (const minuto of config.intervalos) {
       if (!slotValidoPorAntelacion(hora, minuto)) continue;
@@ -203,10 +245,14 @@ function calcularHorariosDisponibles(fecha, config) {
     }
   }
 
+  // Tarde (evitar que el final se pase de finTarde)
   for (let hora = config.inicioTarde; hora < config.finTarde; hora++) {
     for (const minuto of config.intervalos) {
       const finTeorico = new Date(0, 0, 0, hora, minuto + duracionMin);
-      if (finTeorico.getHours() >= config.finTarde && finTeorico.getMinutes() > 0) continue;
+      const finH = finTeorico.getHours();
+      const finM = finTeorico.getMinutes();
+      // Si rebasa EXACTAMENTE la hora de cierre con minutos > 0, descartar
+      if (finH > config.finTarde || (finH === config.finTarde && finM > 0)) continue;
       if (!slotValidoPorAntelacion(hora, minuto)) continue;
       horarios.push(`${String(hora).padStart(2, '0')}:${String(minuto).padStart(2, '0')}`);
     }
@@ -222,16 +268,18 @@ function seleccionarHora(hora) {
   const btn = document.querySelector(`[onclick="seleccionarHora('${hora}')"]`);
   if (btn) btn.classList.add('seleccionado');
 
-  document.getElementById('formulario-contacto').classList.remove('hidden');
+  const formC = document.getElementById('formulario-contacto');
+  if (formC) formC.classList.remove('hidden');
   actualizarResumenReserva();
-  document.getElementById('formulario-contacto').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.getElementById('formulario-contacto')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function actualizarResumenReserva() {
-  const fechaObj = new Date(reservaEstado.fecha);
+  const fechaObj = parseISODate(reservaEstado.fecha);
   const fechaFormateada = fechaObj.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
-  const resumen = `${reservaEstado.nombreServicio} - ${fechaFormateada} a las ${reservaEstado.hora}`;
-  document.getElementById('resumen-reserva').textContent = resumen;
+  const resumen = `${reservaEstado.nombreServicio} — ${fechaFormateada} a las ${reservaEstado.hora}`;
+  const el = document.getElementById('resumen-reserva');
+  if (el) el.textContent = resumen;
 }
 
 function seleccionarServicio(servicio) {
@@ -244,23 +292,32 @@ function seleccionarServicio(servicio) {
   reservaEstado.franja = servicioInfo.franja;
   reservaEstado.nombreServicio = servicioInfo.nombre;
 
-  document.getElementById('nombre-servicio').textContent = servicioInfo.nombre;
-  document.getElementById('precio-servicio').textContent = servicioInfo.precio + '€';
-  document.getElementById('duracion-servicio').textContent = servicioInfo.duracion + ' minutos de duración';
-  document.getElementById('franja-servicio').textContent = 'Franjas de ' + servicioInfo.franja + ' minutos';
-  document.getElementById('servicio-seleccionado').classList.remove('hidden');
+  // Render resumen de servicio seleccionado
+  const elNom = document.getElementById('nombre-servicio');
+  const elPre = document.getElementById('precio-servicio');
+  const elDur = document.getElementById('duracion-servicio');
+  const elFra = document.getElementById('franja-servicio');
+  if (elNom) elNom.textContent = servicioInfo.nombre;
+  if (elPre) elPre.textContent = servicioInfo.precio + '€';
+  if (elDur) elDur.textContent = servicioInfo.duracion + ' minutos de duración';
+  if (elFra) elFra.textContent = 'Franjas de ' + servicioInfo.franja + ' minutos';
 
+  document.getElementById('servicio-seleccionado')?.classList.remove('hidden');
+
+  // Reset selección de fecha/hora
   reservaEstado.fecha = null;
   reservaEstado.hora = null;
-  document.getElementById('info-fecha').classList.add('hidden');
-  document.getElementById('formulario-contacto').classList.add('hidden');
+  document.getElementById('info-fecha')?.classList.add('hidden');
+  document.getElementById('formulario-contacto')?.classList.add('hidden');
   document.querySelectorAll('.dia.seleccionado').forEach(d => d.classList.remove('seleccionado'));
   document.querySelectorAll('.hora-btn.seleccionado').forEach(b => b.classList.remove('seleccionado'));
 
-  document.getElementById('horarios-container').innerHTML =
-    `<p class="text-center muted py-8">Ahora selecciona una fecha para ver horarios disponibles en franjas de ${servicioInfo.franja} minutos</p>`;
+  const hc = document.getElementById('horarios-container');
+  if (hc) {
+    hc.innerHTML = `<p class="text-center muted py-8">Ahora selecciona una fecha para ver horarios disponibles en franjas de ${servicioInfo.franja} minutos</p>`;
+  }
 
-  document.getElementById('reserva').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.getElementById('reserva')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   guardarReservaTemporal();
 }
@@ -271,11 +328,12 @@ function deseleccionarServicio() {
     fecha: null, hora: null, nombreServicio: null
   };
 
-  document.getElementById('servicio-seleccionado').classList.add('hidden');
-  document.getElementById('info-fecha').classList.add('hidden');
-  document.getElementById('formulario-contacto').classList.add('hidden');
-  document.getElementById('horarios-container').innerHTML =
-    '<p class="text-center muted py-8">Selecciona un servicio y una fecha para ver horarios disponibles</p>';
+  document.getElementById('servicio-seleccionado')?.classList.add('hidden');
+  document.getElementById('info-fecha')?.classList.add('hidden');
+  document.getElementById('formulario-contacto')?.classList.add('hidden');
+
+  const hc = document.getElementById('horarios-container');
+  if (hc) hc.innerHTML = '<p class="text-center muted py-8">Selecciona un servicio y una fecha para ver horarios disponibles</p>';
 
   document.querySelectorAll('.dia.seleccionado').forEach(d => d.classList.remove('seleccionado'));
   document.querySelectorAll('.hora-btn.seleccionado').forEach(b => b.classList.remove('seleccionado'));
@@ -302,67 +360,74 @@ function inicializarFormulario() {
     }
 
     const formData = new FormData(this);
+    const metodo = formData.get('metodo');
     const datosReserva = {
       servicio: reservaEstado.nombreServicio,
       precio: String(reservaEstado.precio),
       duracion: String(reservaEstado.duracion),
       fecha: reservaEstado.fecha,
       hora: reservaEstado.hora,
-      nombre: formData.get('nombre').trim(),
-      telefono: formData.get('telefono').trim(),
-      metodo: formData.get('metodo'),
+      nombre: (formData.get('nombre') || '').toString().trim(),
+      telefono: (formData.get('telefono') || '').toString().trim(),
+      metodo,
       consulta: (formData.get('consulta') || '').toString().trim(),
       timestamp: new Date().toISOString(),
       origen: 'formulario_web'
     };
 
     const btn = document.getElementById('btn-enviar');
-    const btnOriginal = btn.innerHTML;
-    btn.innerHTML = '📤 Enviando reserva...';
-    btn.disabled = true;
+    const btnOriginal = btn ? btn.innerHTML : null;
+    if (btn) {
+      btn.innerHTML = '📤 Enviando reserva...';
+      btn.disabled = true;
+    }
     mostrarLoading();
 
     try {
-      const resultado = await notificador.enviarReserva(datosReserva);
-      if (resultado.status === 'success') {
+      const resultado = await window.notificador.enviarReserva(datosReserva);
+      if (resultado && resultado.status === 'success') {
         mostrarConfirmacionExito(datosReserva);
       } else {
-        throw new Error(resultado.message || 'Error desconocido al enviar la reserva');
+        const msg = resultado?.message || 'Error desconocido al enviar la reserva';
+        throw new Error(msg);
       }
     } catch (error) {
-      mostrarErrorReserva(datosReserva, error.message);
+      mostrarErrorReserva(datosReserva, error.message || String(error));
     } finally {
-      btn.innerHTML = btnOriginal;
-      btn.disabled = false;
+      if (btn && btnOriginal !== null) {
+        btn.innerHTML = btnOriginal;
+        btn.disabled = false;
+      }
       ocultarLoading();
     }
   });
 }
 
 function validarFormulario() {
-  const nombre = document.querySelector('input[name="nombre"]').value.trim();
-  const telefono = document.querySelector('input[name="telefono"]').value.trim();
+  const nombre = (document.querySelector('input[name="nombre"]')?.value || '').trim();
+  const telefono = (document.querySelector('input[name="telefono"]')?.value || '').trim();
   const metodo = document.querySelector('input[name="metodo"]:checked');
 
-  if (!nombre || nombre.length < 2) return 'Por favor, ingresa tu nombre completo (mínimo 2 caracteres)';
-  if (!telefono) return 'Por favor, ingresa tu número de teléfono';
-  if (!/^[\+]?[0-9\s\-\(\)]{7,}$/.test(telefono)) return 'Por favor, ingresa un número de teléfono válido';
-  if (!metodo) return 'Por favor, selecciona un método de comunicación (WhatsApp o Telegram)';
+  if (!nombre || nombre.length < 2) return 'Por favor, ingresa tu nombre completo (mínimo 2 caracteres).';
+  if (!telefono) return 'Por favor, ingresa tu número de teléfono.';
+  if (!/^[\+]?[0-9\s\-\(\)]{7,}$/.test(telefono)) return 'Por favor, ingresa un número de teléfono válido.';
+  if (!metodo) return 'Por favor, selecciona un método de comunicación (WhatsApp o Telegram).';
 
   const [hh, mm] = (reservaEstado.hora || '00:00').split(':').map(Number);
-  const dt = new Date(reservaEstado.fecha + 'T00:00:00');
+  const dt = parseISODate(reservaEstado.fecha);
   dt.setHours(hh, mm, 0, 0);
   const diffMin = Math.floor((dt.getTime() - Date.now()) / 60000);
-  if (diffMin < MIN_ANTELACION_MIN) return `Debe reservarse con al menos ${MIN_ANTELACION_MIN / 60} horas de antelación`;
+  if (diffMin < MIN_ANTELACION_MIN) return `Debe reservarse con al menos ${MIN_ANTELACION_MIN / 60} horas de antelación.`;
 
   return null;
 }
 
 function mostrarConfirmacionExito(datos) {
-  const fechaObj = new Date(datos.fecha);
+  const fechaObj = parseISODate(datos.fecha);
   const fechaFormateada = fechaObj.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 
   const cont = document.getElementById('formulario-contacto');
+  if (!cont) return;
   cont.innerHTML = `
     <div class="text-center py-8">
       <div class="text-6xl mb-4">✅</div>
@@ -399,7 +464,7 @@ function mostrarConfirmacionExito(datos) {
 function mostrarErrorReserva(datos, errorMsg) {
   const intentarFallback = confirm(`❌ Error al enviar la reserva automáticamente:\n\n"${errorMsg}"\n\n¿Quieres enviar la reserva por email como respaldo?`);
   if (intentarFallback) {
-    notificador.enviarFallback(datos);
+    window.notificador.enviarFallback(datos);
     alert('✅ Se abrirá tu cliente de email. Envía el mensaje generado para completar tu reserva.');
   } else {
     const metodoContacto = datos.metodo === 'whatsapp' ? 'WhatsApp: +34TU_NUMERO' : 'Telegram: @ElOraculoDiario';
@@ -425,7 +490,7 @@ function ocultarLoading() {
 
 function guardarReservaTemporal() {
   if (reservaEstado.servicio) {
-    localStorage.setItem('reservaTemporal', JSON.stringify(reservaEstado));
+    try { localStorage.setItem('reservaTemporal', JSON.stringify(reservaEstado)); } catch {}
   }
 }
 
@@ -446,9 +511,10 @@ function cargarReservaTemporal() {
 }
 
 function limpiarReservaTemporal() {
-  localStorage.removeItem('reservaTemporal');
+  try { localStorage.removeItem('reservaTemporal'); } catch {}
 }
 
+// Exponer funciones usadas por los botones inline del HTML
 window.seleccionarServicio = seleccionarServicio;
 window.seleccionarFecha = seleccionarFecha;
 window.seleccionarHora = seleccionarHora;

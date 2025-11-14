@@ -29,12 +29,12 @@ const serviciosInfo = {
 
 const diasBloqueados = [];
 
-// Usa window.GAS_URL si está definida (la inyectamos en reserva-personalizada.html)
+// Usa window.GAS_URL si está definida (inyectada en reserva-personalizada.html)
 const AVAIL_URL = (typeof window !== 'undefined' && window.GAS_URL)
   ? window.GAS_URL
   : 'https://script.google.com/macros/s/AKfycbzaWPQ1Sy6VNN2FEe2Wq8kNFlTpKZltmWAiAJZFN4Lzqe7GTcfaba5i77jfr-tharFNcw/exec';
 
-/* ---------- Utilidades de fecha seguras (sin TZ raras) ---------- */
+/* ---------- Utilidades de fecha ---------- */
 function parseISODate(yyyy_mm_dd) {
   const [y, m, d] = yyyy_mm_dd.split('-').map(Number);
   return new Date(y, (m - 1), d, 0, 0, 0, 0); // siempre local
@@ -251,7 +251,6 @@ function calcularHorariosDisponibles(fecha, config) {
       const finTeorico = new Date(0, 0, 0, hora, minuto + duracionMin);
       const finH = finTeorico.getHours();
       const finM = finTeorico.getMinutes();
-      // Si rebasa EXACTAMENTE la hora de cierre con minutos > 0, descartar
       if (finH > config.finTarde || (finH === config.finTarde && finM > 0)) continue;
       if (!slotValidoPorAntelacion(hora, minuto)) continue;
       horarios.push(`${String(hora).padStart(2, '0')}:${String(minuto).padStart(2, '0')}`);
@@ -292,7 +291,6 @@ function seleccionarServicio(servicio) {
   reservaEstado.franja = servicioInfo.franja;
   reservaEstado.nombreServicio = servicioInfo.nombre;
 
-  // Render resumen de servicio seleccionado
   const elNom = document.getElementById('nombre-servicio');
   const elPre = document.getElementById('precio-servicio');
   const elDur = document.getElementById('duracion-servicio');
@@ -324,8 +322,13 @@ function seleccionarServicio(servicio) {
 
 function deseleccionarServicio() {
   reservaEstado = {
-    servicio: null, precio: null, duracion: null, franja: null,
-    fecha: null, hora: null, nombreServicio: null
+    servicio: null,
+    precio: null,
+    duracion: null,
+    franja: null,
+    fecha: null,
+    hora: null,
+    nombreServicio: null
   };
 
   document.getElementById('servicio-seleccionado')?.classList.add('hidden');
@@ -385,10 +388,18 @@ function inicializarFormulario() {
 
     try {
       const resultado = await window.notificador.enviarReserva(datosReserva);
-      if (resultado && resultado.status === 'success') {
+      console.log('[reserva] respuesta servidor:', resultado);
+
+      const esExito =
+        resultado &&
+        resultado.status === 'success' &&
+        // Por si en algún caso vuelve con calendar.success === false
+        (!resultado.calendar || resultado.calendar.success !== false);
+
+      if (esExito) {
         mostrarConfirmacionExito(datosReserva);
       } else {
-        const msg = resultado?.message || 'Error desconocido al enviar la reserva';
+        const msg = resultado?.message || 'No se ha podido completar la reserva.';
         throw new Error(msg);
       }
     } catch (error) {
@@ -417,14 +428,19 @@ function validarFormulario() {
   const dt = parseISODate(reservaEstado.fecha);
   dt.setHours(hh, mm, 0, 0);
   const diffMin = Math.floor((dt.getTime() - Date.now()) / 60000);
-  if (diffMin < MIN_ANTELACION_MIN) return `Debe reservarse con al menos ${MIN_ANTELACION_MIN / 60} horas de antelación.`;
+  if (diffMin < MIN_ANTELACION_MIN) {
+    return `Debe reservarse con al menos ${MIN_ANTELACION_MIN / 60} horas de antelación.`;
+  }
 
   return null;
 }
 
 function mostrarConfirmacionExito(datos) {
   const fechaObj = parseISODate(datos.fecha);
-  const fechaFormateada = fechaObj.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const fechaFormateada = fechaObj.toLocaleDateString(
+    'es-ES',
+    { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }
+  );
 
   const cont = document.getElementById('formulario-contacto');
   if (!cont) return;
@@ -462,13 +478,22 @@ function mostrarConfirmacionExito(datos) {
 }
 
 function mostrarErrorReserva(datos, errorMsg) {
-  const intentarFallback = confirm(`❌ Error al enviar la reserva automáticamente:\n\n"${errorMsg}"\n\n¿Quieres enviar la reserva por email como respaldo?`);
+  const intentarFallback = confirm(
+    `❌ No se ha podido completar la reserva automáticamente:\n\n` +
+    `"${errorMsg}"\n\n` +
+    `¿Quieres enviar la reserva por email como respaldo?`
+  );
+
   if (intentarFallback) {
     window.notificador.enviarFallback(datos);
     alert('✅ Se abrirá tu cliente de email. Envía el mensaje generado para completar tu reserva.');
   } else {
-    const metodoContacto = datos.metodo === 'whatsapp' ? 'WhatsApp: +34TU_NUMERO' : 'Telegram: @ElOraculoDiario';
-    alert(`📞 Puedes contactarnos directamente:\n\n${metodoContacto}\n\nMenciona tu reserva: ${datos.servicio} — ${datos.fecha} ${datos.hora}`);
+    const contacto = 'el.oraculo.guardian@gmail.com';
+    alert(
+      '📧 Puedes contactar por email:\n\n' +
+      contacto +
+      `\n\nMenciona tu reserva: ${datos.servicio} — ${datos.fecha} ${datos.hora}`
+    );
   }
 }
 

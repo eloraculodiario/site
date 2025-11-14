@@ -388,18 +388,22 @@ function inicializarFormulario() {
 
     try {
       const resultado = await window.notificador.enviarReserva(datosReserva);
-      console.log('[reserva] respuesta servidor:', resultado);
+      console.log('[reserva] resultado notificador:', resultado);
 
-      const esExito =
-        resultado &&
-        resultado.status === 'success' &&
-        // Por si en algún caso vuelve con calendar.success === false
-        (!resultado.calendar || resultado.calendar.success !== false);
+      const servidor = resultado?.data || {};
+      const statusServidor = servidor.status || resultado?.status;
+      const calendario = servidor.calendar || resultado?.calendar;
+      const hayErrorCalendario = calendario && calendario.success === false;
+
+      const esExito = statusServidor === 'success' && !hayErrorCalendario;
 
       if (esExito) {
         mostrarConfirmacionExito(datosReserva);
       } else {
-        const msg = resultado?.message || 'No se ha podido completar la reserva.';
+        const msg =
+          servidor.message ||
+          resultado?.message ||
+          (hayErrorCalendario ? calendario.error || 'Error al crear el evento en el calendario.' : 'No se ha podido completar la reserva.');
         throw new Error(msg);
       }
     } catch (error) {

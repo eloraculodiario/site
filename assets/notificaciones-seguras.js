@@ -5,7 +5,7 @@ const GAS_URL = (typeof window !== 'undefined' && window.GAS_URL)
   ? window.GAS_URL
   : 'https://script.google.com/macros/s/AKfycbzaWPQ1Sy6VNN2FEe2Wq8kNFlTpKZltmWAiAJZFN4Lzqe7GTcfaba5i77jfr-tharFNcw/exec';
 
-async function postForm(url, payload) {
+async function postNoCors(url, payload) {
   const body = new URLSearchParams();
   Object.entries(payload).forEach(([k, v]) => {
     if (v === undefined || v === null) return;
@@ -13,9 +13,9 @@ async function postForm(url, payload) {
   });
 
   try {
-    const res = await fetch(url, {
+    await fetch(url, {
       method: 'POST',
-      mode: 'cors',
+      mode: 'no-cors', // importante: no queremos leer la respuesta
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
       },
@@ -23,35 +23,14 @@ async function postForm(url, payload) {
       credentials: 'omit'
     });
 
-    let data = null;
-    try {
-      data = await res.json();
-    } catch {
-      data = null;
-    }
-
-    if (!res.ok) {
-      return {
-        status: 'error',
-        message: `HTTP ${res.status} ${res.statusText}`,
-        data
-      };
-    }
-
-    if (data && data.status) {
-      return {
-        status: data.status,
-        message: data.message || '',
-        data
-      };
-    }
-
+    // En modo no-cors la respuesta es opaca, pero si no ha lanzado error,
+    // damos por hecho que el Apps Script la ha recibido.
     return {
       status: 'success',
-      message: 'Reserva enviada (respuesta sin status claro)',
-      data
+      message: 'Reserva enviada (no-cors)'
     };
   } catch (e) {
+    // Error de red real
     return { status: 'error', message: String(e) };
   }
 }
@@ -78,7 +57,7 @@ window.notificador = {
       return { status: 'error', message: 'GAS_URL no definido' };
     }
 
-    return await postForm(GAS_URL, payload);
+    return await postNoCors(GAS_URL, payload);
   },
 
   enviarFallback(datos) {

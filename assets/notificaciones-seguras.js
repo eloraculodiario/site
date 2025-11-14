@@ -5,16 +5,22 @@ const GAS_URL = (typeof window !== 'undefined' && window.GAS_URL)
   ? window.GAS_URL
   : 'https://script.google.com/macros/s/AKfycbzaWPQ1Sy6VNN2FEe2Wq8kNFlTpKZltmWAiAJZFN4Lzqe7GTcfaba5i77jfr-tharFNcw/exec';
 
-async function postJson(url, payload) {
+async function postForm(url, payload) {
+  const body = new URLSearchParams();
+  Object.entries(payload).forEach(([k, v]) => {
+    if (v === undefined || v === null) return;
+    body.append(k, String(v));
+  });
+
   try {
     const res = await fetch(url, {
       method: 'POST',
       mode: 'cors',
-      credentials: 'omit',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
       },
-      body: JSON.stringify(payload)
+      body,
+      credentials: 'omit'
     });
 
     let data = null;
@@ -32,7 +38,7 @@ async function postJson(url, payload) {
       };
     }
 
-    if (data && typeof data.status === 'string') {
+    if (data && data.status) {
       return {
         status: data.status,
         message: data.message || '',
@@ -72,7 +78,7 @@ window.notificador = {
       return { status: 'error', message: 'GAS_URL no definido' };
     }
 
-    return await postJson(GAS_URL, payload);
+    return await postForm(GAS_URL, payload);
   },
 
   enviarFallback(datos) {

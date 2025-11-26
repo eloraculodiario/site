@@ -319,12 +319,19 @@ function seleccionarServicio(servicio) {
   const elPre = document.getElementById('precio-servicio');
   const elDur = document.getElementById('duracion-servicio');
   const elFra = document.getElementById('franja-servicio');
+
   if (elNom) elNom.textContent = servicioInfo.nombre;
   if (elPre) elPre.textContent = servicioInfo.precio + '€';
-  if (elDur) elDur.textContent = servicioInfo.duracion + ' minutos de duración';
-  if (elFra) elFra.textContent = esServicioDePreguntas()
-    ? 'Respuesta en las próximas 24 horas'
-    : 'Franjas de ' + servicioInfo.franja + ' minutos';
+  if (elDur) {
+    elDur.textContent = esServicioDePreguntas()
+      ? 'Lectura por preguntas (respuesta en las próximas 24 horas)'
+      : servicioInfo.duracion + ' minutos de duración';
+  }
+  if (elFra) {
+    elFra.textContent = esServicioDePreguntas()
+      ? 'No requiere selección de hora'
+      : 'Franjas de ' + servicioInfo.franja + ' minutos';
+  }
 
   const panel = document.getElementById('servicio-seleccionado');
   if (panel) panel.classList.remove('hidden');

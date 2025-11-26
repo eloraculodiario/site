@@ -1,5 +1,4 @@
-/* assets/calendario.js */
-const MIN_ANTELACION_MIN = 120; // 2 horas
+const MIN_ANTELACION_MIN = 120;
 
 let reservaEstado = {
   servicio: null,
@@ -29,21 +28,24 @@ const serviciosInfo = {
 
 const diasBloqueados = [];
 
-// Usa window.GAS_URL si está definida (inyectada en reserva-personalizada.html)
 const AVAIL_URL = (typeof window !== 'undefined' && window.GAS_URL)
   ? window.GAS_URL
   : 'https://script.google.com/macros/s/AKfycbzaWPQ1Sy6VNN2FEe2Wq8kNFlTpKZltmWAiAJZFN4Lzqe7GTcfaba5i77jfr-tharFNcw/exec';
 
-/* ---------- Utilidades de fecha ---------- */
 function parseISODate(yyyy_mm_dd) {
   const [y, m, d] = yyyy_mm_dd.split('-').map(Number);
-  return new Date(y, (m - 1), d, 0, 0, 0, 0); // siempre local
+  return new Date(y, (m - 1), d, 0, 0, 0, 0);
 }
+
 function ymdFromDate(date) {
   const y = date.getFullYear();
   const m = String(date.getMonth() + 1).padStart(2, '0');
   const d = String(date.getDate()).padStart(2, '0');
   return `${y}-${m}-${d}`;
+}
+
+function esServicioDePreguntas() {
+  return ['1pregunta', '2preguntas', '3preguntas'].includes(reservaEstado.servicio);
 }
 
 async function fetchOcupados(fecha, franja, duracion) {
@@ -110,6 +112,8 @@ function inicializarCalendario() {
 
 function generarCalendario(mes, anio) {
   const calendario = document.getElementById('calendario');
+  if (!calendario) return;
+
   const primerDia = new Date(anio, mes, 1);
   const ultimoDia = new Date(anio, mes + 1, 0);
   const diasEnMes = ultimoDia.getDate();
@@ -117,9 +121,11 @@ function generarCalendario(mes, anio) {
   const nombresMeses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 
   const header = document.getElementById('mes-actual');
-  header.textContent = `${nombresMeses[mes]} ${anio}`;
-  header.dataset.mes = (mes + 1).toString();
-  header.dataset.anio = anio.toString();
+  if (header) {
+    header.textContent = `${nombresMeses[mes]} ${anio}`;
+    header.dataset.mes = (mes + 1).toString();
+    header.dataset.anio = anio.toString();
+  }
 
   let html = '';
   html += '<div class="dias-semana">';
@@ -127,7 +133,6 @@ function generarCalendario(mes, anio) {
   html += '</div>';
 
   html += '<div class="dias-mes">';
-  // ISO lunes=0
   const primerDiaSemana = (primerDia.getDay() + 6) % 7;
   for (let i = 0; i < primerDiaSemana; i++) html += '<div class="dia vacio"></div>';
 
@@ -155,6 +160,11 @@ function generarCalendario(mes, anio) {
 }
 
 function seleccionarFecha(fecha) {
+  if (esServicioDePreguntas()) {
+    alert('Para las lecturas por preguntas no necesitas elegir fecha ni hora. Te responderé en las próximas 24 horas.');
+    return;
+  }
+
   if (!reservaEstado.servicio) {
     alert('Por favor, selecciona un servicio primero.');
     return;
@@ -172,14 +182,18 @@ function seleccionarFecha(fecha) {
   if (el) el.classList.add('seleccionado');
 
   const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  document.getElementById('fecha-seleccionada-texto').textContent = f.toLocaleDateString('es-ES', opciones);
-  document.getElementById('info-fecha').classList.remove('hidden');
+  const infoTexto = document.getElementById('fecha-seleccionada-texto');
+  const infoCaja = document.getElementById('info-fecha');
+  if (infoTexto) infoTexto.textContent = f.toLocaleDateString('es-ES', opciones);
+  if (infoCaja) infoCaja.classList.remove('hidden');
 
   generarHorarios(fecha);
 }
 
 async function generarHorarios(fecha) {
   const contenedor = document.getElementById('horarios-container');
+  if (!contenedor) return;
+
   const franja = String(reservaEstado.franja);
   const config = configFranjas[franja];
 
@@ -237,7 +251,6 @@ function calcularHorariosDisponibles(fecha, config) {
     return diffMin >= MIN_ANTELACION_MIN;
   };
 
-  // Mañana
   for (let hora = config.inicioManana; hora < config.finManana; hora++) {
     for (const minuto of config.intervalos) {
       if (!slotValidoPorAntelacion(hora, minuto)) continue;
@@ -245,7 +258,6 @@ function calcularHorariosDisponibles(fecha, config) {
     }
   }
 
-  // Tarde (evitar que el final se pase de finTarde)
   for (let hora = config.inicioTarde; hora < config.finTarde; hora++) {
     for (const minuto of config.intervalos) {
       const finTeorico = new Date(0, 0, 0, hora, minuto + duracionMin);
@@ -274,11 +286,23 @@ function seleccionarHora(hora) {
 }
 
 function actualizarResumenReserva() {
+  const el = document.getElementById('resumen-reserva');
+  if (!el) return;
+
+  if (esServicioDePreguntas()) {
+    el.textContent = `${reservaEstado.nombreServicio} — respuesta en las próximas 24 horas`;
+    return;
+  }
+
+  if (!reservaEstado.fecha || !reservaEstado.hora) {
+    el.textContent = '';
+    return;
+  }
+
   const fechaObj = parseISODate(reservaEstado.fecha);
   const fechaFormateada = fechaObj.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
   const resumen = `${reservaEstado.nombreServicio} — ${fechaFormateada} a las ${reservaEstado.hora}`;
-  const el = document.getElementById('resumen-reserva');
-  if (el) el.textContent = resumen;
+  el.textContent = resumen;
 }
 
 function seleccionarServicio(servicio) {
@@ -298,11 +322,13 @@ function seleccionarServicio(servicio) {
   if (elNom) elNom.textContent = servicioInfo.nombre;
   if (elPre) elPre.textContent = servicioInfo.precio + '€';
   if (elDur) elDur.textContent = servicioInfo.duracion + ' minutos de duración';
-  if (elFra) elFra.textContent = 'Franjas de ' + servicioInfo.franja + ' minutos';
+  if (elFra) elFra.textContent = esServicioDePreguntas()
+    ? 'Respuesta en las próximas 24 horas'
+    : 'Franjas de ' + servicioInfo.franja + ' minutos';
 
-  document.getElementById('servicio-seleccionado')?.classList.remove('hidden');
+  const panel = document.getElementById('servicio-seleccionado');
+  if (panel) panel.classList.remove('hidden');
 
-  // Reset selección de fecha/hora
   reservaEstado.fecha = null;
   reservaEstado.hora = null;
   document.getElementById('info-fecha')?.classList.add('hidden');
@@ -311,8 +337,22 @@ function seleccionarServicio(servicio) {
   document.querySelectorAll('.hora-btn.seleccionado').forEach(b => b.classList.remove('seleccionado'));
 
   const hc = document.getElementById('horarios-container');
-  if (hc) {
-    hc.innerHTML = `<p class="text-center muted py-8">Ahora selecciona una fecha para ver horarios disponibles en franjas de ${servicioInfo.franja} minutos</p>`;
+
+  if (esServicioDePreguntas()) {
+    if (hc) {
+      hc.innerHTML = `
+        <p class="text-center muted py-8">
+          Este servicio es una lectura por preguntas. Te responderé en las próximas 24 horas
+          desde que envíes el formulario, no necesitas elegir fecha ni hora.
+        </p>`;
+    }
+    const formC = document.getElementById('formulario-contacto');
+    if (formC) formC.classList.remove('hidden');
+    actualizarResumenReserva();
+  } else {
+    if (hc) {
+      hc.innerHTML = `<p class="text-center muted py-8">Ahora selecciona una fecha para ver horarios disponibles en franjas de ${servicioInfo.franja} minutos</p>`;
+    }
   }
 
   document.getElementById('reserva')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -351,7 +391,9 @@ function inicializarFormulario() {
   formulario.addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    if (!reservaEstado.servicio || !reservaEstado.fecha || !reservaEstado.hora) {
+    const esPreg = esServicioDePreguntas();
+
+    if (!reservaEstado.servicio || (!esPreg && (!reservaEstado.fecha || !reservaEstado.hora))) {
       alert('Por favor, completa toda la información de la reserva.');
       return;
     }
@@ -368,8 +410,8 @@ function inicializarFormulario() {
       servicio: reservaEstado.nombreServicio,
       precio: String(reservaEstado.precio),
       duracion: String(reservaEstado.duracion),
-      fecha: reservaEstado.fecha,
-      hora: reservaEstado.hora,
+      fecha: esPreg ? '' : reservaEstado.fecha,
+      hora: esPreg ? '' : reservaEstado.hora,
       nombre: (formData.get('nombre') || '').toString().trim(),
       telefono: (formData.get('telefono') || '').toString().trim(),
       metodo,
@@ -428,6 +470,8 @@ function validarFormulario() {
   if (!/^[\+]?[0-9\s\-\(\)]{7,}$/.test(telefono)) return 'Por favor, ingresa un número de teléfono válido.';
   if (!metodo) return 'Por favor, selecciona un método de comunicación (WhatsApp o Telegram).';
 
+  if (esServicioDePreguntas()) return null;
+
   const [hh, mm] = (reservaEstado.hora || '00:00').split(':').map(Number);
   const dt = parseISODate(reservaEstado.fecha);
   dt.setHours(hh, mm, 0, 0);
@@ -440,18 +484,40 @@ function validarFormulario() {
 }
 
 function mostrarConfirmacionExito(datos) {
-  const fechaObj = parseISODate(datos.fecha);
-  const fechaFormateada = fechaObj.toLocaleDateString(
-    'es-ES',
-    { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }
-  );
-
   const cont = document.getElementById('formulario-contacto');
   if (!cont) return;
-  cont.innerHTML = `
-    <div class="text-center py-8">
-      <div class="text-6xl mb-4">✅</div>
-      <h3 class="text-2xl font-bold mb-4">¡Reserva Confirmada!</h3>
+
+  const esPreg = esServicioDePreguntas();
+  let bloqueDetalles = '';
+  let bloqueMensaje = '';
+
+  if (esPreg) {
+    bloqueDetalles = `
+      <div class="card max-w-md mx-auto text-left mb-6 bg-green-900/20 border-green-400">
+        <h4 class="font-bold mb-3 text-green-300">📋 Detalles de tu solicitud:</h4>
+        <div class="space-y-2 text-sm">
+          <div class="flex justify-between"><span>Servicio:</span><strong>${datos.servicio}</strong></div>
+          <div class="flex justify-between"><span>Precio:</span><strong>${datos.precio}€</strong></div>
+          <div class="flex justify-between"><span>Modalidad:</span><strong>Lectura por preguntas</strong></div>
+        </div>
+      </div>
+    `;
+    bloqueMensaje = `
+      <div class="bg-blue-900/20 border border-blue-400 rounded-lg p-4 mb-6">
+        <p class="text-blue-300 mb-2">✅ <strong>Solicitud registrada correctamente</strong></p>
+        <p class="text-sm muted">
+          Te responderé por <strong>${datos.metodo === 'whatsapp' ? 'WhatsApp' : 'Telegram'}</strong>
+          en un plazo máximo de <strong>24 horas</strong> desde este momento.
+        </p>
+      </div>
+    `;
+  } else {
+    const fechaObj = parseISODate(datos.fecha);
+    const fechaFormateada = fechaObj.toLocaleDateString(
+      'es-ES',
+      { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }
+    );
+    bloqueDetalles = `
       <div class="card max-w-md mx-auto text-left mb-6 bg-green-900/20 border-green-400">
         <h4 class="font-bold mb-3 text-green-300">📋 Detalles de tu reserva:</h4>
         <div class="space-y-2 text-sm">
@@ -463,6 +529,8 @@ function mostrarConfirmacionExito(datos) {
           <div class="flex justify-between"><span>Método:</span><strong>${datos.metodo === 'whatsapp' ? 'WhatsApp' : 'Telegram'}</strong></div>
         </div>
       </div>
+    `;
+    bloqueMensaje = `
       <div class="bg-blue-900/20 border border-blue-400 rounded-lg p-4 mb-6">
         <p class="text-blue-300 mb-2">✅ <strong>Notificación enviada correctamente</strong></p>
         <p class="text-sm muted">
@@ -470,6 +538,15 @@ function mostrarConfirmacionExito(datos) {
           en menos de 24 horas para coordinar detalles y el pago.
         </p>
       </div>
+    `;
+  }
+
+  cont.innerHTML = `
+    <div class="text-center py-8">
+      <div class="text-6xl mb-4">✅</div>
+      <h3 class="text-2xl font-bold mb-4">${esPreg ? '¡Solicitud registrada!' : '¡Reserva Confirmada!'}</h3>
+      ${bloqueDetalles}
+      ${bloqueMensaje}
       <div class="flex flex-col sm:flex-row gap-3 justify-center">
         <button onclick="location.reload()" class="btn btn-primary">🔮 Hacer otra reserva</button>
         <button onclick="window.print()" class="btn btn-ghost">📄 Imprimir confirmación</button>
@@ -493,10 +570,11 @@ function mostrarErrorReserva(datos, errorMsg) {
     alert('✅ Se abrirá tu cliente de email. Envía el mensaje generado para completar tu reserva.');
   } else {
     const contacto = 'el.oraculo.guardian@gmail.com';
+    const extra = datos.fecha ? ` — ${datos.fecha} ${datos.hora || ''}` : '';
     alert(
       '📧 Puedes contactar por email:\n\n' +
       contacto +
-      `\n\nMenciona tu reserva: ${datos.servicio} — ${datos.fecha} ${datos.hora}`
+      `\n\nMenciona tu reserva: ${datos.servicio}${extra}`
     );
   }
 }
@@ -530,7 +608,7 @@ function cargarReservaTemporal() {
     const datos = JSON.parse(temporal);
     if (datos.servicio && serviciosInfo[datos.servicio]) {
       seleccionarServicio(datos.servicio);
-      if (datos.fecha) {
+      if (datos.fecha && !['1pregunta','2preguntas','3preguntas'].includes(datos.servicio)) {
         setTimeout(() => seleccionarFecha(datos.fecha), 300);
       }
     }
@@ -543,7 +621,6 @@ function limpiarReservaTemporal() {
   try { localStorage.removeItem('reservaTemporal'); } catch {}
 }
 
-// Exponer funciones usadas por los botones inline del HTML
 window.seleccionarServicio = seleccionarServicio;
 window.seleccionarFecha = seleccionarFecha;
 window.seleccionarHora = seleccionarHora;

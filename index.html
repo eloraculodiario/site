@@ -1,18 +1,23 @@
 <!doctype html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Lecturas de Tarot — El oráculo diario</title>
-  <meta name="description" content="Sesiones de tarot: 60/40/20 minutos o lecturas por 1, 2 o 3 preguntas. Chat por WhatsApp o Telegram. Reserva tu lectura.">
+  <meta name="description"
+    content="Sesiones de tarot: 60/40/20 minutos o lecturas por 1, 2 o 3 preguntas. Chat por WhatsApp o Telegram. Reserva tu lectura.">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap"
+    rel="stylesheet">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/calendario.css">
   <link rel="icon" href="assets/favicon.png">
 </head>
+
 <body>
   <div data-include="partials/header.html"></div>
 
@@ -21,7 +26,8 @@
       <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4">LECTURAS DE TAROT</h1>
       <p class="text-xl muted mb-8">
         Sesiones de <strong>60 / 40 / 20 minutos</strong> o lecturas por <strong>1 / 2 / 3 preguntas</strong>.<br>
-        Atención por <em>chat</em> vía <strong>WhatsApp</strong> o <strong>Telegram</strong>. Enfoque ético, confidencial y directo.
+        Atención por <em>chat</em> vía <strong>WhatsApp</strong> o <strong>Telegram</strong>. Enfoque ético,
+        confidencial y directo.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <a href="#reserva" class="btn btn-primary">Reserva tu lectura</a>
@@ -30,18 +36,21 @@
 
     <!-- Widget de Fase Lunar -->
     <section class="max-w-4xl mx-auto mb-12">
-      <div class="card relative overflow-hidden" style="background: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%); border: 1px solid rgba(124, 58, 237, 0.3); backdrop-filter: blur(10px);">
+      <div class="card relative overflow-hidden"
+        style="background: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%); border: 1px solid rgba(124, 58, 237, 0.3); backdrop-filter: blur(10px);">
         <div class="flex flex-col md:flex-row items-center gap-6">
           <!-- Icono de Luna Animado -->
           <div class="relative">
-            <div id="moon-icon" class="text-7xl transition-transform duration-700 hover:scale-110" style="filter: drop-shadow(0 0 20px rgba(147, 197, 253, 0.5));">
+            <div id="moon-icon" class="text-7xl transition-transform duration-700 hover:scale-110"
+              style="filter: drop-shadow(0 0 20px rgba(147, 197, 253, 0.5));">
               🌙
             </div>
           </div>
-          
+
           <!-- Información de la Luna -->
           <div class="flex-1 text-center md:text-left">
-            <h3 class="font-bold text-2xl mb-2" style="background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+            <h3 class="font-bold text-2xl mb-2"
+              style="background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
               Fase Lunar Actual
             </h3>
             <div id="moon-phase-name" class="text-xl font-semibold mb-3 text-purple-300">
@@ -66,7 +75,55 @@
             </div>
           </div>
         </div>
-        
+
+        <!-- Efecto de brillo de fondo -->
+        <div class="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl -z-10"></div>
+        <div class="absolute bottom-0 left-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl -z-10"></div>
+      </div>
+    </section>
+
+    <!-- Widget de Fase Lunar -->
+    <section class="max-w-4xl mx-auto mb-12">
+      <div class="card relative overflow-hidden"
+        style="background: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%); border: 1px solid rgba(124, 58, 237, 0.3); backdrop-filter: blur(10px);">
+        <div class="flex flex-col md:flex-row items-center gap-6">
+          <!-- Icono de Luna Animado -->
+          <div class="relative">
+            <div id="moon-icon" class="text-7xl transition-transform duration-700 hover:scale-110"
+              style="filter: drop-shadow(0 0 20px rgba(147, 197, 253, 0.5));">
+              🌙
+            </div>
+          </div>
+
+          <!-- Información de la Luna -->
+          <div class="flex-1 text-center md:text-left">
+            <h3 class="font-bold text-2xl mb-2"
+              style="background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+              Fase Lunar Actual
+            </h3>
+            <div id="moon-phase-name" class="text-xl font-semibold mb-3 text-purple-300">
+              Cargando...
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+              <div class="flex items-center justify-center md:justify-start gap-2">
+                <span class="text-blue-400">✨</span>
+                <span class="muted">Iluminación:</span>
+                <strong id="moon-illumination" class="text-purple-300">--</strong>
+              </div>
+              <div class="flex items-center justify-center md:justify-start gap-2">
+                <span class="text-orange-400">🌙</span>
+                <span class="muted" id="moon-age-label">Edad:</span>
+                <strong id="moon-rise" class="text-purple-300">--</strong>
+              </div>
+              <div class="flex items-center justify-center md:justify-start gap-2">
+                <span class="text-indigo-400">♈</span>
+                <span class="muted" id="moon-sign-label">Signo:</span>
+                <strong id="moon-set" class="text-purple-300">--</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Efecto de brillo de fondo -->
         <div class="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl -z-10"></div>
         <div class="absolute bottom-0 left-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl -z-10"></div>
@@ -114,17 +171,20 @@
     <section class="mb-12">
       <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">SESIONES POR TIEMPO</h2>
       <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-        <div class="card text-center servicio-card" data-servicio="60min" data-precio="55" data-duracion="60" data-franja="60">
+        <div class="card text-center servicio-card" data-servicio="60min" data-precio="55" data-duracion="60"
+          data-franja="60">
           <h3 class="text-xl font-bold mb-2">60 MINUTOS</h3>
           <div class="text-2xl font-bold text-purple-300 mb-4">55€</div>
           <button onclick="seleccionarServicio('60min', 55, 60, 60)" class="btn btn-primary w-full">Reservar</button>
         </div>
-        <div class="card text-center servicio-card" data-servicio="40min" data-precio="39" data-duracion="40" data-franja="40">
+        <div class="card text-center servicio-card" data-servicio="40min" data-precio="39" data-duracion="40"
+          data-franja="40">
           <h3 class="text-xl font-bold mb-2">40 MINUTOS</h3>
           <div class="text-2xl font-bold text-purple-300 mb-4">39€</div>
           <button onclick="seleccionarServicio('40min', 39, 40, 40)" class="btn btn-primary w-full">Reservar</button>
         </div>
-        <div class="card text-center servicio-card" data-servicio="20min" data-precio="20" data-duracion="20" data-franja="20">
+        <div class="card text-center servicio-card" data-servicio="20min" data-precio="20" data-duracion="20"
+          data-franja="20">
           <h3 class="text-xl font-bold mb-2">20 MINUTOS</h3>
           <div class="text-2xl font-bold text-purple-300 mb-4">20€</div>
           <button onclick="seleccionarServicio('20min', 20, 20, 20)" class="btn btn-primary w-full">Reservar</button>
@@ -135,20 +195,25 @@
     <section class="mb-12">
       <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">LECTURAS POR PREGUNTAS</h2>
       <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-        <div class="card text-center servicio-card" data-servicio="1pregunta" data-precio="6" data-duracion="15" data-franja="15">
+        <div class="card text-center servicio-card" data-servicio="1pregunta" data-precio="6" data-duracion="15"
+          data-franja="15">
           <h3 class="text-xl font-bold mb-2">1 PREGUNTA</h3>
           <div class="text-2xl font-bold text-purple-300 mb-4">6€</div>
           <button onclick="seleccionarServicio('1pregunta', 6, 15, 15)" class="btn btn-primary w-full">Reservar</button>
         </div>
-        <div class="card text-center servicio-card" data-servicio="2preguntas" data-precio="12" data-duracion="25" data-franja="30">
+        <div class="card text-center servicio-card" data-servicio="2preguntas" data-precio="12" data-duracion="25"
+          data-franja="30">
           <h3 class="text-xl font-bold mb-2">2 PREGUNTAS</h3>
           <div class="text-2xl font-bold text-purple-300 mb-4">12€</div>
-          <button onclick="seleccionarServicio('2preguntas', 12, 25, 30)" class="btn btn-primary w-full">Reservar</button>
+          <button onclick="seleccionarServicio('2preguntas', 12, 25, 30)"
+            class="btn btn-primary w-full">Reservar</button>
         </div>
-        <div class="card text-center servicio-card" data-servicio="3preguntas" data-precio="15" data-duracion="35" data-franja="30">
+        <div class="card text-center servicio-card" data-servicio="3preguntas" data-precio="15" data-duracion="35"
+          data-franja="30">
           <h3 class="text-xl font-bold mb-2">3 PREGUNTAS</h3>
           <div class="text-2xl font-bold text-purple-300 mb-4">15€</div>
-          <button onclick="seleccionarServicio('3preguntas', 15, 35, 30)" class="btn btn-primary w-full">Reservar</button>
+          <button onclick="seleccionarServicio('3preguntas', 15, 35, 30)"
+            class="btn btn-primary w-full">Reservar</button>
         </div>
       </div>
     </section>
@@ -157,7 +222,7 @@
       <div class="card">
         <h2 class="text-2xl md:text-3xl font-bold text-center mb-2">Reserva tu lectura</h2>
         <p class="text-center muted mb-6">Selecciona el servicio, fecha y hora exacta para tu sesión</p>
-        
+
         <div id="servicio-seleccionado" class="hidden p-4 bg-purple-900/20 rounded-lg mb-6">
           <div class="flex justify-between items-center">
             <div>
@@ -166,7 +231,8 @@
               <div id="duracion-servicio" class="text-sm muted"></div>
               <div id="franja-servicio" class="text-sm text-blue-400"></div>
             </div>
-            <button type="button" onclick="deseleccionarServicio()" class="text-sm btn btn-ghost">Cambiar servicio</button>
+            <button type="button" onclick="deseleccionarServicio()" class="text-sm btn btn-ghost">Cambiar
+              servicio</button>
           </div>
         </div>
 
@@ -187,15 +253,18 @@
             <h3 class="font-bold text-lg mb-2">🕒 Horarios disponibles</h3>
             <div class="flex items-center gap-3 text-sm muted mb-3" aria-live="polite">
               <span class="inline-flex items-center gap-1">
-                <span style="display:inline-block;width:12px;height:12px;border:1px solid var(--border);background:var(--surface);border-radius:4px;"></span>
+                <span
+                  style="display:inline-block;width:12px;height:12px;border:1px solid var(--border);background:var(--surface);border-radius:4px;"></span>
                 Disponible
               </span>
               <span class="inline-flex items-center gap-1">
-                <span style="display:inline-block;width:12px;height:12px;border:1px solid var(--border);background:color-mix(in srgb, var(--bg) 60%, transparent);border-radius:4px;opacity:.6;text-decoration:line-through;"></span>
+                <span
+                  style="display:inline-block;width:12px;height:12px;border:1px solid var(--border);background:color-mix(in srgb, var(--bg) 60%, transparent);border-radius:4px;opacity:.6;text-decoration:line-through;"></span>
                 Ocupado
               </span>
               <span class="inline-flex items-center gap-1">
-                <span style="display:inline-block;width:12px;height:12px;border:2px solid var(--primary);border-radius:4px;"></span>
+                <span
+                  style="display:inline-block;width:12px;height:12px;border:2px solid var(--primary);border-radius:4px;"></span>
                 Seleccionado
               </span>
             </div>
@@ -248,7 +317,9 @@
             </div>
             <div>
               <label class="block mb-2 font-semibold">¿Sobre qué te gustaría consultar? (opcional)</label>
-              <textarea name="consulta" rows="3" placeholder="Puedes contarme brevemente sobre lo que quieres consultar..." class="input-field"></textarea>
+              <textarea name="consulta" rows="3"
+                placeholder="Puedes contarme brevemente sobre lo que quieres consultar..."
+                class="input-field"></textarea>
             </div>
             <button type="submit" class="btn btn-primary w-full" id="btn-enviar">Confirmar reserva</button>
           </form>
@@ -256,14 +327,16 @@
       </div>
     </section>
 
-    <div id="banner-confirmacion" class="fixed top-4 right-4 max-w-sm bg-green-600 text-white p-4 rounded-lg shadow-lg hidden z-50">
+    <div id="banner-confirmacion"
+      class="fixed top-4 right-4 max-w-sm bg-green-600 text-white p-4 rounded-lg shadow-lg hidden z-50">
       <div class="flex items-center gap-3">
         <div class="text-2xl">✅</div>
         <div>
           <div class="font-bold">¡Reserva confirmada!</div>
           <div class="text-sm opacity-90">Te contactaremos pronto</div>
         </div>
-        <button onclick="document.getElementById('banner-confirmacion').classList.add('hidden')" class="ml-auto text-xl">&times;</button>
+        <button onclick="document.getElementById('banner-confirmacion').classList.add('hidden')"
+          class="ml-auto text-xl">&times;</button>
       </div>
     </div>
   </main>
@@ -276,23 +349,23 @@
   <script src="assets/site.js?v=5"></script>
 
   <script>
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click',e=>{
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
         e.preventDefault();
-        const t=document.querySelector(a.getAttribute('href'));
-        if(t){t.scrollIntoView({behavior:'smooth',block:'start'});}
+        const t = document.querySelector(a.getAttribute('href'));
+        if (t) { t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
       });
     });
-    function mostrarBannerConfirmacion(){
-      const b=document.getElementById('banner-confirmacion');
+    function mostrarBannerConfirmacion() {
+      const b = document.getElementById('banner-confirmacion');
       b.classList.remove('hidden');
-      setTimeout(()=>b.classList.add('hidden'),5000);
+      setTimeout(() => b.classList.add('hidden'), 5000);
     }
-    document.addEventListener('DOMContentLoaded',function(){
-      const form=document.getElementById('formulario-reserva');
-      if(form){
-        form.addEventListener('submit',function(e){
-          if(!e.defaultPrevented){e.preventDefault();}
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.getElementById('formulario-reserva');
+      if (form) {
+        form.addEventListener('submit', function (e) {
+          if (!e.defaultPrevented) { e.preventDefault(); }
         });
       }
     });
@@ -303,13 +376,13 @@
         // Obtener timestamp Unix actual
         const timestamp = Math.floor(Date.now() / 1000);
         const url = `https://api.farmsense.net/v1/moonphases/?d=${timestamp}`;
-        
+
         const response = await fetch(url);
         const data = await response.json();
-        
+
         if (data && data.length > 0) {
           const moonData = data[0];
-          
+
           // Mapeo de fases en español
           const faseNombres = {
             'New Moon': '🌑 Luna Nueva',
@@ -321,7 +394,7 @@
             'Last Quarter': '🌗 Cuarto Menguante',
             'Waning Crescent': '🌘 Luna Menguante'
           };
-          
+
           // Iconos de luna según la fase
           const moonIcons = {
             'New Moon': '🌑',
@@ -333,26 +406,26 @@
             'Last Quarter': '🌗',
             'Waning Crescent': '🌘'
           };
-          
+
           // Actualizar nombre de fase
           const faseNombre = faseNombres[moonData.Phase] || moonData.Phase;
           document.getElementById('moon-phase-name').textContent = faseNombre;
-          
+
           // Actualizar icono de luna
           const moonIcon = moonIcons[moonData.Phase] || '🌙';
           document.getElementById('moon-icon').textContent = moonIcon;
-          
+
           // Actualizar iluminación
           const illumination = Math.round(moonData.Illumination * 100);
           document.getElementById('moon-illumination').textContent = illumination + '%';
-          
+
           // Formatear horas de salida y puesta
           const formatTime = (dateStr) => {
             if (!dateStr) return '--';
             try {
               const date = new Date(dateStr);
-              return date.toLocaleTimeString('es-ES', { 
-                hour: '2-digit', 
+              return date.toLocaleTimeString('es-ES', {
+                hour: '2-digit',
                 minute: '2-digit',
                 timeZone: 'Europe/Madrid'
               });
@@ -360,10 +433,10 @@
               return '--';
             }
           };
-          
+
           document.getElementById('moon-rise').textContent = formatTime(moonData.Moonrise);
           document.getElementById('moon-set').textContent = formatTime(moonData.Moonset);
-          
+
           console.log('🌙 Fase lunar cargada:', moonData);
         }
       } catch (error) {
@@ -374,10 +447,10 @@
         document.getElementById('moon-set').textContent = '--';
       }
     }
-    
+
     // Cargar fase lunar al cargar la página
     document.addEventListener('DOMContentLoaded', cargarFaseLunar);
   </script>
 </body>
-</html>
 
+</html>

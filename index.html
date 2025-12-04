@@ -22,68 +22,25 @@
   <div data-include="partials/header.html"></div>
 
   <main class="container" style="padding:2rem 0;">
-    <section class="text-center max-w-3xl mx-auto mb-12">
-      <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4">LECTURAS DE TAROT</h1>
-      <p class="text-xl muted mb-8">
-        Sesiones de <strong>60 / 40 / 20 minutos</strong> o lecturas por <strong>1 / 2 / 3 preguntas</strong>.<br>
-        Atención por <em>chat</em> vía <strong>WhatsApp</strong> o <strong>Telegram</strong>. Enfoque ético,
-        confidencial y directo.
-      <div class="flex-1">
-        <h3 class="font-bold text-lg mb-3">Comunicación por WhatsApp o Telegram</h3>
-        <p class="muted mb-4">
-          Todas las sesiones se realizan por chat. Elige tu servicio y coordina directamente por mensaje.
-        </p>
-
-        <div class="rounded-lg border border-purple-300/30 bg-purple-900/10 p-4 mb-4">
-          <h4 class="font-semibold mb-2">Condiciones</h4>
-          <ul class="list-disc pl-5 space-y-1 text-sm muted">
-            <li>Todos los servicios son <strong>previo pago</strong>.</li>
-            <li>Las reservas se realizarán con un <strong>mínimo de 2 horas de antelación</strong>.</li>
-            <li>Los cambios y cancelaciones se deben avisar con <strong>más de 2 horas de antelación</strong>.</li>
-          </ul>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <div class="flex items-center gap-2">
-            <span class="text-green-400 text-xl">✓</span>
-            <span class="text-sm">Chat por WhatsApp</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="text-green-400 text-xl">✓</span>
-            <span class="text-sm">Chat por Telegram</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="text-green-400 text-xl">✓</span>
-            <span class="text-sm">Respuesta en 24h</span>
-          </div>
-        </div>
-      </div>
-      </div>
-      </div>
-    </section>
-
-    <section class="mb-12">
-      <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">SESIONES POR TIEMPO</h2>
-      <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-        <div class="card text-center servicio-card" data-servicio="60min" data-precio="55" data-duracion="60"
-          data-franja="60">
-          <h3 class="text-xl font-bold mb-2">60 MINUTOS</h3>
-          <div class="text-2xl font-bold text-purple-300 mb-4">55€</div>
-          <button onclick="seleccionarServicio('60min', 55, 60, 60)" class="btn btn-primary w-full">Reservar</button>
-        </div>
-        <div class="card text-center servicio-card" data-servicio="40min" data-precio="39" data-duracion="40"
-          data-franja="40">
-          <h3 class="text-xl font-bold mb-2">40 MINUTOS</h3>
-          <div class="text-2xl font-bold text-purple-300 mb-4">39€</div>
-          <button onclick="seleccionarServicio('40min', 39, 40, 40)" class="btn btn-primary w-full">Reservar</button>
-        </div>
-        <div class="card text-center servicio-card" data-servicio="20min" data-precio="20" data-duracion="20"
-          data-franja="20">
-          <h3 class="text-xl font-bold mb-2">20 MINUTOS</h3>
-          <div class="text-2xl font-bold text-purple-300 mb-4">20€</div>
-          <button onclick="seleccionarServicio('20min', 20, 20, 20)" class="btn btn-primary w-full">Reservar</button>
-        </div>
-      </div>
+    <div class="card text-center servicio-card" data-servicio="60min" data-precio="55" data-duracion="60"
+      data-franja="60">
+      <h3 class="text-xl font-bold mb-2">60 MINUTOS</h3>
+      <div class="text-2xl font-bold text-purple-300 mb-4">55€</div>
+      <button onclick="seleccionarServicio('60min', 55, 60, 60)" class="btn btn-primary w-full">Reservar</button>
+    </div>
+    <div class="card text-center servicio-card" data-servicio="40min" data-precio="39" data-duracion="40"
+      data-franja="40">
+      <h3 class="text-xl font-bold mb-2">40 MINUTOS</h3>
+      <div class="text-2xl font-bold text-purple-300 mb-4">39€</div>
+      <button onclick="seleccionarServicio('40min', 39, 40, 40)" class="btn btn-primary w-full">Reservar</button>
+    </div>
+    <div class="card text-center servicio-card" data-servicio="20min" data-precio="20" data-duracion="20"
+      data-franja="20">
+      <h3 class="text-xl font-bold mb-2">20 MINUTOS</h3>
+      <div class="text-2xl font-bold text-purple-300 mb-4">20€</div>
+      <button onclick="seleccionarServicio('20min', 20, 20, 20)" class="btn btn-primary w-full">Reservar</button>
+    </div>
+    </div>
     </section>
 
     <section class="mb-12">

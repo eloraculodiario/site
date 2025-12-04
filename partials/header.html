@@ -1,19 +1,32 @@
 <!-- partials/header.html -->
 <header class="site-header">
   <div class="container relative flex items-center justify-between py-4">
+    <!-- Logo -->
     <a href="./" class="brand flex items-center gap-3" aria-label="El oráculo diario – inicio">
       <img src="assets/logo.jpg" alt="El oráculo diario" class="logo w-12 h-12 rounded-full object-cover">
       <span class="font-cinzel font-bold text-xl hidden sm:block">El oráculo diario</span>
     </a>
 
-    <nav class="nav absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:flex gap-6" id="site-nav"
-      aria-label="Navegación principal">
+    <!-- Desktop Nav -->
+    <nav class="nav hidden md:flex gap-6" id="site-nav" aria-label="Navegación principal">
       <a href="reserva-personalizada.html" class="hover:text-purple-300 transition-colors">Reserva</a>
       <a href="enlaces.html" class="hover:text-purple-300 transition-colors">Enlaces</a>
       <a href="contacto.html" class="hover:text-purple-300 transition-colors">Contacto</a>
     </nav>
 
-    <!-- Mobile menu placeholder or empty div to balance flex if needed -->
-    <div class="w-12 md:hidden"></div>
+    <!-- Mobile Menu Button -->
+    <button id="mobile-menu-btn" class="md:hidden p-2 text-2xl focus:outline-none" aria-label="Menú">
+      ☰
+    </button>
+  </div>
+
+  <!-- Mobile Nav Container (Hidden by default) -->
+  <div id="mobile-menu"
+    class="hidden md:hidden bg-surface border-b border-white/10 absolute top-full left-0 w-full z-50 shadow-xl">
+    <nav class="flex flex-col p-4 gap-4 text-center">
+      <a href="reserva-personalizada.html" class="block py-2 hover:bg-white/5 rounded-lg transition-colors">Reserva</a>
+      <a href="enlaces.html" class="block py-2 hover:bg-white/5 rounded-lg transition-colors">Enlaces</a>
+      <a href="contacto.html" class="block py-2 hover:bg-white/5 rounded-lg transition-colors">Contacto</a>
+    </nav>
   </div>
 </header>

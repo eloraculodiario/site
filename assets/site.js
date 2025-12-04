@@ -119,5 +119,38 @@ document.addEventListener('DOMContentLoaded', async () => {
       document.documentElement.classList.remove('using-keyboard');
     }
   });
+  /** ---------------------------
+   *  Menú Móvil
+   * --------------------------*/
+  function initMobileMenu() {
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+
+    if (btn && menu) {
+      btn.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+        const isExpanded = !menu.classList.contains('hidden');
+        btn.setAttribute('aria-expanded', isExpanded);
+        btn.textContent = isExpanded ? '✕' : '☰';
+      });
+
+      // Cerrar al hacer click en un enlace
+      menu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          menu.classList.add('hidden');
+          btn.setAttribute('aria-expanded', 'false');
+          btn.textContent = '☰';
+        });
+      });
+    }
+  }
+
+  // Inicializar menú móvil después de cargar los parciales
+  // Si los parciales ya se cargaron (porque inject es async pero await), se ejecuta.
+  // Pero como inject es async y está en el mismo scope, se ejecutará después de inject.
+  initMobileMenu();
+
+  // Por si acaso, escuchar el evento custom
+  document.addEventListener('partials:loaded', initMobileMenu);
 });
 

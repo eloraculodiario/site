@@ -1,15 +1,19 @@
 <!-- partials/header.html -->
 <header class="site-header">
-  <div class="container" style="display:flex;align-items:center;justify-content:space-between;padding:1rem 0;">
-    <a href="./" class="brand" aria-label="El oráculo diario – inicio">
-      <img src="assets/logo.jpg" alt="El oráculo diario" class="logo">
-      <span>El oráculo diario</span>
+  <div class="container relative flex items-center justify-between py-4">
+    <a href="./" class="brand flex items-center gap-3" aria-label="El oráculo diario – inicio">
+      <img src="assets/logo.jpg" alt="El oráculo diario" class="logo w-12 h-12 rounded-full object-cover">
+      <span class="font-cinzel font-bold text-xl hidden sm:block">El oráculo diario</span>
     </a>
-    <nav class="nav" id="site-nav" aria-label="Navegación principal">
-      <a href="reserva-personalizada.html">Reserva</a>
-      <a href="enlaces.html">Enlaces</a>
-      <a href="contacto.html">Contacto</a>
+
+    <nav class="nav absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:flex gap-6" id="site-nav"
+      aria-label="Navegación principal">
+      <a href="reserva-personalizada.html" class="hover:text-purple-300 transition-colors">Reserva</a>
+      <a href="enlaces.html" class="hover:text-purple-300 transition-colors">Enlaces</a>
+      <a href="contacto.html" class="hover:text-purple-300 transition-colors">Contacto</a>
     </nav>
+
+    <!-- Mobile menu placeholder or empty div to balance flex if needed -->
+    <div class="w-12 md:hidden"></div>
   </div>
 </header>
-

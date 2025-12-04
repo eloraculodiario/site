@@ -36,8 +36,13 @@ async function cargarFaseLunar() {
             document.getElementById('moon-phase-name').textContent = faseNombres[phase] || phase;
             document.getElementById('moon-icon').textContent = moonIcons[phase] || '🌙';
             document.getElementById('moon-illumination').textContent = Math.round((moonData.illumination || 0) * 100) + '%';
-            document.getElementById('moon-rise').textContent = Math.round(moonData.moon_age || 0) + ' días';
-            document.getElementById('moon-set').textContent = moonData.moon_sign || '--';
+
+            // Usar IDs semánticos si existen, o fallback a los antiguos si no se ha actualizado el HTML aún
+            const ageEl = document.getElementById('moon-age') || document.getElementById('moon-rise');
+            if (ageEl) ageEl.textContent = Math.round(moonData.moon_age || 0) + ' días';
+
+            const signEl = document.getElementById('moon-sign') || document.getElementById('moon-set');
+            if (signEl) signEl.textContent = moonData.moon_sign || '--';
 
             console.log('🌙 Fase lunar cargada:', moonData);
         }

@@ -158,10 +158,13 @@
 
 .hora-btn.ocupado,
 .hora-btn[disabled] {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
   text-decoration: line-through;
-  background: color-mix(in srgb, var(--bg) 60%, transparent);
+  background: color-mix(in srgb, #ef4444 15%, var(--bg)) !important;
+  border-color: color-mix(in srgb, #ef4444 30%, transparent) !important;
+  color: #991b1b;
+  pointer-events: none;
 }
 
 /* Inputs del formulario */
